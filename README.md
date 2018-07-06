@@ -17,3 +17,7 @@ An app that encourages converastions between people based on their interests via
 * [ ] User can choose between two modes: game and conversation
 * [ ] User can have Facebook memories and/or Instagram posts show up as cards
 * [ ] More than two users can play the game
+* [ ] Users will be shown their mutual friends and can "gossip"
+
+## Stretch User Stories
+* [ ] Debate mode where users must take opposite sides of a trending topic (even if they actually agree) and argue
