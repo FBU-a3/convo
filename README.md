@@ -16,3 +16,4 @@ An app that encourages converastions between people based on their interests via
 * [ ] User can invite friends who don't already have app (on Connect page)
 * [ ] User can choose between two modes: game and conversation
 * [ ] User can have Facebook memories and/or Instagram posts show up as cards
+* [ ] More than two users can play the game
