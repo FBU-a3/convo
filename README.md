@@ -21,3 +21,7 @@ An app that encourages converastions between people based on their interests via
 
 ## Stretch User Stories
 * [ ] Debate mode where users must take opposite sides of a trending topic (even if they actually agree) and argue
+
+## Wireframes
+![First three stories](wireframes_1.jpg)
+![Last three stories](wireframes_2.jpg)
