@@ -41,6 +41,7 @@ proguard-project.txt
 build/**
 .idea/**
 import-summary.txt
+app/src/main/res/values/secrets.xml
 
 *.pydevproject
 .project
