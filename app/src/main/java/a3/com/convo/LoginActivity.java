@@ -55,10 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes"));
-
             }
         });
     }
