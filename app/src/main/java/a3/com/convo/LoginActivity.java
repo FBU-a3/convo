@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+                Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG);
             }
 
             @Override
@@ -39,6 +40,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(FacebookException exception) {
                 // App code
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("public_profile"));
+
             }
         });
     }
