@@ -94,6 +94,9 @@ public class LoginActivity extends AppCompatActivity {
                             GraphResponse response) {
 
                         try {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            // initialize empty likes array
+                            // user.put("pageLikes", new ArrayList<String>());
                             // convert Json object into Json array
                             JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
 
@@ -107,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // print id, page name and number of likes on facebook page
                                 Log.e("id -", id+" name -"+name+ " category-"+
                                         category+ " likes count -" + count);
+                                // ParseUser.getCurrentUser().add("pageLikes", )
                             }
 
                         } catch(Exception e){
