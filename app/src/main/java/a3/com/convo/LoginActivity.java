@@ -28,6 +28,10 @@ public class LoginActivity extends AppCompatActivity {
     LoginButton loginButton;
     CallbackManager callbackManager;
     Activity context;
+    String accessToken = "EAACEdEose0cBADhq1xK6v7TkUsD72ARfMPtITUJBeGMPayyupYYafwmHpALaqSZCuCsaRQgyJ2OGSmV71UZBohHT55If1fL15RgeBCZB7czFPDgqjvej0VOBdAUwOh8HDy6ZACvaziFTbn2YHY1AwK5lS7k6qV2M0zSQHS2ugH5O2DxHpQOlIcQ0SonBwRcz5Thk1rnbTAZDZD";
+    String userId = "2086893891561624";
+    String appId = "1868910643132425";
+    AccessToken mAccessToken = new AccessToken(accessToken, appId, userId, null, null, null, null, null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
-                Log.e("access token", accessToken.toString());
+                Log.e("access token", accessToken.getToken());
                 getLikedPageInfo(loginResult);
             }
 
@@ -76,8 +80,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void getLikedPageInfo(LoginResult login_result) {
+
         GraphRequest data_request = GraphRequest.newMeRequest(
                 login_result.getAccessToken(),
+                //"EAACEdEose0cBADhq1xK6v7TkUsD72ARfMPtITUJBeGMPayyupYYafwmHpALaqSZCuCsaRQgyJ2OGSmV71UZBohHT55If1fL15RgeBCZB7czFPDgqjvej0VOBdAUwOh8HDy6ZACvaziFTbn2YHY1AwK5lS7k6qV2M0zSQHS2ugH5O2DxHpQOlIcQ0SonBwRcz5Thk1rnbTAZDZD",
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(
@@ -111,4 +117,6 @@ public class LoginActivity extends AppCompatActivity {
         data_request.setParameters(permission_param);
         data_request.executeAsync();
     }
+
+
 }
