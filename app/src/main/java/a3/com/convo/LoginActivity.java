@@ -28,11 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     LoginButton loginButton;
     CallbackManager callbackManager;
     Activity context;
-    String accessToken = "EAACEdEose0cBADhq1xK6v7TkUsD72ARfMPtITUJBeGMPayyupYYafwmHpALaqSZCuCsaRQgyJ2OGSmV71UZBohHT55If1fL15RgeBCZB7czFPDgqjvej0VOBdAUwOh8HDy6ZACvaziFTbn2YHY1AwK5lS7k6qV2M0zSQHS2ugH5O2DxHpQOlIcQ0SonBwRcz5Thk1rnbTAZDZD";
-    String userId = "2086893891561624";
-    String appId = "1868910643132425";
-    AccessToken mAccessToken = new AccessToken(accessToken, appId, userId, null, null, null, null, null);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
         GraphRequest data_request = GraphRequest.newMeRequest(
                 login_result.getAccessToken(),
-                //"EAACEdEose0cBADhq1xK6v7TkUsD72ARfMPtITUJBeGMPayyupYYafwmHpALaqSZCuCsaRQgyJ2OGSmV71UZBohHT55If1fL15RgeBCZB7czFPDgqjvej0VOBdAUwOh8HDy6ZACvaziFTbn2YHY1AwK5lS7k6qV2M0zSQHS2ugH5O2DxHpQOlIcQ0SonBwRcz5Thk1rnbTAZDZD",
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(
