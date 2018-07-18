@@ -21,6 +21,7 @@ An app that encourages converastions between people based on their interests via
 * [ ] User can have Facebook memories and/or Instagram posts show up as cards
 * [ ] More than two users can play the game
 * [ ] Users will be shown their mutual friends and can "gossip"
+* [ ] When users type in their additional likes, the app suggests Facebook pages for them to like
 
 ## Stretch User Stories
 * [ ] Debate mode where users must take opposite sides of a trending topic (even if they actually agree) and argue
@@ -29,6 +30,7 @@ An app that encourages converastions between people based on their interests via
 * [x] ParseUser object with the following additional fields:
   * [x] Facebook user object
   * [x] Facebook pages liked
+  * [x] additional likes entered by user (otherLikes)
 
 ## Wireframes
 ![First three stories](wireframes_1.jpg)
