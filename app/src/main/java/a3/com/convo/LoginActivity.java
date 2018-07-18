@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
-                Log.e("access token", accessToken.getToken());
                 getLikedPageInfo(loginResult);
             }
 
