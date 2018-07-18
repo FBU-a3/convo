@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
                 getLikedPageInfo(loginResult);
+                getFriendsOnApp(loginResult);
             }
 
             @Override
@@ -61,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes"));
+                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends"));
+                //LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_friends"));
             }
         });
     }
@@ -109,6 +111,29 @@ public class LoginActivity extends AppCompatActivity {
         permission_param.putString("fields", "likes{id,category,name,location,likes}");
         data_request.setParameters(permission_param);
         data_request.executeAsync();
+    }
+
+    protected void getFriendsOnApp(LoginResult login_result) {
+        Toast.makeText(context, "Going to get friends", Toast.LENGTH_LONG).show();
+        GraphRequest request = GraphRequest.newMyFriendsRequest(
+                login_result.getAccessToken(),
+                new GraphRequest.GraphJSONArrayCallback() {
+                    @Override
+                    public void onCompleted(JSONArray friends, GraphResponse response) {
+                        try {
+                            for (int i = 0; i < friends.length(); i++) {
+                                JSONObject friend = friends.optJSONObject(i);
+                                String name = friend.optString("name");
+                                String id = friend.optString("id");
+                                Log.e("id ", id + "name: " + name);
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+        request.executeAsync();
     }
 
 
