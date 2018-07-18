@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends"));
-                //LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_friends"));
             }
         });
     }
@@ -87,16 +86,16 @@ public class LoginActivity extends AppCompatActivity {
 
                         try {
                             // convert Json object into Json array
-                            JSONArray posts = json_object.getJSONObject("likes").optJSONArray("data");
+                            JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
 
-                            for (int i = 0; i < posts.length(); i++) {
+                            for (int i = 0; i < likes.length(); i++) {
 
-                                JSONObject post = posts.optJSONObject(i);
+                                JSONObject post = likes.optJSONObject(i);
                                 String id = post.optString("id");
                                 String category = post.optString("category");
                                 String name = post.optString("name");
                                 int count = post.optInt("likes");
-                                // print id, page name and number of like of facebook page
+                                // print id, page name and number of likes on facebook page
                                 Log.e("id -", id+" name -"+name+ " category-"+
                                         category+ " likes count -" + count);
                             }
@@ -132,9 +131,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
         request.executeAsync();
     }
-
-
 }
