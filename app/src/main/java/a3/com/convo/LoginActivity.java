@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -96,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             ParseUser user = ParseUser.getCurrentUser();
                             // initialize empty likes array
-                            // user.put("pageLikes", new ArrayList<String>());
+                            user.put("pageLikes", new ArrayList<String>());
                             // convert Json object into Json array
                             JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
 
@@ -110,7 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                                 // print id, page name and number of likes on facebook page
                                 Log.e("id -", id+" name -"+name+ " category-"+
                                         category+ " likes count -" + count);
-                                // ParseUser.getCurrentUser().add("pageLikes", )
+                                user.add("pageLikes", id);
+                                user.saveInBackground();
                             }
 
                         } catch(Exception e){
@@ -132,11 +134,16 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONArray friends, GraphResponse response) {
                         try {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            // initialize empty likes array
+                            user.put("friends", new ArrayList<String>());
                             for (int i = 0; i < friends.length(); i++) {
                                 JSONObject friend = friends.optJSONObject(i);
                                 String name = friend.optString("name");
                                 String id = friend.optString("id");
                                 Log.e("id ", id + "name: " + name);
+                                user.add("friends", id);
+                                user.saveInBackground();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
