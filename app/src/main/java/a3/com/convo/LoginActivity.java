@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
-                getId(loginResult);
+                getIdAndEmail(loginResult);
                 getLikedPageInfo(loginResult);
                 getFriendsOnApp(loginResult);
             }
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends"));
+                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email"));
             }
         });
     }
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                         } catch(Exception e){
-
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -135,14 +135,14 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.e("id ", id + "name: " + name);
                             }
                         } catch (Exception e) {
-
+                            e.printStackTrace();
                         }
                     }
                 });
         request.executeAsync();
     }
 
-    protected void getId(LoginResult login_result) {
+    protected void getIdAndEmail(LoginResult login_result) {
         GraphRequest request = GraphRequest.newMeRequest(
                 login_result.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
                             final String id = object.getString("id");
+                            final String email = object.getString("email");
                             ParseQuery<ParseUser> query = ParseUser.getQuery();
                             query.whereEqualTo("username", id);
                             query.findInBackground(new FindCallback<ParseUser>() {
@@ -157,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void done(List<ParseUser> objects, ParseException e) {
                                     if (e == null) {
                                         if (objects.isEmpty()) {
-                                            signUpNewUser(id);
+                                            signUpNewUser(id, email);
                                         }
                                         else {
                                             logInUser(id);
@@ -175,17 +176,17 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle permission_param = new Bundle();
-        // add the field to get the details of liked pages
-        permission_param.putString("fields", "id,name");
+        permission_param.putString("fields", "id,name,email");
         request.setParameters(permission_param);
         request.executeAsync();
     }
 
-    protected void signUpNewUser(String id) {
+    protected void signUpNewUser(String id, String email) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
         user.setUsername(id);
+        user.setEmail(email);
         user.setPassword("password");
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
