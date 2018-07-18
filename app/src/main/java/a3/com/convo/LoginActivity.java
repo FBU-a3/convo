@@ -17,11 +17,19 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.parse.FindCallback;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
+                getId(loginResult);
                 getLikedPageInfo(loginResult);
                 getFriendsOnApp(loginResult);
             }
@@ -113,7 +122,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void getFriendsOnApp(LoginResult login_result) {
-        Toast.makeText(context, "Going to get friends", Toast.LENGTH_LONG).show();
         GraphRequest request = GraphRequest.newMyFriendsRequest(
                 login_result.getAccessToken(),
                 new GraphRequest.GraphJSONArrayCallback() {
@@ -133,4 +141,74 @@ public class LoginActivity extends AppCompatActivity {
                 });
         request.executeAsync();
     }
+
+    protected void getId(LoginResult login_result) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                login_result.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            final String id = object.getString("id");
+                            ParseQuery<ParseUser> query = ParseUser.getQuery();
+                            query.whereEqualTo("username", id);
+                            query.findInBackground(new FindCallback<ParseUser>() {
+                                @Override
+                                public void done(List<ParseUser> objects, ParseException e) {
+                                    if (e == null) {
+                                        if (objects.isEmpty()) {
+                                            signUpNewUser(id);
+                                        }
+                                        else {
+                                            logInUser(id);
+                                        }
+                                    }
+                                    else {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle permission_param = new Bundle();
+        // add the field to get the details of liked pages
+        permission_param.putString("fields", "id,name");
+        request.setParameters(permission_param);
+        request.executeAsync();
+    }
+
+    protected void signUpNewUser(String id) {
+        // Create the ParseUser
+        ParseUser user = new ParseUser();
+        // Set core properties
+        user.setUsername(id);
+        user.setPassword("password");
+        // Invoke signUpInBackground
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(LoginActivity.this, "Signed up (Parse)!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Username taken or some other issue!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    protected void logInUser(String id) {
+        ParseUser.logInInBackground(id, "password", new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Failed login (Parse)", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
 }
