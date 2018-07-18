@@ -102,11 +102,11 @@ public class LoginActivity extends AppCompatActivity {
 
                             for (int i = 0; i < likes.length(); i++) {
 
-                                JSONObject post = likes.optJSONObject(i);
-                                String id = post.optString("id");
-                                String category = post.optString("category");
-                                String name = post.optString("name");
-                                int count = post.optInt("likes");
+                                JSONObject page = likes.optJSONObject(i);
+                                String id = page.optString("id");
+                                String category = page.optString("category");
+                                String name = page.optString("name");
+                                int count = page.optInt("likes");
                                 // print id, page name and number of likes on facebook page
                                 Log.e("id -", id+" name -"+name+ " category-"+
                                         category+ " likes count -" + count);
