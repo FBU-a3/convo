@@ -17,7 +17,7 @@ public class CardAdapter extends BaseAdapter {
     private Context context;
 
     public CardAdapter(List<String> data, Context context) {
-        this.topics = topics;
+        this.topics = data;
         this.context = context;
     }
 
