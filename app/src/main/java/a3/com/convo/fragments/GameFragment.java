@@ -27,4 +27,7 @@ public class GameFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+    }
 }

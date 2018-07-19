@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import a3.com.convo.R;
-import a3.com.convo.activities.PlayGameActivity;
+import a3.com.convo.activities.ProfileActivity;
 
-public class FriendsFragment extends Fragment{
+public class ProfileDetailsFragment extends Fragment {
     private Context context;
-    private Button modeButton;
+    private Button addLikes;
 
-    public FriendsFragment() {
+    public ProfileDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -24,17 +24,17 @@ public class FriendsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        return inflater.inflate(R.layout.fragment_profile_details, container, false);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        modeButton = (Button) view.findViewById(R.id.select_mode);
+        addLikes = (Button) view.findViewById(R.id.add_likes_btn);
         context = getActivity();
 
-        modeButton.setOnClickListener(new View.OnClickListener() {
+        addLikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToMode();
+                ((ProfileActivity)context).goToAddInfo();
             }
         });
 
