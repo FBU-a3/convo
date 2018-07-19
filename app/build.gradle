@@ -37,4 +37,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
+    implementation 'com.daprlabs.aaron:swipedeck:2.0.6'
 }
