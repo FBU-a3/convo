@@ -54,8 +54,6 @@ public class LoginActivity extends AppCompatActivity {
                 boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
                 getIdAndEmail(loginResult);
-                getLikedPageInfo(loginResult);
-                getFriendsOnApp(loginResult);
             }
 
             @Override
@@ -153,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void getIdAndEmail(LoginResult login_result) {
+    protected void getIdAndEmail(final LoginResult login_result) {
         GraphRequest request = GraphRequest.newMeRequest(
                 login_result.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -174,6 +172,8 @@ public class LoginActivity extends AppCompatActivity {
                                         else {
                                             logInUser(id);
                                         }
+                                        getLikedPageInfo(login_result);
+                                        getFriendsOnApp(login_result);
                                     }
                                     else {
                                         e.printStackTrace();
