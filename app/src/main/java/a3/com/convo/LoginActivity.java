@@ -45,14 +45,37 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
+        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+        if (isLoggedIn) {
+            ParseUser user = ParseUser.getCurrentUser();
+            // if user logged into facebook and parse
+            if (user != null) {
+                Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                startActivity(i);
+                finish();
+            }
+            // if user logged into facebook but not parse
+            else {
+                // log them into Parse
+                getIdAndEmail(accessToken);
+            }
+        }
+
+        // if user not logged in/signed up to facebook
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email"));
+            }
+        });
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-                Toast.makeText(context, "Logged in successfully", Toast.LENGTH_LONG).show();
-                getIdAndEmail(loginResult);
+                Toast.makeText(context, "Logged in to facebook", Toast.LENGTH_LONG).show();
+                getIdAndEmail(loginResult.getAccessToken());
             }
 
             @Override
@@ -65,13 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                 // App code
             }
         });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email"));
-            }
-        });
     }
 
 
@@ -81,10 +97,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected void getLikedPageInfo(LoginResult login_result) {
+    protected void getLikedPageInfo(AccessToken access_token) {
 
         GraphRequest data_request = GraphRequest.newMeRequest(
-                login_result.getAccessToken(),
+                access_token,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(
@@ -124,9 +140,9 @@ public class LoginActivity extends AppCompatActivity {
         data_request.executeAsync();
     }
 
-    protected void getFriendsOnApp(LoginResult login_result) {
+    protected void getFriendsOnApp(AccessToken access_token) {
         GraphRequest request = GraphRequest.newMyFriendsRequest(
-                login_result.getAccessToken(),
+                access_token,
                 new GraphRequest.GraphJSONArrayCallback() {
                     @Override
                     public void onCompleted(JSONArray friends, GraphResponse response) {
@@ -150,9 +166,9 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void getIdAndEmail(final LoginResult login_result) {
+    protected void getIdAndEmail(final AccessToken access_token) {
         GraphRequest request = GraphRequest.newMeRequest(
-                login_result.getAccessToken(),
+                access_token,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
@@ -166,10 +182,10 @@ public class LoginActivity extends AppCompatActivity {
                                 public void done(List<ParseUser> objects, ParseException e) {
                                     if (e == null) {
                                         if (objects.isEmpty()) {
-                                            signUpNewUser(id, email, login_result);
+                                            signUpNewUser(id, email, access_token);
                                         }
                                         else {
-                                            logInUser(id, login_result);
+                                            logInUser(id, access_token);
                                         }
                                     }
                                     else {
@@ -189,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void signUpNewUser(String id, String email, final LoginResult login_result) {
+    protected void signUpNewUser(String id, String email, final AccessToken access_token) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
@@ -202,8 +218,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (e == null) {
                     Toast.makeText(LoginActivity.this, "Signed up (Parse)!", Toast.LENGTH_LONG).show();
 
-                    getLikedPageInfo(login_result);
-                    getFriendsOnApp(login_result);
+                    getLikedPageInfo(access_token);
+                    getFriendsOnApp(access_token);
+                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Username taken or some other issue!", Toast.LENGTH_LONG).show();
                 }
@@ -211,14 +229,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void logInUser(String id, final LoginResult login_result) {
+    protected void logInUser(String id, final AccessToken access_token) {
         ParseUser.logInInBackground(id, "password", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
 
-                    getLikedPageInfo(login_result);
-                    getFriendsOnApp(login_result);
+                    getLikedPageInfo(access_token);
+                    getFriendsOnApp(access_token);
+                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Failed login (Parse)", Toast.LENGTH_LONG).show();
                 }
