@@ -70,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email"));
+                Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                startActivity(i);
             }
         });
 
@@ -222,8 +224,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
-                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Username taken or some other issue!", Toast.LENGTH_LONG).show();
                 }
@@ -239,8 +239,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
-                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Failed login (Parse)", Toast.LENGTH_LONG).show();
                 }

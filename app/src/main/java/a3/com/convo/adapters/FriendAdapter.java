@@ -14,7 +14,6 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
@@ -46,10 +45,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         holder.tvFriend.setText("Friend Name");
 
         ParseFile profPic = ParseUser.getCurrentUser().getParseFile("profile");
-        GlideApp.with(context)
-                .load(profPic.getUrl())
-                .circleCrop()
-                .into(holder.ivFriend);
+//        GlideApp.with(context)
+//                .load(profPic.getUrl())
+//                .circleCrop()
+//                .into(holder.ivFriend);
     }
 
     @Override

@@ -11,32 +11,30 @@ import android.widget.Button;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 
-public class FriendsFragment extends Fragment{
+public class ModeFragment extends Fragment {
     private Context context;
-    private Button modeButton;
+    private Button startGame;
 
-    public FriendsFragment() {
+    public ModeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        return inflater.inflate(R.layout.fragment_mode, container, false);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        modeButton = (Button) view.findViewById(R.id.select_mode);
         context = getActivity();
-
-        modeButton.setOnClickListener(new View.OnClickListener() {
+        startGame = (Button) view.findViewById(R.id.start_game_btn);
+        startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToMode();
+                ((PlayGameActivity)context).goToGame();
             }
         });
-
     }
+
 }
