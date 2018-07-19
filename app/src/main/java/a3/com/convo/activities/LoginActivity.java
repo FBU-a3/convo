@@ -1,4 +1,4 @@
-package a3.com.convo;
+package a3.com.convo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,6 +30,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import a3.com.convo.R;
 
 public class LoginActivity extends AppCompatActivity {
 
