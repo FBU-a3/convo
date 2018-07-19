@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -107,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                                 String name = page.optString("name");
                                 int count = page.optInt("likes");
                                 // print id, page name and number of likes on facebook page
-                                Log.e("id -", id+" name -"+name+ " category-"+
-                                        category+ " likes count -" + count);
+                                // Log.e("id -", id+" name -"+name+ " category-"+
+                                //         category+ " likes count -" + count);
                                 user.add("pageLikes", id);
                                 user.saveInBackground();
                             }
@@ -139,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject friend = friends.optJSONObject(i);
                                 String name = friend.optString("name");
                                 String id = friend.optString("id");
-                                Log.e("id ", id + "name: " + name);
+                                // Log.e("id ", id + "name: " + name);
                                 user.add("friends", id);
                                 user.saveInBackground();
                             }
@@ -167,13 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                                 public void done(List<ParseUser> objects, ParseException e) {
                                     if (e == null) {
                                         if (objects.isEmpty()) {
-                                            signUpNewUser(id, email);
+                                            signUpNewUser(id, email, login_result);
                                         }
                                         else {
-                                            logInUser(id);
+                                            logInUser(id, login_result);
                                         }
-                                        getLikedPageInfo(login_result);
-                                        getFriendsOnApp(login_result);
                                     }
                                     else {
                                         e.printStackTrace();
@@ -192,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void signUpNewUser(String id, String email) {
+    protected void signUpNewUser(String id, String email, final LoginResult login_result) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
@@ -204,6 +201,9 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(LoginActivity.this, "Signed up (Parse)!", Toast.LENGTH_LONG).show();
+
+                    getLikedPageInfo(login_result);
+                    getFriendsOnApp(login_result);
                 } else {
                     Toast.makeText(LoginActivity.this, "Username taken or some other issue!", Toast.LENGTH_LONG).show();
                 }
@@ -211,11 +211,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void logInUser(String id) {
+    protected void logInUser(String id, final LoginResult login_result) {
         ParseUser.logInInBackground(id, "password", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
+
+                    getLikedPageInfo(login_result);
+                    getFriendsOnApp(login_result);
                 } else {
                     Toast.makeText(LoginActivity.this, "Failed login (Parse)", Toast.LENGTH_LONG).show();
                 }
