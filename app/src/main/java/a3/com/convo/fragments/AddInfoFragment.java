@@ -69,7 +69,7 @@ public class AddInfoFragment extends Fragment {
                 String itemText = etNewLike.getText().toString();
                 //alAdapter.add(itemText);
                 additionalLikes.add(0, itemText);
-                alAdapter.notifyItemInserted(0);
+                alAdapter.notifyDataSetChanged();
                 ParseUser user = ParseUser.getCurrentUser();
                 user.add("otherLikes", itemText);
                 user.saveInBackground();
