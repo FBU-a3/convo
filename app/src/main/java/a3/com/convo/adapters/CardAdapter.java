@@ -7,6 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+
+import org.json.JSONException;
+
 import java.util.List;
 
 import a3.com.convo.R;
@@ -37,7 +43,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         View v = view;
 
@@ -47,9 +53,26 @@ public class CardAdapter extends BaseAdapter {
             v = inflater.inflate(R.layout.item_card, viewGroup, false);
         }
 
-        TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
-        tvTopic.setText(getItem(i));
+        final View newView = v;
 
+        final TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
+
+        // get the page name associated with the id at that position in the array
+        String id = getItem(i);
+
+        GraphRequest request = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(),
+                id, new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            String pageName = response.getJSONObject().getString("name");
+                            tvTopic.setText(pageName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        request.executeAsync();
         return v;
     }
 }

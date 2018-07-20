@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -32,13 +33,11 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getActivity();
-        ids = new ArrayList<>();
-        ids.add("one");
-        ids.add("two");
-        ids.add("three");
-        ids.add("four");
-        ids.add("five");
-        ids.add("six");
+        ParseUser user = ParseUser.getCurrentUser();
+        // pageLikes is guaranteed to be an array, but it's returned as an object anyway
+        ids = (ArrayList<String>) user.get("pageLikes");
+
+        //ArrayList<String> fromParse = (ArrayList<String>) user.get("pageLikes");
 
         adapter = new CardAdapter(ids, context);
         // Inflate the layout for this fragment
