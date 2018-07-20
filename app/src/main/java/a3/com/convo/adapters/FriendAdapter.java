@@ -1,6 +1,8 @@
 package a3.com.convo.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +28,7 @@ import a3.com.convo.R;
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
     private ArrayList<String> myFriends;
     Context context;
+    String selectedFriend;
 
     public FriendAdapter(ArrayList<String> friends) {
         myFriends = friends;
@@ -49,15 +52,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         String friendId = myFriends.get(position);
         final String profilePicPath = "/" + friendId + "/picture";
 
-        // Get friends name
 
+        // Get friends profile picture
         GraphRequest picRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), profilePicPath, new GraphRequest.Callback() {
             @Override
             public void onCompleted(GraphResponse response) {
-                JSONObject object = response.getJSONObject();
-                String picURL = null;
                 try {
-                    picURL = object.getString("url");
+                    String picURL = response.getJSONObject().getString("url");
+                    System.out.println("\n\n" +picURL + "\n\n");
                     GlideApp.with(context)
                             .load(picURL)
                             .circleCrop()
@@ -67,6 +69,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 }
             }
         });
+
+        // Get friends name
         Bundle picParams = new Bundle();
         picParams.putString("fields", "url");
         picRequest.setParameters(picParams);
@@ -105,7 +109,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         }
         @Override
         public void onClick(View view) {
-
+            // Get friend position
+            int position = getAdapterPosition();
+            // Make sure the position is valid/actually exists in the view
+            if (position != RecyclerView.NO_POSITION) {
+                // Get selected friend to play with
+                selectedFriend = myFriends.get(position);
+                System.out.println("/" + selectedFriend);
+            }
         }
     }
 
