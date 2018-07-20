@@ -22,14 +22,13 @@ public class FriendsFragment extends Fragment {
     ParseUser user = ParseUser.getCurrentUser();
     RecyclerView friendsRv;
     private Context context;
-    private Button modeButton;
+    private Button startButton;
     FriendAdapter friendAdapter;
     ArrayList<String> friends;
 
     public FriendsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,10 +38,10 @@ public class FriendsFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        modeButton = (Button) view.findViewById(R.id.select_mode);
+        startButton = (Button) view.findViewById(R.id.start_btn);
         context = getActivity();
 
-        modeButton.setOnClickListener(new View.OnClickListener() {
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((PlayGameActivity)context).goToMode();
