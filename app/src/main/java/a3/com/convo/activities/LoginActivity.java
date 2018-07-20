@@ -70,8 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email"));
-                Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                startActivity(i);
+
             }
         });
 
@@ -80,6 +79,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(context, "Logged in to facebook", Toast.LENGTH_LONG).show();
                 getIdAndEmail(loginResult.getAccessToken());
+                Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                startActivity(i);
             }
 
             @Override
@@ -216,6 +217,7 @@ public class LoginActivity extends AppCompatActivity {
         user.setUsername(id);
         user.setEmail(email);
         user.setPassword("password");
+        user.put("otherLikes", new ArrayList<String>());
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
