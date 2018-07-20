@@ -3,7 +3,9 @@ package a3.com.convo;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
+import a3.com.convo.Models.Page;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -15,6 +17,8 @@ public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        ParseObject.registerSubclass(Page.class);
 
         // for logging and troubleshooting
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);

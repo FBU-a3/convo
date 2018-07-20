@@ -125,10 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                                 String id = page.optString("id");
                                 String category = page.optString("category");
                                 String name = page.optString("name");
-                                int count = page.optInt("likes");
-                                // print id, page name and number of likes on facebook page
-                                // Log.e("id -", id+" name -"+name+ " category-"+
-                                //         category+ " likes count -" + count);
                                 user.add("pageLikes", id);
                                 user.saveInBackground();
                             }
