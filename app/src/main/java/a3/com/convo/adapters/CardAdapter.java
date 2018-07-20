@@ -19,22 +19,22 @@ import a3.com.convo.R;
 
 public class CardAdapter extends BaseAdapter {
 
-    private List<String> topics;
+    private List<String> pages;
     private Context context;
 
     public CardAdapter(List<String> data, Context context) {
-        this.topics = data;
+        this.pages = data;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return topics.size();
+        return pages.size();
     }
 
     @Override
     public String getItem(int i) {
-        return topics.get(i);
+        return pages.get(i);
     }
 
     @Override
@@ -52,8 +52,6 @@ public class CardAdapter extends BaseAdapter {
             // normally use a viewholder
             v = inflater.inflate(R.layout.item_card, viewGroup, false);
         }
-
-        final View newView = v;
 
         final TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
 

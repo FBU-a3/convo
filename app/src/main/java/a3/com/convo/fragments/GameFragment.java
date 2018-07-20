@@ -37,7 +37,6 @@ public class GameFragment extends Fragment {
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
         ids = (ArrayList<String>) user.get("pageLikes");
 
-        //ArrayList<String> fromParse = (ArrayList<String>) user.get("pageLikes");
 
         adapter = new CardAdapter(ids, context);
         // Inflate the layout for this fragment
