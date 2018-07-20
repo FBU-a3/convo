@@ -85,10 +85,11 @@ public class AddInfoFragment extends Fragment {
 
             @Override
             public void onItemLongClick(View view, int position) {
+                String a = additionalLikes.get(position);
                 ParseUser user = ParseUser.getCurrentUser();
                 user.removeAll("otherLikes", Arrays.asList(additionalLikes.get(position)));
                 additionalLikes.remove(position);
-                alAdapter.notifyItemRemoved(position);
+                alAdapter.notifyDataSetChanged();
                 user.saveInBackground();
             }
         });

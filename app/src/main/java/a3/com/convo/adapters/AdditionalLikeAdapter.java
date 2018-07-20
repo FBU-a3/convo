@@ -42,7 +42,7 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
 
     //Set method of OnItemLongClickListener object
     public void setOnItemLongClickListener(RecyclerViewItemClickListener recyclerViewItemClickListener){
-        this.recyclerViewItemClickListener=recyclerViewItemClickListener;
+        this.recyclerViewItemClickListener = recyclerViewItemClickListener;
     }
 
     public int getItemCount() {
@@ -64,7 +64,7 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         notifyItemRemoved(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView tvLike;
         public int position;
         public ViewHolder(View itemView) {
@@ -86,15 +86,6 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         @Override
         public void onClick(View view) {
 
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            // gets item position
-            int position = getAdapterPosition();
-            // call above method to delete item
-            delete(position);
-            return true;
         }
 
 
