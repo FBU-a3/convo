@@ -15,6 +15,8 @@ import a3.com.convo.R;
 public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAdapter.ViewHolder> {
     private List <String> mLikes;
     Context context;
+    private RecyclerViewItemClickListener recyclerViewItemClickListener;
+
     public AdditionalLikeAdapter(List<String> likes) {
         mLikes = likes;
     }
@@ -33,8 +35,14 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        viewHolder.position = i;
         String likeString = (String) mLikes.get(i);
         viewHolder.tvLike.setText(likeString);
+    }
+
+    //Set method of OnItemLongClickListener object
+    public void setOnItemLongClickListener(RecyclerViewItemClickListener recyclerViewItemClickListener){
+        this.recyclerViewItemClickListener=recyclerViewItemClickListener;
     }
 
     public int getItemCount() {
@@ -51,11 +59,27 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         notifyItemInserted(0);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public void delete(int position) {
+        mLikes.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public TextView tvLike;
+        public int position;
         public ViewHolder(View itemView) {
             super(itemView);
             tvLike = (TextView) itemView.findViewById(R.id.tv_liked_item);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    //When item view is clicked long, trigger the itemclicklistener
+                    //Because that itemclicklistener is indicated in MainActivity
+                    recyclerViewItemClickListener.onItemLongClick(v,position);
+                    return true;
+                }
+            });
 
         }
 
@@ -63,5 +87,16 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         public void onClick(View view) {
 
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            // gets item position
+            int position = getAdapterPosition();
+            // call above method to delete item
+            delete(position);
+            return true;
+        }
+
+
     }
 }

@@ -14,10 +14,12 @@ import android.widget.EditText;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.adapters.AdditionalLikeAdapter;
+import a3.com.convo.adapters.RecyclerViewItemClickListener;
 
 public class AddInfoFragment extends Fragment {
     private Context context;
@@ -75,7 +77,21 @@ public class AddInfoFragment extends Fragment {
             }
         });
 
+        alAdapter.setOnItemLongClickListener(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
 
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                ParseUser user = ParseUser.getCurrentUser();
+                user.removeAll("otherLikes", Arrays.asList(additionalLikes.get(position)));
+                additionalLikes.remove(position);
+                alAdapter.notifyItemRemoved(position);
+                user.saveInBackground();
+            }
+        });
     }
 
     public void readInExistingLikes() {
