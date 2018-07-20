@@ -120,6 +120,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         }
     }
 
+    public String getSelectedFriend() {
+        return selectedFriend;
+    }
+
     public void clear() {
         myFriends.clear();
         notifyDataSetChanged();

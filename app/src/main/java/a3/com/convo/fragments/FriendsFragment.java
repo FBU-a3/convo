@@ -44,7 +44,7 @@ public class FriendsFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToMode();
+                ((PlayGameActivity)context).goToMode(friendAdapter.getSelectedFriend());
             }
         });
         friends = (ArrayList<String>) user.get("friends");

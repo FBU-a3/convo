@@ -36,7 +36,7 @@ public class PlayGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void goToMode(){
+    public void goToMode(String selectedFriend){
         Fragment fragment = new ModeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
