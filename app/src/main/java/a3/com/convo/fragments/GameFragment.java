@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import com.parse.ParseUser;
@@ -23,6 +24,7 @@ public class GameFragment extends Fragment {
     private Context context;
     CardAdapter adapter;
     SwipeDeck cardStack;
+    private String friend;
 
     public GameFragment() {
         // Required empty public constructor
@@ -32,7 +34,8 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        context = getActivity();
+        context = getContext();
+        Toast.makeText(context, friend, Toast.LENGTH_SHORT).show();
         ParseUser user = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
         ids = (ArrayList<String>) user.get("pageLikes");
@@ -46,6 +49,9 @@ public class GameFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         cardStack.setAdapter(adapter);
+    }
 
+    public void setFriend(String selectedFriend) {
+        friend = selectedFriend;
     }
 }

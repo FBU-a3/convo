@@ -37,18 +37,20 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     public void goToMode(String selectedFriend){
-        Fragment fragment = new ModeFragment();
+        //Fragment fragment = new ModeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, fragment);
+        fragmentTransaction.replace(R.id.play_game_fragment, modeFrag);
         fragmentTransaction.commit();
+        modeFrag.setFriend(selectedFriend);
     }
 
-    public void goToGame() {
-        Fragment fragment = new GameFragment();
+    public void goToGame(String selectedFriend) {
+        //Fragment fragment = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, fragment);
+        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag);
         fragmentTransaction.commit();
+        gameFrag.setFriend(selectedFriend);
     }
 }
