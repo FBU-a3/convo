@@ -13,6 +13,7 @@ import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import a3.com.convo.R;
 import a3.com.convo.adapters.CardAdapter;
@@ -39,7 +40,7 @@ public class GameFragment extends Fragment {
         ParseUser user = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
         ids = (ArrayList<String>) user.get("pageLikes");
-
+        Collections.shuffle(ids);
 
         adapter = new CardAdapter(ids, context);
         // Inflate the layout for this fragment
