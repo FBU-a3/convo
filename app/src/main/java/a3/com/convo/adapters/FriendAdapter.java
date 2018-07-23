@@ -2,6 +2,7 @@ package a3.com.convo.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +17,9 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +29,7 @@ import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
+    private int selectedPos = RecyclerView.NO_POSITION;
     private ArrayList<String> myFriends;
     Context context;
     String selectedFriend;
@@ -48,27 +52,43 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, int position) {
+        holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229,229,229) : Color.TRANSPARENT);
         // Get friends user ID's
-        String friendId = myFriends.get(position);
+        final String friendId = myFriends.get(position);
         final String profilePicPath = "/" + friendId + "/picture";
 
+        //Get friends profile picture
+//        GraphRequest picRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), "/" + friendId + "/picture", new GraphRequest.Callback() {
+//            @Override
+//            public void onCompleted(GraphResponse response) {
+//                try {
+//
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        });
 
-        // Get friends profile picture
-        GraphRequest picRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), profilePicPath, new GraphRequest.Callback() {
-            @Override
-            public void onCompleted(GraphResponse response) {
-                try {
-                    String picURL = response.getJSONObject().getString("url");
-                    System.out.println("\n\n" +picURL + "\n\n");
-                    GlideApp.with(context)
-                            .load(picURL)
-                            .circleCrop()
-                            .into(holder.ivFriend);
-                } catch (JSONException e) {
-                    Toast.makeText(context, "Pic URL not retrieved", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        GraphRequest picRequest = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject json_object,
+                            GraphResponse response) {
+                        try {
+                            JSONArray picInfo = json_object.getJSONObject("picture").getJSONArray("data");
+                            String picURL = picInfo.optString(Integer.parseInt("url"));
+                            GlideApp.with(context)
+                                    .load(picURL)
+                                    .circleCrop()
+                                    .into(holder.ivFriend);
+                        } catch(Exception e){
+                            e.printStackTrace();
+                            Toast.makeText(context, "Pic URL not retrieved", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         // Get friends name
         Bundle picParams = new Bundle();
@@ -117,6 +137,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 selectedFriend = myFriends.get(position);
                 System.out.println("/" + selectedFriend);
             }
+
+            notifyItemChanged(selectedPos);
+            selectedPos = getAdapterPosition();
+            notifyItemChanged(selectedPos);
         }
     }
 
