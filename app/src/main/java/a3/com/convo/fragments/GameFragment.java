@@ -36,10 +36,10 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        Toast.makeText(context, friend, Toast.LENGTH_SHORT).show();
-        ParseUser user = ParseUser.getCurrentUser();
+        Toast.makeText(context, "User selected: " + friend, Toast.LENGTH_SHORT).show();
+        ParseUser player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
-        ids = (ArrayList<String>) user.get("pageLikes");
+        ids = (ArrayList<String>) player1.get("pageLikes");
         Collections.shuffle(ids);
 
         adapter = new CardAdapter(ids, context);
