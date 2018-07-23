@@ -26,6 +26,7 @@ public class ModeFragment extends Fragment {
                              Bundle savedInstanceState) {
         context = getContext();
         Toast.makeText(context, friend, Toast.LENGTH_SHORT).show();
+        System.out.println(friend);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mode, container, false);
     }
