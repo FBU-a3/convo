@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-
-import org.json.JSONException;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.List;
 
+import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 
 public class CardAdapter extends BaseAdapter {
@@ -56,21 +55,34 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
 
         // get the page name associated with the id at that position in the array
-        String id = getItem(i);
+        String objectId = getItem(i);
 
-        GraphRequest request = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(),
-                id, new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        try {
-                            String pageName = response.getJSONObject().getString("name");
-                            tvTopic.setText(pageName);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        request.executeAsync();
+        ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
+        query.getInBackground(objectId, new GetCallback<Page>() {
+            @Override
+            public void done(Page object, ParseException e) {
+                if (e == null) {
+                    tvTopic.setText(object.getName());
+                }
+                else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+//        GraphRequest request = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(),
+//                id, new GraphRequest.Callback() {
+//                    @Override
+//                    public void onCompleted(GraphResponse response) {
+//                        try {
+//                            String pageName = response.getJSONObject().getString("name");
+//                            tvTopic.setText(pageName);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//        request.executeAsync();
         return v;
     }
 }

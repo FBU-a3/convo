@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -120,12 +121,14 @@ public class LoginActivity extends AppCompatActivity {
                             JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
 
                             for (int i = 0; i < likes.length(); i++) {
-
                                 JSONObject page = likes.optJSONObject(i);
                                 String id = page.optString("id");
                                 String category = page.optString("category");
                                 String name = page.optString("name");
-                                user.add("pageLikes", id);
+                                String coverUrl = page.getJSONObject("cover").optString("source");
+                                String profUrl = page.getJSONObject("picture").optString("url");
+                                Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
+                                user.add("pageLikes", newPage.getObjectId());
                                 user.saveInBackground();
                             }
 
@@ -136,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
         Bundle permission_param = new Bundle();
         // add the field to get the details of liked pages
-        permission_param.putString("fields", "likes{id,category,name,location,likes}");
+        permission_param.putString("fields", "likes{id,category,name,location,likes,cover,picture}");
         data_request.setParameters(permission_param);
         data_request.executeAsync();
     }

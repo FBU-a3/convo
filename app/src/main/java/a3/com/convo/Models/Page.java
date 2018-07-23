@@ -22,7 +22,7 @@ public class Page extends ParseObject{
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.d("LoginActivity", "Create page success");
+                    Log.e("LoginActivity", "Create page success");
                 }
                 else {
                     e.printStackTrace();
@@ -33,11 +33,11 @@ public class Page extends ParseObject{
     }
 
     public String getPageId() {
-        return getString("objectId");
+        return getString("pageId");
     }
 
     public void setPageId(String pageId) {
-        put("objectId", pageId);
+        put("pageId", pageId);
     }
 
     public String getName() {
@@ -71,4 +71,5 @@ public class Page extends ParseObject{
     public void setCategory(String category) {
         put("category", category);
     }
+
 }
