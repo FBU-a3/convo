@@ -123,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void getLikedPageInfo(AccessToken access_token) {
-
         GraphRequest data_request = GraphRequest.newMeRequest(
                 access_token,
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -142,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                             for (int i = 0; i < likes.length(); i++) {
                                 JSONObject page = likes.optJSONObject(i);
                                 String id = page.optString("id");
+
                                 if (existingPages.containsKey(id)) {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
                                     user.add("pageLikes", existingPages.get(id));
@@ -154,12 +154,12 @@ public class LoginActivity extends AppCompatActivity {
                                     Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category, user);
                                 }
                             }
-
                         } catch(Exception e){
                             e.printStackTrace();
                         }
                     }
                 });
+
         Bundle permission_param = new Bundle();
         // add the field to get the details of liked pages
         permission_param.putString("fields", "likes{id,category,name,location,likes,cover,picture}");
@@ -181,7 +181,6 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject friend = friends.optJSONObject(i);
                                 String name = friend.optString("name");
                                 String id = friend.optString("id");
-                                // Log.e("id ", id + "name: " + name);
                                 user.add("friends", id);
                                 user.saveInBackground();
                             }
@@ -208,9 +207,11 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void done(List<ParseUser> objects, ParseException e) {
                                     if (e == null) {
+                                        // if the user doesn't exist
                                         if (objects.isEmpty()) {
                                             signUpNewUser(id, email, access_token);
                                         }
+                                        // if they're already in our server
                                         else {
                                             logInUser(id, access_token);
                                         }

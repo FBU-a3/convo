@@ -53,9 +53,4 @@ public class FriendsFragment extends Fragment {
         friendsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
         friendsRv.setAdapter(friendAdapter);
     }
-
-    public void fetchTimelineAsync(int page) {
-        friendAdapter.clear();
-        //loadFriends();
-    }
 }
