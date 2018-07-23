@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import a3.com.convo.Models.Page;
@@ -39,12 +40,28 @@ public class LoginActivity extends AppCompatActivity {
     LoginButton loginButton;
     CallbackManager callbackManager;
     Activity context;
+
+    // maps Page IDs to Object IDs for quick lookup of duplicate pages
+    HashMap<String, String> existingPages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         context = this;
+
+        existingPages = new HashMap<>();
+        ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
+        query.whereExists("objectId");
+        query.findInBackground(new FindCallback<Page>() {
+            @Override
+            public void done(List<Page> objects, ParseException e) {
+                for (Page page: objects) {
+                    existingPages.put(page.getPageId(), page.getObjectId());
+                }
+            }
+        });
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
@@ -125,12 +142,17 @@ public class LoginActivity extends AppCompatActivity {
                             for (int i = 0; i < likes.length(); i++) {
                                 JSONObject page = likes.optJSONObject(i);
                                 String id = page.optString("id");
-                                String category = page.optString("category");
-                                String name = page.optString("name");
-                                String coverUrl = page.getJSONObject("cover").optString("source");
-                                String profUrl = page.getJSONObject("picture").optString("url");
-                                Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category, user);
-
+                                if (existingPages.containsKey(id)) {
+                                    // page already exists in Parse, so we just get the object id and add it to their likes array
+                                    user.add("pageLikes", existingPages.get(id));
+                                } else {
+                                    // doesn't exist yet, so we add it to the server
+                                    String category = page.optString("category");
+                                    String name = page.optString("name");
+                                    String coverUrl = page.getJSONObject("cover").optString("source");
+                                    String profUrl = page.getJSONObject("picture").optString("url");
+                                    Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category, user);
+                                }
                             }
 
                         } catch(Exception e){
