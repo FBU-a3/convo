@@ -1,6 +1,7 @@
 package a3.com.convo.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class CardAdapter extends BaseAdapter {
         query.getInBackground(objectId, new GetCallback<Page>() {
             @Override
             public void done(Page object, ParseException e) {
+                Log.e("name error", object.toString());
                 if (e == null) {
                     tvTopic.setText(object.getName());
                 }

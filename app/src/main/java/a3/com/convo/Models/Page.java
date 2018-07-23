@@ -5,13 +5,14 @@ import android.util.Log;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 @ParseClassName("Page")
 public class Page extends ParseObject{
 
-    public static Page newInstance(String pageId, String name, String profUrl, String coverUrl, String category) {
-        Page page = new Page();
+    public static Page newInstance(String pageId, String name, String profUrl, String coverUrl, String category, final ParseUser user) {
+        final Page page = new Page();
         page.setPageId(pageId);
         page.setName(name);
         page.setProfUrl(profUrl);
@@ -23,6 +24,8 @@ public class Page extends ParseObject{
             public void done(ParseException e) {
                 if (e == null) {
                     Log.e("LoginActivity", "Create page success");
+                    user.add("pageLikes", page.getObjectId());
+                    user.saveInBackground();
                 }
                 else {
                     e.printStackTrace();

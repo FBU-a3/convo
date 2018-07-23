@@ -55,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             ParseUser user = ParseUser.getCurrentUser();
             // if user logged into facebook and parse
             if (user != null) {
+                getLikedPageInfo(accessToken);
+                getFriendsOnApp(accessToken);
                 Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();
@@ -127,9 +129,8 @@ public class LoginActivity extends AppCompatActivity {
                                 String name = page.optString("name");
                                 String coverUrl = page.getJSONObject("cover").optString("source");
                                 String profUrl = page.getJSONObject("picture").optString("url");
-                                Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
-                                user.add("pageLikes", newPage.getObjectId());
-                                user.saveInBackground();
+                                Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category, user);
+
                             }
 
                         } catch(Exception e){
