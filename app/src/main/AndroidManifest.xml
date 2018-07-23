@@ -44,8 +44,14 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.PlayGameActivity" />
-        <activity android:name=".activities.ProfileActivity"></activity>
+        <activity
+            android:name=".activities.PlayGameActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

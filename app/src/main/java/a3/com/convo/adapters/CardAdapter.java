@@ -71,20 +71,6 @@ public class CardAdapter extends BaseAdapter {
                 }
             }
         });
-
-//        GraphRequest request = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(),
-//                id, new GraphRequest.Callback() {
-//                    @Override
-//                    public void onCompleted(GraphResponse response) {
-//                        try {
-//                            String pageName = response.getJSONObject().getString("name");
-//                            tvTopic.setText(pageName);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//        request.executeAsync();
         return v;
     }
 }
