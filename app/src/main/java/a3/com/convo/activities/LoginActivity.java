@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                if (onSuccessCalled == false) {
+                if (!onSuccessCalled) {
                     Toast.makeText(context, "Logged in to facebook", Toast.LENGTH_LONG).show();
                     getUserInfo(loginResult.getAccessToken());
                     Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
