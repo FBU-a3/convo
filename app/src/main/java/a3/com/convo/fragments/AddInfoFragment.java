@@ -5,17 +5,21 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.adapters.AdditionalLikeAdapter;
@@ -68,12 +72,25 @@ public class AddInfoFragment extends Fragment {
             public void onClick(View view) {
                 String itemText = etNewLike.getText().toString();
                 //alAdapter.add(itemText);
-                additionalLikes.add(0, itemText);
-                alAdapter.notifyDataSetChanged();
-                ParseUser user = ParseUser.getCurrentUser();
-                user.add("otherLikes", itemText);
-                user.saveInBackground();
-                etNewLike.setText("");
+                final ParseUser user = ParseUser.getCurrentUser();
+                final Page newPage = Page.newInstance(null, itemText, null, null, null);
+                newPage.saveInBackground(new SaveCallback() {
+
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.e("LoginActivity", "Create page success");
+                            user.add("otherLikes", newPage.getObjectId());
+                            user.saveInBackground();
+                            additionalLikes.add(0, newPage.getName());
+                            alAdapter.notifyDataSetChanged();
+                            etNewLike.setText("");
+                        }
+                        else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 
@@ -100,5 +117,4 @@ public class AddInfoFragment extends Fragment {
         ParseUser user = ParseUser.getCurrentUser();
         additionalLikes.addAll(user.<String>getList("otherLikes"));
     }
-
 }
