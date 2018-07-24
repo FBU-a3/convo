@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
@@ -136,14 +138,14 @@ public class LoginActivity extends AppCompatActivity {
                             GraphResponse response) {
 
                         try {
-                            ParseUser user = ParseUser.getCurrentUser();
+                            final ParseUser user = ParseUser.getCurrentUser();
                             // initialize empty likes array
                             user.put("pageLikes", new ArrayList<String>());
                             // convert Json object into Json array
                             JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
 
                             for (int i = 0; i < likes.length(); i++) {
-                                JSONObject page = likes.optJSONObject(i);
+                                final JSONObject page = likes.optJSONObject(i);
                                 String id = page.optString("id");
 
                                 if (existingPages.containsKey(id)) {
@@ -154,8 +156,23 @@ public class LoginActivity extends AppCompatActivity {
                                     String category = page.optString("category");
                                     String name = page.optString("name");
                                     String coverUrl = page.getJSONObject("cover").optString("source");
-                                    String profUrl = page.getJSONObject("picture").optString("url");
-                                    Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category, user);
+                                    String profUrl = page.getJSONObject("picture").getJSONObject("data").optString("url");
+                                    final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
+
+                                    newPage.saveInBackground(new SaveCallback() {
+
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                Log.e("LoginActivity", "Create page success");
+                                                user.add("pageLikes", newPage.getObjectId());
+                                                user.saveInBackground();
+                                            }
+                                            else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
                                 }
                             }
                         } catch(Exception e){

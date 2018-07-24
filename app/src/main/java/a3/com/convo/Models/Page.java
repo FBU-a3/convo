@@ -1,37 +1,24 @@
 package a3.com.convo.Models;
 
-import android.util.Log;
+import android.support.annotation.Nullable;
 
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 @ParseClassName("Page")
 public class Page extends ParseObject{
 
-    public static Page newInstance(String pageId, String name, String profUrl, String coverUrl, String category, final ParseUser user) {
+    public static Page newInstance(@Nullable String pageId, String name, @Nullable String profUrl, @Nullable String coverUrl, @Nullable String category) {
         final Page page = new Page();
-        page.setPageId(pageId);
+        if (pageId != null)
+            page.setPageId(pageId);
         page.setName(name);
-        page.setProfUrl(profUrl);
-        page.setCoverUrl(coverUrl);
-        page.setCategory(category);
-        page.saveInBackground(new SaveCallback() {
-
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.e("LoginActivity", "Create page success");
-                    user.add("pageLikes", page.getObjectId());
-                    user.saveInBackground();
-                }
-                else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        if (profUrl != null)
+            page.setProfUrl(profUrl);
+        if (coverUrl != null)
+            page.setCoverUrl(coverUrl);
+        if (category != null)
+            page.setCategory(category);
         return page;
     }
 
