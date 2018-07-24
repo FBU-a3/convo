@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="79dp"
         android:text="Edit Profile"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="94dp" />
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="177dp"
+        android:layout_marginBottom="78dp"
         android:text="Log Out"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="373dp" />

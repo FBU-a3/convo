@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             // if user logged into facebook but not parse
             else {
                 // log them into Parse
-                getIdAndEmail(accessToken);
+                getUserInfo(accessToken);
             }
         }
 
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(context, "Logged in to facebook", Toast.LENGTH_LONG).show();
-                getIdAndEmail(loginResult.getAccessToken());
+                getUserInfo(loginResult.getAccessToken());
                 Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 startActivity(i);
             }
@@ -213,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void getIdAndEmail(final AccessToken access_token) {
+    protected void getUserInfo(final AccessToken access_token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 access_token,
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -223,6 +223,10 @@ public class LoginActivity extends AppCompatActivity {
                             final String id = object.getString("id");
                             final String email = object.getString("email");
                             final String name = object.getString("name");
+                            final JSONObject j = object.getJSONObject("picture");
+                            final JSONObject k = j.getJSONObject("data");
+                            final String profPicUrl = k.optString("url");
+//                            final String profPicUrl = object.getJSONObject("picture").getJSONObject("data").optString("picture"); // this doesn't work for some reason
                             ParseQuery<ParseUser> query = ParseUser.getQuery();
                             query.whereEqualTo("username", id);
                             query.findInBackground(new FindCallback<ParseUser>() {
@@ -231,11 +235,11 @@ public class LoginActivity extends AppCompatActivity {
                                     if (e == null) {
                                         // if the user doesn't exist
                                         if (objects.isEmpty()) {
-                                            signUpNewUser(id, email, name, access_token);
+                                            signUpNewUser(id, email, name, profPicUrl, access_token);
                                         }
                                         // if they're already in our server
                                         else {
-                                            logInUser(id, name, access_token);
+                                            logInUser(id, name, profPicUrl, access_token);
                                         }
                                     }
                                     else {
@@ -250,12 +254,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle permission_param = new Bundle();
-        permission_param.putString("fields", "id,name,email");
+        permission_param.putString("fields", "id,name,email,picture");
         request.setParameters(permission_param);
         request.executeAsync();
     }
 
-    protected void signUpNewUser(String id, String email, String name, final AccessToken access_token) {
+    protected void signUpNewUser(String id, String email, String name, final String profPicUrl, final AccessToken access_token) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
@@ -263,6 +267,7 @@ public class LoginActivity extends AppCompatActivity {
         user.setEmail(email);
         user.setPassword("password");
         user.put("name", name);
+        user.put("profPicUrl", profPicUrl);
         user.put("otherLikes", new ArrayList<String>());
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
@@ -279,12 +284,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void logInUser(String id, final String name, final AccessToken access_token) {
+    protected void logInUser(String id, final String name, final String profPicUrl, final AccessToken access_token) {
         ParseUser.logInInBackground(id, "password", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
                     user.put("name", name);
+                    user.put("profPicUrl", profPicUrl);
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
                 } else {
