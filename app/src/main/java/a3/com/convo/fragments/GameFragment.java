@@ -39,7 +39,6 @@ public class GameFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +52,7 @@ public class GameFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
+
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
         p1Likes = (ArrayList<String>) player1.get("pageLikes");
@@ -85,4 +85,32 @@ public class GameFragment extends Fragment {
     public void setFriend(String selectedFriend) {
         friend = selectedFriend;
     }
+
+//    // put together all the page likes from both players, then add in their manual likes
+//    private ArrayList<String> combineLikes() {
+//        // will just be a list of names of pages and other topics
+//        final ArrayList<String> combinedLikes = new ArrayList<>();
+//
+//        // add the manual likes
+//        combinedLikes.addAll((ArrayList<String>)player1.get("otherLikes"));
+//        combinedLikes.addAll((ArrayList<String>)player2.get("otherLikes"));
+//
+//        // query Parse for the pages they like (both players)
+//        for (int i = 0; i < p1Likes.size(); i++) {
+//            ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
+//            query.getInBackground(p1Likes.get(i), new GetCallback<Page>() {
+//                @Override
+//                public void done(Page object, ParseException e) {
+//                    if (e == null) {
+//                        combinedLikes.add(object.getName());
+//                    } else {
+//                        Log.e("GameFragment", "Error retrieving Page names");
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
+//
+//        return combinedLikes;
+//    }
 }

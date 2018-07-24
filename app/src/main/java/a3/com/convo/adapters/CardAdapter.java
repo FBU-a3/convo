@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -14,6 +15,7 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
+import a3.com.convo.GlideApp;
 import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 
@@ -54,6 +56,7 @@ public class CardAdapter extends BaseAdapter {
         }
 
         final TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
+        final ImageView ivCover = (ImageView) v.findViewById(R.id.ivCover);
 
         // get the page name associated with the id at that position in the array
         String objectId = getItem(i);
@@ -62,11 +65,14 @@ public class CardAdapter extends BaseAdapter {
         query.getInBackground(objectId, new GetCallback<Page>() {
             @Override
             public void done(Page object, ParseException e) {
-                Log.e("name error", object.toString());
                 if (e == null) {
                     tvTopic.setText(object.getName());
+
+                    // TODO: fix this, picture currently isn't showing up
+                    GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
                 }
                 else {
+                    Log.e("name error", object.toString());
                     e.printStackTrace();
                 }
             }

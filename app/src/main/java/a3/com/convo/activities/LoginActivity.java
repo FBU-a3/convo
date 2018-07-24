@@ -57,8 +57,12 @@ public class LoginActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Page>() {
             @Override
             public void done(List<Page> objects, ParseException e) {
-                for (Page page: objects) {
-                    existingPages.put(page.getPageId(), page.getObjectId());
+                if (e == null) {
+                    for (Page page: objects) {
+                        existingPages.put(page.getPageId(), page.getObjectId());
+                    }
+                } else {
+                    e.printStackTrace();
                 }
             }
         });
