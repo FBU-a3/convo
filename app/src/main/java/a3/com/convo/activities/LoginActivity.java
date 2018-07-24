@@ -189,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void getFriendsOnApp(AccessToken access_token) {
+        // TODO: add the friends' object IDs not facebook ids
         GraphRequest request = GraphRequest.newMyFriendsRequest(
                 access_token,
                 new GraphRequest.GraphJSONArrayCallback() {
