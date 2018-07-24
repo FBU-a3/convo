@@ -213,6 +213,8 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
+
+    
     protected void getUserInfo(final AccessToken access_token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 access_token,
@@ -296,5 +298,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 }
