@@ -68,11 +68,13 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
-                    // TODO: fix this, picture currently isn't showing up
-                    GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
+                    // TODO: takes far too long to load picture
+                    if (object.getPageId() != null && object.getPageId() != "") {
+                        GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
+                    }
                 }
                 else {
-                    Log.e("name error", object.toString());
+                    Log.e("name error", "Oops!");
                     e.printStackTrace();
                 }
             }
