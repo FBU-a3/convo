@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    
+
     protected void getUserInfo(final AccessToken access_token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 access_token,
