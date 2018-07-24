@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="timer_text_size">50sp</dimen>
+    <dimen name="game_padding">5dp</dimen>
+    <dimen name="game_margin_bottom">30dp</dimen>
+    <dimen name="card_spacing">15dp</dimen>
+</resources>

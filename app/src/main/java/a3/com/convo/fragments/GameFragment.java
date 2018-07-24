@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import com.parse.GetCallback;
@@ -19,6 +18,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.R;
 import a3.com.convo.adapters.CardAdapter;
@@ -40,7 +40,6 @@ public class GameFragment extends Fragment {
     CardAdapter adapter;
 
     // Overall game timer elements
-    CountDownTimer timer;
     TextView tvTimer;
 
     public GameFragment() {
@@ -52,7 +51,6 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         context = getContext();
-        Toast.makeText(context, "User selected: " + friend, Toast.LENGTH_SHORT).show();
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
@@ -61,23 +59,26 @@ public class GameFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-        timer = new CountDownTimer(120000, 1000) {
+        CountDownTimer timer = new CountDownTimer(120000, 1000) {
             @Override
             public void onTick(long l) {
-                // TODO: make this pretty
-                tvTimer.setText(l / 100000 + ":" + l / 1000);
+                tvTimer.setText(
+                        String.format(getString(R.string.timer_format), TimeUnit.MILLISECONDS.toMinutes(l),
+                                TimeUnit.MILLISECONDS.toSeconds(l)
+                                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+                );
             }
 
             @Override
             public void onFinish() {
-                tvTimer.setText("Game over!");
+                tvTimer.setText(R.string.game_over);
             }
         };
         timer.start();
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
-        p1Likes = (ArrayList<String>) player1.get("pageLikes");
+        p1Likes = (ArrayList<String>) player1.get(getString(R.string.page_likes));
 
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -87,7 +88,7 @@ public class GameFragment extends Fragment {
             public void done(ParseUser object, ParseException e) {
                 if (e == null) {
                     player2 = object;
-                    p2Likes = (ArrayList<String>) player2.get("pageLikes");
+                    p2Likes = (ArrayList<String>) player2.get(getString(R.string.page_likes));
 
                     // put together both player's likes and shuffle them
                     allLikes = new ArrayList<>();
