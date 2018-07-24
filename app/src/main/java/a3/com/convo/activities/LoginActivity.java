@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email"));
+                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
 
             }
         });
@@ -218,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             final String id = object.getString("id");
                             final String email = object.getString("email");
+                            final String name = object.getString("name");
                             ParseQuery<ParseUser> query = ParseUser.getQuery();
                             query.whereEqualTo("username", id);
                             query.findInBackground(new FindCallback<ParseUser>() {
@@ -226,11 +227,11 @@ public class LoginActivity extends AppCompatActivity {
                                     if (e == null) {
                                         // if the user doesn't exist
                                         if (objects.isEmpty()) {
-                                            signUpNewUser(id, email, access_token);
+                                            signUpNewUser(id, email, name, access_token);
                                         }
                                         // if they're already in our server
                                         else {
-                                            logInUser(id, access_token);
+                                            logInUser(id, name, access_token);
                                         }
                                     }
                                     else {
@@ -250,13 +251,14 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void signUpNewUser(String id, String email, final AccessToken access_token) {
+    protected void signUpNewUser(String id, String email, String name, final AccessToken access_token) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
         user.setUsername(id);
         user.setEmail(email);
         user.setPassword("password");
+        user.put("name", name);
         user.put("otherLikes", new ArrayList<String>());
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
@@ -273,12 +275,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void logInUser(String id, final AccessToken access_token) {
+    protected void logInUser(String id, final String name, final AccessToken access_token) {
         ParseUser.logInInBackground(id, "password", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
-
+                    user.put("name", name);
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
                 } else {
