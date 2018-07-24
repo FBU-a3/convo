@@ -60,7 +60,10 @@ public class AddInfoFragment extends Fragment {
 
         rvLikes = (RecyclerView) view.findViewById(R.id.rv_likes);
 
-        readInExistingLikes();
+        // read in existing likes
+        additionalLikes = new ArrayList<>();
+        ParseUser user = ParseUser.getCurrentUser();
+        additionalLikes.addAll(user.<String>getList("otherLikes"));
 
         alAdapter = new AdditionalLikeAdapter(additionalLikes);
         rvLikes.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -112,9 +115,4 @@ public class AddInfoFragment extends Fragment {
         });
     }
 
-    public void readInExistingLikes() {
-        additionalLikes = new ArrayList<>();
-        ParseUser user = ParseUser.getCurrentUser();
-        additionalLikes.addAll(user.<String>getList("otherLikes"));
-    }
 }
