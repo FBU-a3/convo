@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     LoginButton loginButton;
     CallbackManager callbackManager;
     Activity context;
+    boolean onSuccessCalled;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     HashMap<String, String> existingPages;
@@ -50,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // TODO fix this quick fix to on success being called twice
+        // onSuccess for login is being called twice even though login button onClick is called once
+        onSuccessCalled = false;
 
         context = this;
 
@@ -93,20 +97,26 @@ public class LoginActivity extends AppCompatActivity {
 
         // if user not logged in/signed up to facebook
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
 
             }
+
+
         });
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(context, "Logged in to facebook", Toast.LENGTH_LONG).show();
-                getUserInfo(loginResult.getAccessToken());
-                Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                startActivity(i);
+                if (onSuccessCalled == false) {
+                    Toast.makeText(context, "Logged in to facebook", Toast.LENGTH_LONG).show();
+                    getUserInfo(loginResult.getAccessToken());
+                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                    startActivity(i);
+                    onSuccessCalled = true;
+                }
             }
 
             @Override
@@ -120,7 +130,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -189,22 +198,36 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void getFriendsOnApp(AccessToken access_token) {
-        // TODO: add the friends' object IDs not facebook ids
         GraphRequest request = GraphRequest.newMyFriendsRequest(
                 access_token,
                 new GraphRequest.GraphJSONArrayCallback() {
                     @Override
                     public void onCompleted(JSONArray friends, GraphResponse response) {
                         try {
-                            ParseUser user = ParseUser.getCurrentUser();
+                            final ParseUser user = ParseUser.getCurrentUser();
                             // initialize empty likes array
                             user.put("friends", new ArrayList<String>());
                             for (int i = 0; i < friends.length(); i++) {
                                 JSONObject friend = friends.optJSONObject(i);
                                 String name = friend.optString("name");
-                                String id = friend.optString("id");
-                                user.add("friends", id);
-                                user.saveInBackground();
+                                final String id = friend.optString("id");
+                                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                                query.whereEqualTo("username", id);
+                                query.findInBackground(new FindCallback<ParseUser>() {
+                                    @Override
+                                    public void done(List<ParseUser> objects, ParseException e) {
+                                        if (e == null) {
+                                            // get the friend ParseUser with the username matching the friend of current user
+                                            ParseUser friend = objects.get(0);
+                                            String objectId = friend.getObjectId();
+                                            user.add("friends", objectId);
+                                            user.saveInBackground();
+                                        } else {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -213,8 +236,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
         request.executeAsync();
     }
-
-
     
     protected void getUserInfo(final AccessToken access_token) {
         GraphRequest request = GraphRequest.newMeRequest(
