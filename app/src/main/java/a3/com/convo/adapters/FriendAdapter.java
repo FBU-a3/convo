@@ -77,8 +77,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                             JSONObject json_object,
                             GraphResponse response) {
                         try {
-                            JSONArray picInfo = json_object.getJSONObject("picture").getJSONArray("data");
-                            String picURL = picInfo.optString(Integer.parseInt("url"));
+                            JSONObject picInfo = json_object.getJSONObject("picture").getJSONObject("data");
+                            String picURL = picInfo.optString("url");
                             GlideApp.with(context)
                                     .load(picURL)
                                     .circleCrop()

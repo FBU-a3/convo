@@ -9,17 +9,18 @@
 
     <Button
         android:id="@+id/start_game_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:text="START!" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:text="Freestyle" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/timedMode"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="TextView" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="250dp"
+        android:text="Timed" />
+
 </RelativeLayout>
