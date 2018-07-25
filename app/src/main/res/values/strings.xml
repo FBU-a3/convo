@@ -4,4 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_message">Logged in to facebook</string>
+    <string name="add_more_likes">Add More Likes</string>
+    <string name="your_hometown">Your Hometown</string>
+    <string name="your_name">Your Name</string>
 </resources>

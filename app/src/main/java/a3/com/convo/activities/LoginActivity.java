@@ -80,13 +80,13 @@ public class LoginActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Page>() {
             @Override
             public void done(List<Page> objects, ParseException e) {
-                if (e == null) {
-                    assert !objects.isEmpty();
+                if (objects != null && !objects.isEmpty()) {
                     for (Page page: objects) {
                         existingPages.put(page.getPageId(), page.getObjectId());
                     }
                 } else {
-                    e.printStackTrace();
+                    // there are no pages in the parse server so hash map stays empty
+                    Log.e("LoginActivity","no pages in the server");
                 }
             }
         });
@@ -163,48 +163,52 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject json_object,
                             GraphResponse response) {
-                        assert json_object != null;
+                        final ParseUser user = ParseUser.getCurrentUser();
+                        // initialize empty likes array
+                        user.put(PAGE_LIKES, new ArrayList<String>());
+                        if (json_object != null) {
+                            try {
+                                // convert Json object into Json array
+                                JSONArray likes = json_object.getJSONObject(LIKES).optJSONArray(DATA);
 
-                        try {
-                            final ParseUser user = ParseUser.getCurrentUser();
-                            // initialize empty likes array
-                            user.put(PAGE_LIKES, new ArrayList<String>());
-                            // convert Json object into Json array
-                            JSONArray likes = json_object.getJSONObject(LIKES).optJSONArray(DATA);
+                                for (int i = 0; i < likes.length(); i++) {
+                                    final JSONObject page = likes.optJSONObject(i);
+                                    String id = page.optString(ID);
 
-                            for (int i = 0; i < likes.length(); i++) {
-                                final JSONObject page = likes.optJSONObject(i);
-                                String id = page.optString(ID);
+                                    if (existingPages.containsKey(id)) {
+                                        // page already exists in Parse, so we just get the object id and add it to their likes array
+                                        user.add(PAGE_LIKES, existingPages.get(id));
+                                    } else {
+                                        // doesn't exist yet, so we add it to the server
+                                        String category = page.optString(CATEGORY);
+                                        String name = page.optString(NAME);
+                                        String coverUrl = page.getJSONObject(COVER).optString(SOURCE);
+                                        String profUrl = page.getJSONObject(PICTURE).getJSONObject(DATA).optString(URL);
+                                        final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
 
-                                if (existingPages.containsKey(id)) {
-                                    // page already exists in Parse, so we just get the object id and add it to their likes array
-                                    user.add(PAGE_LIKES, existingPages.get(id));
-                                } else {
-                                    // doesn't exist yet, so we add it to the server
-                                    String category = page.optString(CATEGORY);
-                                    String name = page.optString(NAME);
-                                    String coverUrl = page.getJSONObject(COVER).optString(SOURCE);
-                                    String profUrl = page.getJSONObject(PICTURE).getJSONObject(DATA).optString(URL);
-                                    final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
+                                        newPage.saveInBackground(new SaveCallback() {
 
-                                    newPage.saveInBackground(new SaveCallback() {
-
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (e == null) {
-                                                Log.e("LoginActivity", "Create page success");
-                                                user.add(PAGE_LIKES, newPage.getObjectId());
-                                                user.saveInBackground();
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    Log.e("LoginActivity", "Create page success");
+                                                    user.add(PAGE_LIKES, newPage.getObjectId());
+                                                    user.saveInBackground();
+                                                } else {
+                                                    e.printStackTrace();
+                                                }
                                             }
-                                            else {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
+                                        });
+                                    }
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch(Exception e){
-                            e.printStackTrace();
+                        }
+                        else {
+                            // for some reason, API request to facebook to fetch liked page info
+                            // failed, continue without updated information.
+                            Log.e("LoginActivity", "API Request to facebook failed.");
                         }
                     }
                 });
