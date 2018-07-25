@@ -35,19 +35,19 @@ import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
-    Context context;
+    private static Context context;
     // Your friends usernames
     private ArrayList<String> myFriends;
     // Selected position on RV/selected friend(s)
     private int selectedPos = RecyclerView.NO_POSITION;
-    String selectedFriend;
+    private String selectedFriend;
     // For display
-    ParseUser currentFriend;
-    String profPic, name;
+    private ParseUser currentFriend;
+    private String profPic, name;
     // Parse columns
-    static String username = "username";
-    static String profPicUrl = "profPicUrl";
-    static String fullName = "name";
+    private static final String username = "username";
+    private static final String profPicUrl = "profPicUrl";
+    private static final String fullName = "name";
 
     // Brings friends in to adjust into RV
     public FriendAdapter(ArrayList<String> friends) {
@@ -62,14 +62,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View friendView = inflater.inflate(R.layout.item_friend, parent, false);
-        ViewHolder viewHolder = new ViewHolder(friendView);
-        return viewHolder;
+        return new ViewHolder(friendView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, int position) {
         holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229,229,229) : Color.TRANSPARENT);
-        // Get friend TODO - Check if position in array is null/empty.
+        // Get friend
         final String friend = myFriends.get(position);
         // Find friend in background
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -77,8 +76,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
-                // TODO - Should I check if empty or if null?
-                if (e == null && !objects.isEmpty()) {
+                if (objects != null && !objects.isEmpty()) {
                     // Get object's values from parse
                     currentFriend = objects.get(0);
                     profPic = currentFriend.getString(profPicUrl);
