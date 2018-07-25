@@ -65,7 +65,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(
-                        String.format(getString(R.string.timer_format), TimeUnit.MILLISECONDS.toMinutes(l),
+                        String.format(context.getResources().getString(R.string.timer_format), TimeUnit.MILLISECONDS.toMinutes(l),
                                 TimeUnit.MILLISECONDS.toSeconds(l)
                                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
                 );
