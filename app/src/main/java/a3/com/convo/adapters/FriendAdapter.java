@@ -43,11 +43,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     private String selectedFriend;
     // For display
     private ParseUser currentFriend;
-    private String profPic, name;
+    private String profPic;
+    private String name;
     // Parse columns
-    private static final String username = "username";
-    private static final String profPicUrl = "profPicUrl";
-    private static final String fullName = "name";
+    private static final String USERNAME = "username";
+    private static final String PROFPICURL = "profPicUrl";
+    private static final String FULLNAME = "name";
 
     // Brings friends in to adjust into RV
     public FriendAdapter(ArrayList<String> friends) {
@@ -72,15 +73,15 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         final String friend = myFriends.get(position);
         // Find friend in background
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo(username, friend);
+        query.whereEqualTo(USERNAME, friend);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 if (objects != null && !objects.isEmpty()) {
                     // Get object's values from parse
                     currentFriend = objects.get(0);
-                    profPic = currentFriend.getString(profPicUrl);
-                    name = currentFriend.getString(fullName);
+                    profPic = currentFriend.getString(PROFPICURL);
+                    name = currentFriend.getString(FULLNAME);
 
                     // Set friend's photo
                     if(profPic != null && context != null && holder.ivFriend != null) {
