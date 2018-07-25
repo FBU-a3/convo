@@ -35,7 +35,7 @@ import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
-    private static Context context;
+    private Context context;
     // Your friends usernames
     private ArrayList<String> myFriends;
     // Selected position on RV/selected friend(s)
