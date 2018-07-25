@@ -59,7 +59,7 @@ public class GameFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-        CountDownTimer timer = new CountDownTimer(120000, 1000) {
+        CountDownTimer timer = new CountDownTimer(300000, 1000) {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(

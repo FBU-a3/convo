@@ -1,6 +1,7 @@
 package a3.com.convo.adapters;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.GlideApp;
 import a3.com.convo.Models.Page;
@@ -57,6 +59,7 @@ public class CardAdapter extends BaseAdapter {
 
         final TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
         final ImageView ivCover = (ImageView) v.findViewById(R.id.ivCover);
+        final TextView tvTime = (TextView) v.findViewById(R.id.tvTime);
 
         // get the page name associated with the id at that position in the array
         String objectId = getItem(i);
@@ -67,6 +70,24 @@ public class CardAdapter extends BaseAdapter {
             public void done(Page object, ParseException e) {
                 if (e == null) {
                     tvTopic.setText(object.getName());
+
+                    CountDownTimer timer = new CountDownTimer(30000, 1000) {
+                        @Override
+                        public void onTick(long l) {
+                            tvTime.setText(
+                                    String.format(context.getResources().getString(R.string.timer_format),
+                                            TimeUnit.MILLISECONDS.toMinutes(l),
+                                            TimeUnit.MILLISECONDS.toSeconds(l)
+                                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+                            );
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            tvTime.setText(R.string.game_over);
+                        }
+                    };
+                    timer.start();
 
                     // TODO: takes far too long to load picture
                     if (object.getPageId() != null && object.getPageId() != "") {
