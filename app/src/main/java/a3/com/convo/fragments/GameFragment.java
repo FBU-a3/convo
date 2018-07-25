@@ -33,12 +33,10 @@ public class GameFragment extends Fragment {
     // objectId of the other player
     private String friend;
 
-    private static final String PAGE_LIKES = "pageLikes";
-
     private ParseUser player1;
-    private ArrayList<String> p1Likes;
+    private ArrayList<String> player1Likes;
     private ParseUser player2;
-    private ArrayList<String> p2Likes;
+    private ArrayList<String> player2Likes;
     private ArrayList<String> allLikes;
     private CardAdapter adapter;
 
@@ -81,23 +79,23 @@ public class GameFragment extends Fragment {
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
-        p1Likes = (ArrayList<String>) player1.get(PAGE_LIKES);
+        player1Likes = (ArrayList<String>) player1.get(Constants.PAGE_LIKES);
 
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-        if (!friend.equals("")) {
+        if (!friend.equals(Constants.EMPTY_STRING)) {
             query.getInBackground(friend, new GetCallback<ParseUser>() {
                 @Override
                 public void done(ParseUser object, ParseException e) {
-                    if (e == null) {
+                    if (object != null) {
                         player2 = object;
-                        p2Likes = (ArrayList<String>) player2.get(PAGE_LIKES);
+                        player2Likes = (ArrayList<String>) player2.get(Constants.PAGE_LIKES);
 
                         // put together both player's likes and shuffle them
                         allLikes = new ArrayList<>();
-                        allLikes.addAll(p1Likes);
-                        allLikes.addAll(p2Likes);
+                        allLikes.addAll(player1Likes);
+                        allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
                         adapter = new CardAdapter(allLikes, context);

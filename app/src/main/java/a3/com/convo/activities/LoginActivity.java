@@ -34,17 +34,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import a3.com.convo.Constants;
 import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    LoginButton loginButton;
-    CallbackManager callbackManager;
-    Activity context;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
+    private Activity context;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
-    HashMap<String, String> existingPages;
+    private HashMap<String, String> existingPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
-        query.whereExists("objectId");
+        query.whereExists(Constants.PARSE_OBJECT_ID_KEY);
         query.findInBackground(new FindCallback<Page>() {
             @Override
             public void done(List<Page> objects, ParseException e) {
@@ -97,7 +98,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(context,
-                        Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
+                        Arrays.asList(Constants.USER_LIKES,
+                                Constants.USER_FRIENDS,
+                                Constants.EMAIL,
+                                Constants.USER_HOMETOWN,
+                                Constants.USER_LOCATION,
+                                Constants.USER_TAGGED_PLACES));
 
             }
         });
@@ -145,24 +151,24 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             final ParseUser user = ParseUser.getCurrentUser();
                             // initialize empty likes array
-                            user.put("pageLikes", new ArrayList<String>());
+                            user.put(Constants.PARSE_PAGE_LIKES_KEY, new ArrayList<String>());
                             // convert Json object into Json array
-                            JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
+                            JSONArray likes = json_object.getJSONObject(Constants.LIKES_KEY).optJSONArray(Constants.DATA_KEY);
 
                             // for each page, add it to our server if it's not there and add it to the user's likes array
                             for (int i = 0; i < likes.length(); i++) {
                                 final JSONObject page = likes.optJSONObject(i);
-                                String id = page.optString("id");
+                                String id = page.optString(Constants.ID_KEY);
 
                                 if (existingPages.containsKey(id)) {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
-                                    user.add("pageLikes", existingPages.get(id));
+                                    user.add(Constants.PARSE_PAGE_LIKES_KEY, existingPages.get(id));
                                 } else {
                                     // page doesn't exist yet, so we add it to the server
-                                    String category = page.optString("category");
-                                    String name = page.optString("name");
-                                    String coverUrl = page.getJSONObject("cover").optString("source");
-                                    String profUrl = page.getJSONObject("picture").getJSONObject("data").optString("url");
+                                    String category = page.optString(Constants.CATEGORY_KEY);
+                                    String name = page.optString(Constants.NAME);
+                                    String coverUrl = page.getJSONObject(Constants.COVER).optString(Constants.SOURCE);
+                                    String profUrl = page.getJSONObject(Constants.PICTURE).getJSONObject(Constants.DATA_KEY).optString(Constants.URL);
                                     final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
 
                                     newPage.saveInBackground(new SaveCallback() {
@@ -171,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                                         public void done(ParseException e) {
                                             if (e == null) {
                                                 Log.e("LoginActivity", "Create page success");
-                                                user.add("pageLikes", newPage.getObjectId());
+                                                user.add(Constants.PARSE_PAGE_LIKES_KEY, newPage.getObjectId());
                                                 user.saveInBackground();
                                             }
                                             else {
@@ -189,9 +195,9 @@ public class LoginActivity extends AppCompatActivity {
 
         Bundle permission_param = new Bundle();
         // add fields to get the details of liked pages
-        permission_param.putString("fields", "likes{id,category,name,location,likes,cover,picture}");
+        permission_param.putString(Constants.FIELDS, Constants.GET_LIKES_FIELDS);
         // grab more than 25 pages
-        permission_param.putString("limit", "50");
+        permission_param.putString(Constants.LIMIT, Integer.toString(Constants.LIKES_LIMIT));
         data_request.setParameters(permission_param);
         data_request.executeAsync();
     }
@@ -206,12 +212,12 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             ParseUser user = ParseUser.getCurrentUser();
                             // initialize empty likes array
-                            user.put("friends", new ArrayList<String>());
+                            user.put(Constants.PARSE_FRIENDS_KEY, new ArrayList<String>());
                             for (int i = 0; i < friends.length(); i++) {
                                 JSONObject friend = friends.optJSONObject(i);
-                                String name = friend.optString("name");
-                                String id = friend.optString("id");
-                                user.add("friends", id);
+                                String name = friend.optString(Constants.NAME);
+                                String id = friend.optString(Constants.ID_KEY);
+                                user.add(Constants.PARSE_FRIENDS_KEY, id);
                                 user.saveInBackground();
                             }
                         } catch (Exception e) {
@@ -231,12 +237,12 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
-                            final String id = object.getString("id");
-                            final String email = object.getString("email");
-                            final String name = object.getString("name");
-                            final String profPicUrl = object.getJSONObject("picture").getJSONObject("data").optString("url");
+                            final String id = object.getString(Constants.ID_KEY);
+                            final String email = object.getString(Constants.EMAIL);
+                            final String name = object.getString(Constants.NAME);
+                            final String profPicUrl = object.getJSONObject(Constants.PICTURE).getJSONObject(Constants.DATA_KEY).optString(Constants.URL);
                             ParseQuery<ParseUser> query = ParseUser.getQuery();
-                            query.whereEqualTo("username", id);
+                            query.whereEqualTo(Constants.USERNAME, id);
                             query.findInBackground(new FindCallback<ParseUser>() {
                                 @Override
                                 public void done(List<ParseUser> objects, ParseException e) {
@@ -262,7 +268,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle permission_param = new Bundle();
-        permission_param.putString("fields", "id,name,email,picture");
+        permission_param.putString(Constants.FIELDS, Constants.GET_USER_FIELDS);
         request.setParameters(permission_param);
         request.executeAsync();
     }
@@ -273,10 +279,10 @@ public class LoginActivity extends AppCompatActivity {
         // Set core properties
         user.setUsername(id);
         user.setEmail(email);
-        user.setPassword("password");
-        user.put("name", name);
-        user.put("profPicUrl", profPicUrl);
-        user.put("otherLikes", new ArrayList<String>());
+        user.setPassword(Constants.PASSWORD);
+        user.put(Constants.NAME, name);
+        user.put(Constants.PROF_PIC_URL, profPicUrl);
+        user.put(Constants.OTHER_LIKES, new ArrayList<String>());
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -293,12 +299,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void logInUser(String id, final String name, final String profPicUrl, final AccessToken access_token) {
-        ParseUser.logInInBackground(id, "password", new LogInCallback() {
+        ParseUser.logInInBackground(id, Constants.PASSWORD, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
-                    user.put("name", name);
-                    user.put("profPicUrl", profPicUrl);
+                    user.put(Constants.NAME, name);
+                    user.put(Constants.PROF_PIC_URL, profPicUrl);
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
                 } else {
