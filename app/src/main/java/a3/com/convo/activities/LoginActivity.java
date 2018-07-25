@@ -223,7 +223,10 @@ public class LoginActivity extends AppCompatActivity {
                             final String id = object.getString("id");
                             final String email = object.getString("email");
                             final String name = object.getString("name");
-                            final String profPicUrl = object.getJSONObject("picture").getJSONObject("data").optString("url");
+                            final JSONObject j = object.getJSONObject("picture");
+                            final JSONObject k = j.getJSONObject("data");
+                            final String profPicUrl = k.optString("url");
+//                            final String profPicUrl = object.getJSONObject("picture").getJSONObject("data").optString("picture"); // this doesn't work for some reason
                             ParseQuery<ParseUser> query = ParseUser.getQuery();
                             query.whereEqualTo("username", id);
                             query.findInBackground(new FindCallback<ParseUser>() {

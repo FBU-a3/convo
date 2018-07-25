@@ -44,7 +44,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     // For display
     ParseUser currentFriend;
     String profPic, name;
-
+    // Parse columns
+    static String username = "username";
+    static String profPicUrl = "profPicUrl";
+    static String fullName = "name";
 
     // Brings friends in to adjust into RV
     public FriendAdapter(ArrayList<String> friends) {
@@ -66,22 +69,23 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, int position) {
         holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229,229,229) : Color.TRANSPARENT);
-        // Get friend
+        // Get friend TODO - Check if position in array is null/empty.
         final String friend = myFriends.get(position);
         // Find friend in background
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", friend);
+        query.whereEqualTo(username, friend);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
-                if (e == null) {
+                // TODO - Should I check if empty or if null?
+                if (e == null && !objects.isEmpty()) {
                     // Get object's values from parse
                     currentFriend = objects.get(0);
-                    profPic = currentFriend.getString("profPicUrl");
-                    name = currentFriend.getString("name");
+                    profPic = currentFriend.getString(profPicUrl);
+                    name = currentFriend.getString(fullName);
 
                     // Set friend's photo
-                    if(profPic != null) {
+                    if(profPic != null && context != null && holder.ivFriend != null) {
                         GlideApp.with(context)
                                 .load(profPic)
                                 .circleCrop()
@@ -91,6 +95,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                     // Set friends name
                     holder.tvFriend.setText(name);
                 } else {
+                    Toast.makeText(context, "Objects may be empty.", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
