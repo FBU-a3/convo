@@ -43,23 +43,23 @@ public class LoginActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     Activity context;
     boolean onSuccessCalled;
-    public static final String NAME = "name";
-    public static final String ID = "id";
-    public static final String OBJECT_ID = "objectId";
-    public static final String PAGE_LIKES = "pageLikes";
-    public static final String LIKES = "likes";
-    public static final String CATEGORY = "category";
-    public static final String COVER = "cover";
-    public static final String SOURCE = "source";
-    public static final String DATA = "data";
-    public static final String PICTURE = "picture";
-    public static final String URL = "url";
-    public static final String FRIENDS = "friends";
-    public static final String USERNAME = "username";
-    public static final String EMAIL = "email";
-    public static final String PASSWORD = "password";
-    public static final String PROF_PIC_URL = "profPicUrl";
-    public static final String OTHER_LIKES = "otherLikes";
+    private static final String NAME = "name";
+    private static final String ID = "id";
+    private static final String OBJECT_ID = "objectId";
+    private static final String PAGE_LIKES = "pageLikes";
+    private static final String LIKES = "likes";
+    private static final String CATEGORY = "category";
+    private static final String COVER = "cover";
+    private static final String SOURCE = "source";
+    private static final String DATA = "data";
+    private static final String PICTURE = "picture";
+    private static final String URL = "url";
+    private static final String FRIENDS = "friends";
+    private static final String USERNAME = "username";
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
+    private static final String PROF_PIC_URL = "profPicUrl";
+    private static final String OTHER_LIKES = "otherLikes";
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     HashMap<String, String> existingPages;
@@ -235,7 +235,7 @@ public class LoginActivity extends AppCompatActivity {
                                 query.findInBackground(new FindCallback<ParseUser>() {
                                     @Override
                                     public void done(List<ParseUser> objects, ParseException e) {
-                                        if (e == null) {
+                                        if (objects != null && objects.size() == 1) {
                                             assert objects.size() == 1;
                                             // get the friend ParseUser with the username matching the friend of current user
                                             ParseUser friend = objects.get(0);
@@ -244,7 +244,10 @@ public class LoginActivity extends AppCompatActivity {
                                             user.add(FRIENDS, objectId);
                                             user.saveInBackground();
                                         } else {
-                                            e.printStackTrace();
+                                            // if the user has a friend on the app that is for some
+                                            // reason not on the server as well, skip adding that
+                                            // friend and continue
+                                            Log.e("LoginActivity", "Friend with facebook id " + id + " could not be found on Parse server.");
                                         }
                                     }
                                 });
