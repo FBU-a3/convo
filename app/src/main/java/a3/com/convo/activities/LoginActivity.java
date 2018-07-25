@@ -240,10 +240,8 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void done(List<ParseUser> objects, ParseException e) {
                                         if (objects != null && objects.size() == 1) {
-                                            assert objects.size() == 1;
                                             // get the friend ParseUser with the username matching the friend of current user
                                             ParseUser friend = objects.get(0);
-                                            assert friend != null;
                                             String objectId = friend.getObjectId();
                                             user.add(FRIENDS, objectId);
                                             user.saveInBackground();
