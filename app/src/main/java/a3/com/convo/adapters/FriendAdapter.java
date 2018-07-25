@@ -46,9 +46,9 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     private String profPic;
     private String name;
     // Parse columns
-    private static final String USERNAME = "username";
-    private static final String PROFPICURL = "profPicUrl";
-    private static final String FULLNAME = "name";
+    private static final String USER_NAME = "username";
+    private static final String PROF_PIC_URL = "profPicUrl";
+    private static final String FULL_NAME = "name";
 
     // Brings friends in to adjust into RV
     public FriendAdapter(ArrayList<String> friends) {
@@ -67,24 +67,29 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, int position) {
-        holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229,229,229) : Color.TRANSPARENT);
-        // Get friend
-        final String friend = myFriends.get(position);
+    public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, @NonNull int position) {
+        String friend = null;
+        // Check if position on view holder is less than/equal to array size
+        if (position <= myFriends.size()) {
+            // Highlights clicked item view
+            holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229, 229, 229) : Color.TRANSPARENT);
+            // Get friend
+            friend = myFriends.get(position);
+        }
         // Find friend in background
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo(USERNAME, friend);
+        query.whereEqualTo(USER_NAME, friend);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 if (objects != null && !objects.isEmpty()) {
                     // Get object's values from parse
                     currentFriend = objects.get(0);
-                    profPic = currentFriend.getString(PROFPICURL);
-                    name = currentFriend.getString(FULLNAME);
+                    profPic = currentFriend.getString(PROF_PIC_URL);
+                    name = currentFriend.getString(FULL_NAME);
 
                     // Set friend's photo
-                    if(profPic != null && context != null && holder.ivFriend != null) {
+                    if (profPic != null && context != null && holder.ivFriend != null) {
                         GlideApp.with(context)
                                 .load(profPic)
                                 .circleCrop()
