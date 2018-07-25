@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.adapters.CardAdapter;
 
@@ -27,22 +28,20 @@ import a3.com.convo.adapters.CardAdapter;
 public class GameFragment extends Fragment {
 
     private Context context;
-    SwipeDeck cardStack;
+    private SwipeDeck cardStack;
 
     // objectId of the other player
     private String friend;
 
     private static final String PAGE_LIKES = "pageLikes";
 
-    ParseUser player1;
-    ArrayList<String> p1Likes;
-    ParseUser player2;
-    ArrayList<String> p2Likes;
-    ArrayList<String> allLikes;
-    CardAdapter adapter;
+    private ParseUser player1;
+    private ArrayList<String> p1Likes;
+    private ParseUser player2;
+    private ArrayList<String> p2Likes;
+    private ArrayList<String> allLikes;
+    private CardAdapter adapter;
 
-    // Overall game timer elements
-    TextView tvTimer;
 
     public GameFragment() {
         // Required empty public constructor
@@ -60,8 +59,10 @@ public class GameFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
-        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-        CountDownTimer timer = new CountDownTimer(300000, 1000) {
+
+        // Overall game timer elements
+        final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
+        CountDownTimer timer = new CountDownTimer(Constants.GAME_TIME, Constants.TIMER_INTERVAL) {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(
@@ -85,26 +86,28 @@ public class GameFragment extends Fragment {
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-        query.getInBackground(friend, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if (e == null) {
-                    player2 = object;
-                    p2Likes = (ArrayList<String>) player2.get(PAGE_LIKES);
+        if (!friend.equals("")) {
+            query.getInBackground(friend, new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser object, ParseException e) {
+                    if (e == null) {
+                        player2 = object;
+                        p2Likes = (ArrayList<String>) player2.get(PAGE_LIKES);
 
-                    // put together both player's likes and shuffle them
-                    allLikes = new ArrayList<>();
-                    allLikes.addAll(p1Likes);
-                    allLikes.addAll(p2Likes);
-                    Collections.shuffle(allLikes);
+                        // put together both player's likes and shuffle them
+                        allLikes = new ArrayList<>();
+                        allLikes.addAll(p1Likes);
+                        allLikes.addAll(p2Likes);
+                        Collections.shuffle(allLikes);
 
-                    adapter = new CardAdapter(allLikes, context);
-                    cardStack.setAdapter(adapter);
-                } else {
-                    e.printStackTrace();
+                        adapter = new CardAdapter(allLikes, context);
+                        cardStack.setAdapter(adapter);
+                    } else {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void setFriend(String selectedFriend) {

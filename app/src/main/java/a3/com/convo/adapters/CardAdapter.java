@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
 import a3.com.convo.Models.Page;
 import a3.com.convo.R;
@@ -71,7 +72,7 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
-                    CountDownTimer timer = new CountDownTimer(30000, 1000) {
+                    CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
                         @Override
                         public void onTick(long l) {
                             tvTime.setText(
@@ -84,7 +85,7 @@ public class CardAdapter extends BaseAdapter {
 
                         @Override
                         public void onFinish() {
-                            tvTime.setText(R.string.game_over);
+                            tvTime.setText(R.string.next_card);
                         }
                     };
                     timer.start();

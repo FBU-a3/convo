@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         context = this;
 
+        // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
         query.whereExists("objectId");
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // check to see if the user is already logged in
         loginButton = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -76,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isLoggedIn) {
             ParseUser user = ParseUser.getCurrentUser();
-            // if user logged into facebook and parse
+            // if user logged into Facebook and Parse, then refresh their info and send them to the home screen
             if (user != null) {
                 getLikedPageInfo(accessToken);
                 getFriendsOnApp(accessToken);
@@ -84,18 +86,18 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-            // if user logged into facebook but not parse
+            // if user logged into Facebook but not Parse, then get their info and log them into Parse
             else {
-                // log them into Parse
                 getUserInfo(accessToken);
             }
         }
 
-        // if user not logged in/signed up to facebook
+        // if user is not logged in/signed up to Facebook, the button shows up
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
+                LoginManager.getInstance().logInWithReadPermissions(context,
+                        Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
 
             }
         });
@@ -111,23 +113,26 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                // App code
+                Log.e("LoginActivity", "Facebook login cancelled");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Log.e("LoginActivity", "Facebook login error: " + exception.toString());
+                exception.printStackTrace();
             }
         });
     }
 
 
+    // called when Facebook login returns
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    // pulls a user's likes from the Graph API "likes" edge
     protected void getLikedPageInfo(AccessToken access_token) {
         GraphRequest data_request = GraphRequest.newMeRequest(
                 access_token,
@@ -144,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                             // convert Json object into Json array
                             JSONArray likes = json_object.getJSONObject("likes").optJSONArray("data");
 
+                            // for each page, add it to our server if it's not there and add it to the user's likes array
                             for (int i = 0; i < likes.length(); i++) {
                                 final JSONObject page = likes.optJSONObject(i);
                                 String id = page.optString("id");
@@ -152,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
                                     user.add("pageLikes", existingPages.get(id));
                                 } else {
-                                    // doesn't exist yet, so we add it to the server
+                                    // page doesn't exist yet, so we add it to the server
                                     String category = page.optString("category");
                                     String name = page.optString("name");
                                     String coverUrl = page.getJSONObject("cover").optString("source");
@@ -182,11 +188,14 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
         Bundle permission_param = new Bundle();
-        // add the field to get the details of liked pages
+        // add fields to get the details of liked pages
         permission_param.putString("fields", "likes{id,category,name,location,likes,cover,picture}");
+        // grab more than 25 pages
+        permission_param.putString("limit", "50");
         data_request.setParameters(permission_param);
         data_request.executeAsync();
     }
+
 
     protected void getFriendsOnApp(AccessToken access_token) {
         GraphRequest request = GraphRequest.newMyFriendsRequest(

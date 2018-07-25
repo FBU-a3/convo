@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Convo</string>
     <string name="game_over">Game over!</string>
+    <string name="next_card">onto the next one</string>
     <string name="timer_text">Timer</string>
     <string name="timer_format">%d:%d</string>
     <string name="loading">Loading...</string>
