@@ -3,6 +3,7 @@ package a3.com.convo.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -76,17 +77,25 @@ public class LoginActivity extends AppCompatActivity {
 
         existingPages = new HashMap<>();
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
+        if (query == null) {
+            Log.e("LoginActivity", "Query was null");
+            return;
+        }
         query.whereExists(OBJECT_ID);
         query.findInBackground(new FindCallback<Page>() {
             @Override
             public void done(List<Page> objects, ParseException e) {
-                if (objects != null && !objects.isEmpty()) {
-                    for (Page page: objects) {
-                        existingPages.put(page.getPageId(), page.getObjectId());
-                    }
-                } else {
+                if (objects == null || objects.isEmpty()) {
                     // there are no pages in the parse server so hash map stays empty
-                    Log.e("LoginActivity","no pages in the server");
+                    Log.e("LoginActivity", "no pages in the server or query failed because objects was empty.");
+                    return;
+                }
+                for (Page page : objects) {
+                    if (page == null || page.getPageId() == null || page.getObjectId() == null) {
+                        Log.e("LoginActivity", "Page is null");
+                        return;
+                    }
+                    existingPages.put(page.getPageId(), page.getObjectId());
                 }
             }
         });
@@ -115,14 +124,15 @@ public class LoginActivity extends AppCompatActivity {
 
         // if user not logged in/signed up to facebook
         loginButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
-
+                LoginManager lm = LoginManager.getInstance();
+                if (lm == null) {
+                    Log.e("LoginActivity", "LoginManager is null");
+                    return;
+                }
+                lm.logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
             }
-
-
         });
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -130,7 +140,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 if (!onSuccessCalled) {
                     Toast.makeText(context, R.string.login_message, Toast.LENGTH_LONG).show();
-                    getUserInfo(loginResult.getAccessToken());
+                    AccessToken at = loginResult.getAccessToken();
+                    if (at == null) {
+                        Log.e("LoginActivity", "AccessToken at was null.");
+                        return;
+                    }
+                    getUserInfo(at);
                     Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                     startActivity(i);
                     onSuccessCalled = true;
@@ -164,51 +179,97 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject json_object,
                             GraphResponse response) {
                         final ParseUser user = ParseUser.getCurrentUser();
+                        if (user == null) {
+                            Log.e("LoginActivity", "The user was somehow automatically logged out of Parse after being logged in.");
+                            return;
+                        }
                         // initialize empty likes array
                         user.put(PAGE_LIKES, new ArrayList<String>());
-                        if (json_object != null) {
-                            try {
-                                // convert Json object into Json array
-                                JSONArray likes = json_object.getJSONObject(LIKES).optJSONArray(DATA);
-
-                                for (int i = 0; i < likes.length(); i++) {
-                                    final JSONObject page = likes.optJSONObject(i);
-                                    String id = page.optString(ID);
-
-                                    if (existingPages.containsKey(id)) {
-                                        // page already exists in Parse, so we just get the object id and add it to their likes array
-                                        user.add(PAGE_LIKES, existingPages.get(id));
-                                    } else {
-                                        // doesn't exist yet, so we add it to the server
-                                        String category = page.optString(CATEGORY);
-                                        String name = page.optString(NAME);
-                                        String coverUrl = page.getJSONObject(COVER).optString(SOURCE);
-                                        String profUrl = page.getJSONObject(PICTURE).getJSONObject(DATA).optString(URL);
-                                        final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
-
-                                        newPage.saveInBackground(new SaveCallback() {
-
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e == null) {
-                                                    Log.e("LoginActivity", "Create page success");
-                                                    user.add(PAGE_LIKES, newPage.getObjectId());
-                                                    user.saveInBackground();
-                                                } else {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                        if (json_object == null) {
+                            // API request to facebook to fetch liked page info failed
+                            Log.e("LoginActivity", "API Request to facebook for liked page info failed.");
+                            return;
                         }
-                        else {
-                            // for some reason, API request to facebook to fetch liked page info
-                            // failed, continue without updated information.
-                            Log.e("LoginActivity", "API Request to facebook failed.");
+                        try {
+                            // convert Json object into Json array
+                            JSONObject likes_data = json_object.getJSONObject(LIKES);
+                            if (likes_data == null) {
+                                Log.e("LoginActivity", "likes_data is null.");
+                                return;
+                            }
+                            JSONArray likes = likes_data.optJSONArray(DATA);
+                            if (likes == null){
+                                Log.e("LoginActivity", "User does not have page likes field.");
+                                return;
+                            }
+                            for (int i = 0; i < likes.length(); i++) {
+                                final JSONObject page = likes.optJSONObject(i);
+                                if (page == null) {
+                                    Log.e("LoginActivity", "The page fetched from facebook is null.");
+                                    return;
+                                }
+                                String id = page.optString(ID);
+                                if (id == null) {
+                                    Log.e("LoginActivity", "page id in getLikedPageInfo is null");
+                                    return;
+                                }
+                                if (existingPages.containsKey(id)) {
+                                    // page already exists in Parse, so we just get the object id and add it to their likes array
+                                    user.add(PAGE_LIKES, existingPages.get(id));
+                                } else {
+                                    // doesn't exist yet, so we add it to the server
+                                    String category = page.optString(CATEGORY);
+                                    if (category == null) {
+                                        Log.e("LoginActivity", "Page category was null.");
+                                        return;
+                                    }
+                                    String name = page.optString(NAME);
+                                    if (name == null) {
+                                        Log.e("LoginActivity", "Page name was null.");
+                                        return;
+                                    }
+                                    JSONObject coverPicObject = page.getJSONObject(COVER);
+                                    if (coverPicObject == null) {
+                                        Log.e("LoginActivity", "coverPicObject was null.");
+                                        return;
+                                    }
+                                    String coverUrl = coverPicObject.optString(SOURCE);
+                                    if (coverUrl == null) {
+                                        Log.e("LoginActivity", "Page coverUrl was null.");
+                                        // no need to return since field is nullable
+                                    }
+                                    JSONObject profPicObject = page.getJSONObject(PICTURE);
+                                    if (profPicObject == null) {
+                                        Log.e("LoginActivity", "profPicObject was null.");
+                                        return;
+                                    }
+                                    JSONObject profPicObjectData = profPicObject.getJSONObject(DATA);
+                                    if (profPicObjectData == null) {
+                                        Log.e("LoginActivity", "profPicObjectData was null.");
+                                        return;
+                                    }
+                                    String profUrl = profPicObjectData.optString(URL);
+                                    if (profUrl == null) {
+                                        Log.e("LoginActivity", "Page prof was null.");
+                                        // no need to return since field is nullable
+                                    }
+                                    final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
+                                    newPage.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                Log.e("LoginActivity", "Create page success");
+                                                user.add(PAGE_LIKES, newPage.getObjectId());
+                                                user.saveInBackground();
+                                            } else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -228,32 +289,64 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(JSONArray friends, GraphResponse response) {
                         try {
                             final ParseUser user = ParseUser.getCurrentUser();
-                            // initialize empty likes array
+                            if (user == null) {
+                                Log.e("LoginActivity", "The user was somehow automatically logged out of Parse after being logged in.");
+                                return;
+                            }
+                            // initialize empty friends array
                             user.put(FRIENDS, new ArrayList<String>());
                             for (int i = 0; i < friends.length(); i++) {
                                 JSONObject friend = friends.optJSONObject(i);
-                                String name = friend.optString(NAME);
+                                if (friend == null) {
+                                    Log.e("LoginActivity", "Friend object in getFriendsOnApp is null.");
+                                    return;
+                                }
                                 final String id = friend.optString(ID);
+                                if (id == null) {
+                                    Log.e("LoginActivity", "Page coverUrl was null.");
+                                    return;
+                                }
                                 ParseQuery<ParseUser> query = ParseUser.getQuery();
+                                if (query == null) {
+                                    // query was null, so maybe app should just crash?
+                                    Log.e("LoginActivity", "Query was null in getFriendsOnApp");
+                                    return;
+                                }
                                 query.whereEqualTo(USERNAME, id);
                                 query.findInBackground(new FindCallback<ParseUser>() {
                                     @Override
                                     public void done(List<ParseUser> objects, ParseException e) {
-                                        if (objects != null && objects.size() == 1) {
-                                            // get the friend ParseUser with the username matching the friend of current user
-                                            ParseUser friend = objects.get(0);
-                                            String objectId = friend.getObjectId();
-                                            user.add(FRIENDS, objectId);
-                                            user.saveInBackground();
-                                        } else {
+                                        if (objects == null || objects.isEmpty()) {
                                             // if the user has a friend on the app that is for some
                                             // reason not on the server as well, skip adding that
                                             // friend and continue
                                             Log.e("LoginActivity", "Friend with facebook id " + id + " could not be found on Parse server.");
                                         }
+                                        else {
+                                            if (objects.size() != 1) {
+                                                Log.e("LoginActivity", "There are multiple users on the parse server with facebook id " + id + ".");
+                                                // TODO define way to flag/delete the duplicate users
+                                                // which would never be created in the first place because we check server before creating new user
+                                            }
+                                            // get the friend ParseUser with the username matching the friend of current user
+                                            ParseUser friend = objects.get(0);
+                                            if (friend == null) {
+                                                // friend was null
+                                                Log.e("LoginActivity", "Parse query returned an array with a null user.");
+                                                return;
+                                            }
+                                            String objectId = friend.getObjectId();
+                                            if (objectId == null) {
+                                                // friend was null
+                                                Log.e("LoginActivity", "In getFriendsOnApp, object id of this friend failed to be found");
+                                                return;
+                                            }
+                                            user.add(FRIENDS, objectId);
+                                            user.saveInBackground();
+
+                                        }
                                     }
                                 });
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -269,22 +362,62 @@ public class LoginActivity extends AppCompatActivity {
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+                        if (object == null) {
+                            // API request to facebook to fetch user info failed
+                            Log.e("LoginActivity", "API Request to facebook for user info failed.");
+                            return;
+                        }
                         try {
                             final String id = object.getString(ID);
+                            if (id == null) {
+                                Log.e("LoginActivity", "facebook id of the user object is null");
+                                return;
+                            }
                             final String email = object.getString(EMAIL);
+                            if (email == null) {
+                                Log.e("LoginActivity", "email field of the user object is null");
+                                // no need to return, pass email anyway because field is nullable
+                            }
                             final String name = object.getString(NAME);
-                            final String profPicUrl = object.getJSONObject(PICTURE).getJSONObject(DATA).optString(URL);
+                            if (name == null) {
+                                Log.e("LoginActivity", "name of the user object is null (name is mandatory).");
+                                return;
+                            }
+                            JSONObject picture = object.getJSONObject(PICTURE);
+                            if (picture == null) {
+                                Log.e("LoginActivity", "profile picture object is null.");
+                                return;
+                            }
+                            JSONObject pic_data = picture.getJSONObject(DATA);
+                            if (pic_data == null) {
+                                Log.e("LoginActivity", "profile picture data object is null.");
+                                return;
+                            }
+                            final String profPicUrl = pic_data.optString(URL);
+                            if (email == null) {
+                                Log.e("LoginActivity", "prof pic from the user object is null");
+                                // no need to return, pass email anyway because field is nullable
+                            }
                             ParseQuery<ParseUser> query = ParseUser.getQuery();
+                            if (query == null) {
+                                // query was null, so maybe app should just crash?
+                                Log.e("LoginActivity", "Query was null in getUserInfo()");
+                                return;
+                            }
                             query.whereEqualTo(USERNAME, id);
                             query.findInBackground(new FindCallback<ParseUser>() {
                                 @Override
                                 public void done(List<ParseUser> objects, ParseException e) {
                                     if (e == null) {
+                                        if (objects == null) {
+                                            Log.e("LoginActivity", "Query returned null objects list in getUserInfo()");
+                                            return;
+                                        }
                                         // if the user doesn't exist
                                         if (objects.isEmpty()) {
                                             signUpNewUser(id, email, name, profPicUrl, access_token);
                                         }
-                                        // if they're already in our server
+                                        // if they're already in our server, update name and pic because these can change
                                         else {
                                             logInUser(id, name, profPicUrl, access_token);
                                         }
@@ -294,7 +427,6 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -306,12 +438,14 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    protected void signUpNewUser(String id, String email, String name, final String profPicUrl, final AccessToken access_token) {
+    protected void signUpNewUser(String id, @Nullable String email, String name, final String profPicUrl, final AccessToken access_token) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
         user.setUsername(id);
-        user.setEmail(email);
+        if (email != null) {
+            user.setEmail(email);
+        }
         user.setPassword(PASSWORD);
         user.put(NAME, name);
         user.put(PROF_PIC_URL, profPicUrl);
@@ -321,7 +455,6 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(LoginActivity.this, "Signed up (Parse)!", Toast.LENGTH_LONG).show();
-
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
                 } else {
