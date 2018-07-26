@@ -12,6 +12,10 @@ import android.widget.Toast;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 
+/**
+ * This class is the fragment in PlayGameActivity where the user selects the mode
+ * they would like to play in and can click a button to start the game.
+ **/
 public class ModeFragment extends Fragment {
     private Context context;
     private Button startGame;

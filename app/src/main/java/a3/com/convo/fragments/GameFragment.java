@@ -24,7 +24,12 @@ import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.adapters.CardAdapter;
 
-
+/**
+ * This class is a Fragment in PlayGameActivity where the user actually plays the game with the
+ * friend they chose. Cards with the page likes, additional likes, and places each user has
+ * been to are displayed in a stack. In this mode (freestyle mode) the user swipes cards away
+ * to get the next card until the cards run out.
+ **/
 public class GameFragment extends Fragment {
 
     private Context context;

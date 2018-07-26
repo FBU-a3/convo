@@ -25,6 +25,12 @@ import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.adapters.AdditionalLikeAdapter;
 import a3.com.convo.adapters.RecyclerViewItemClickListener;
 
+/**
+ * This class is the fragment in Profile Activity where the user can add additional likes.
+ * The likes are entered in a text field and upon clicking the add button, they are added to a
+ * recycler view list by name and the ParseUser's otherLikes field by objectId. If the user
+ * long clicks on any list item, it's deleted from the recycler view and the otherLikes array.
+ **/
 public class AddInfoFragment extends Fragment {
     private Context context;
     private Button backButton;

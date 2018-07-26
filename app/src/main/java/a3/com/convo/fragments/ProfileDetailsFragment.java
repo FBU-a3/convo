@@ -7,13 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 
+/**
+ * This class is the fragment in ProfileActivity where the user can see and modify their
+ * profile (by clicking add likes and navigating to the additional info fragment).
+ **/
 public class ProfileDetailsFragment extends Fragment {
     private Context context;
     private Button addLikes;
+    private TextView userName;
+    private TextView userHometown;
+    private ImageView userProfPic;
 
     public ProfileDetailsFragment() {
         // Required empty public constructor

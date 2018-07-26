@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Convo</string>
     <string name="game_over">Game over!</string>
@@ -5,4 +6,9 @@
     <string name="timer_text">Timer</string>
     <string name="timer_format">%d:%d</string>
     <string name="loading">Loading...</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_message">Logged in to facebook</string>
+    <string name="add_more_likes">Add More Likes</string>
+    <string name="your_hometown">Your Hometown</string>
+    <string name="your_name">Your Name</string>
 </resources>
