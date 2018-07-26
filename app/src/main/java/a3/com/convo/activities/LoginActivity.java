@@ -1,6 +1,6 @@
 package a3.com.convo.activities;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-    private Activity context;
+    private Context context;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     private HashMap<String, String> existingPages;
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        context = this;
+        context = getApplicationContext();
 
         // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(context,
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
                         Arrays.asList(Constants.USER_LIKES,
                                 Constants.USER_FRIENDS,
                                 Constants.EMAIL,
@@ -236,34 +236,35 @@ public class LoginActivity extends AppCompatActivity {
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        try {
-                            final String id = object.getString(Constants.ID_KEY);
-                            final String email = object.getString(Constants.EMAIL);
-                            final String name = object.getString(Constants.NAME);
-                            final String profPicUrl = object.getJSONObject(Constants.PICTURE).getJSONObject(Constants.DATA_KEY).optString(Constants.URL);
-                            ParseQuery<ParseUser> query = ParseUser.getQuery();
-                            query.whereEqualTo(Constants.USERNAME, id);
-                            query.findInBackground(new FindCallback<ParseUser>() {
-                                @Override
-                                public void done(List<ParseUser> objects, ParseException e) {
-                                    if (e == null) {
-                                        // if the user doesn't exist
-                                        if (objects.isEmpty()) {
-                                            signUpNewUser(id, email, name, profPicUrl, access_token);
-                                        }
-                                        // if they're already in our server
-                                        else {
-                                            logInUser(id, name, profPicUrl, access_token);
+                        if (object != null) {
+                            try {
+                                final String id = object.getString(Constants.ID_KEY);
+                                final String email = object.getString(Constants.EMAIL);
+                                final String name = object.getString(Constants.NAME);
+                                final String profPicUrl = object.getJSONObject(Constants.PICTURE).getJSONObject(Constants.DATA_KEY).optString(Constants.URL);
+                                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                                query.whereEqualTo(Constants.USERNAME, id);
+                                query.findInBackground(new FindCallback<ParseUser>() {
+                                    @Override
+                                    public void done(List<ParseUser> objects, ParseException e) {
+                                        if (e == null) {
+                                            // if the user doesn't exist
+                                            if (objects.isEmpty()) {
+                                                signUpNewUser(id, email, name, profPicUrl, access_token);
+                                            }
+                                            // if they're already in our server
+                                            else {
+                                                logInUser(id, name, profPicUrl, access_token);
+                                            }
+                                        } else {
+                                            e.printStackTrace();
                                         }
                                     }
-                                    else {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                                });
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });

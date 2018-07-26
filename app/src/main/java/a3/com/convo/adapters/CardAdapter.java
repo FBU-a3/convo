@@ -85,13 +85,13 @@ public class CardAdapter extends BaseAdapter {
 
                         @Override
                         public void onFinish() {
-                            tvTime.setText(R.string.next_card);
+                            tvTime.setText(context.getResources().getString(R.string.next_card));
                         }
                     };
                     timer.start();
 
                     // TODO: takes far too long to load picture
-                    if (object.getPageId() != null && object.getPageId() != "") {
+                    if (object.getPageId() != null && object.getPageId() != Constants.EMPTY_STRING && object.getCoverUrl() != null) {
                         GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
                     }
                 }

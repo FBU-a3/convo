@@ -28,6 +28,7 @@ public class Constants {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String PROF_PIC_URL = "profPicUrl";
+    public static final String COVER_URL = "coverUrl";
     public static final String OTHER_LIKES = "otherLikes";
     public static final String PAGE_LIKES = "pageLikes";
 
