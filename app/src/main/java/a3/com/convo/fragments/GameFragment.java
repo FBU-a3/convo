@@ -51,7 +51,7 @@ public class GameFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
+        cardStack = view.findViewById(R.id.cardStack);
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
@@ -73,7 +73,7 @@ public class GameFragment extends Fragment {
                     allLikes.addAll(p2Likes);
                     Collections.shuffle(allLikes);
 
-                    adapter = new CardAdapter(allLikes, context, p1Likes, p2Likes);
+                    adapter = new CardAdapter(allLikes, context, p1Likes, p2Likes, player2);
                     cardStack.setAdapter(adapter);
                 } else {
                     e.printStackTrace();
