@@ -40,6 +40,15 @@
                 android:layout_above="@id/tvTopic"
                 android:layout_marginBottom="50dp"/>
 
+            <TextView
+                android:id="@+id/tvUsers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="95dp"
+                android:text="Liked by:" />
+
         </RelativeLayout>
 
     </LinearLayout>

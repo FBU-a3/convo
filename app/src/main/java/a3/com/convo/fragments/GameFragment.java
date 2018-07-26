@@ -73,7 +73,7 @@ public class GameFragment extends Fragment {
                     allLikes.addAll(p2Likes);
                     Collections.shuffle(allLikes);
 
-                    adapter = new CardAdapter(allLikes, context);
+                    adapter = new CardAdapter(allLikes, context, p1Likes, p2Likes);
                     cardStack.setAdapter(adapter);
                 } else {
                     e.printStackTrace();
