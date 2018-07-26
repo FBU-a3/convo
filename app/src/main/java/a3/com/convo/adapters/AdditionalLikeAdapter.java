@@ -12,9 +12,16 @@ import java.util.List;
 
 import a3.com.convo.R;
 
+/** The AdditionalLikeAdapter takes care of the function of adding likes to your profile that were
+ * not automatically added through the pageLikes data from Facebook upon login. It allows the user
+ * to enter a subject and insert it to a list of other likes, as well as delete them.
+ *
+ * In the future: We will have this search existing pages on Facebook to add instead of text subjects.
+ */
+
 public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAdapter.ViewHolder> {
     private List <String> mLikes;
-    Context context;
+    private Context context;
     private RecyclerViewItemClickListener recyclerViewItemClickListener;
 
     public AdditionalLikeAdapter(List<String> likes) {
@@ -28,19 +35,18 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View likeView = inflater.inflate(R.layout.item_like, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(likeView);
-        return viewHolder;
+        return new ViewHolder(likeView);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.position = i;
-        String likeString = (String) mLikes.get(i);
+        String likeString = mLikes.get(i);
         viewHolder.tvLike.setText(likeString);
     }
 
-    //Set method of OnItemLongClickListener object
+
     public void setOnItemLongClickListener(RecyclerViewItemClickListener recyclerViewItemClickListener){
         this.recyclerViewItemClickListener = recyclerViewItemClickListener;
     }
@@ -54,28 +60,34 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         notifyDataSetChanged();
     }
 
+    /** Add user's written liked subject onto list of likes
+     *
+     * @param like new liked subject
+     */
     public void add(String like) {
         mLikes.add(like);
         notifyItemInserted(0);
     }
 
+    /** Occurs on long click; liked subject removed from list of likes
+     *
+     * @param position subject to be deleted
+     */
     public void delete(int position) {
         mLikes.remove(position);
         notifyItemRemoved(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView tvLike;
-        public int position;
+        private TextView tvLike;
+        private int position;
         public ViewHolder(View itemView) {
             super(itemView);
-            tvLike = (TextView) itemView.findViewById(R.id.tv_liked_item);
+            tvLike =  itemView.findViewById(R.id.tv_liked_item);
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    //When item view is clicked long, trigger the itemclicklistener
-                    //Because that itemclicklistener is indicated in MainActivity
                     recyclerViewItemClickListener.onItemLongClick(v,position);
                     return true;
                 }

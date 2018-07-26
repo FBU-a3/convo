@@ -34,6 +34,11 @@ import java.util.List;
 import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
+/** The FriendAdapter handles the selection of the friend(s) you want to play with. These friends
+ *  are both friends on Facebook and registered on the app. We will now create an adapter for FB
+ *  friends you'd like to invite.
+ */
+
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
     private Context context;
     // Your friends usernames
@@ -123,6 +128,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
             friendView.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View view) {
             // Get friend position
