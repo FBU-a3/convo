@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Convo</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="game_over">Game over!</string>
+    <string name="next_card">onto the next one</string>
+    <string name="timer_text">Timer</string>
+    <string name="timer_format">%d:%d</string>
+    <string name="loading">Loading...</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_message">Logged in to facebook</string>
     <string name="add_more_likes">Add More Likes</string>

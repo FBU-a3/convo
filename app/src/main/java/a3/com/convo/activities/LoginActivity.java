@@ -1,6 +1,6 @@
 package a3.com.convo.activities;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,15 +35,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import a3.com.convo.Constants;
 import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    LoginButton loginButton;
-    CallbackManager callbackManager;
-    Activity context;
-    boolean onSuccessCalled;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
+    private boolean onSuccessCalled;
+
     private static final String NAME = "name";
     private static final String ID = "id";
     private static final String OBJECT_ID = "objectId";
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String OTHER_LIKES = "otherLikes";
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
-    HashMap<String, String> existingPages;
+    private HashMap<String, String> existingPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,9 @@ public class LoginActivity extends AppCompatActivity {
         // onSuccess for login is being called twice even though login button onClick is called once
         onSuccessCalled = false;
 
-        context = this;
+        final Context context = this;
 
+        // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
         if (query == null) {
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // check to see if the user is already logged in
         loginButton = (LoginButton) findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -107,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isLoggedIn) {
             ParseUser user = ParseUser.getCurrentUser();
-            // if user logged into facebook and parse
+            // if user logged into Facebook and Parse, then refresh their info and send them to the home screen
             if (user != null) {
                 getLikedPageInfo(accessToken);
                 getFriendsOnApp(accessToken);
@@ -115,14 +118,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-            // if user logged into facebook but not parse
+            // if user logged into Facebook but not Parse, then get their info and log them into Parse
             else {
-                // log them into Parse
                 getUserInfo(accessToken);
             }
         }
 
-        // if user not logged in/signed up to facebook
+        // if user is not logged in/signed up to Facebook, the button shows up
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +133,14 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("LoginActivity", "LoginManager is null");
                     return;
                 }
-                lm.logInWithReadPermissions(context, Arrays.asList("user_likes", "user_friends", "email", "user_hometown", "user_location", "user_tagged_places"));
+                lm.logInWithReadPermissions(LoginActivity.this,
+                        Arrays.asList(Constants.USER_LIKES,
+                                Constants.USER_FRIENDS,
+                                Constants.EMAIL,
+                                Constants.USER_HOMETOWN,
+                                Constants.USER_LOCATION,
+                                Constants.USER_TAGGED_PLACES));
+
             }
         });
 
@@ -139,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 if (!onSuccessCalled) {
-                    Toast.makeText(context, R.string.login_message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
                     AccessToken at = loginResult.getAccessToken();
                     if (at == null) {
                         Log.e("LoginActivity", "AccessToken at was null.");
@@ -154,22 +163,26 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                // App code
+                Log.e("LoginActivity", "Facebook login cancelled");
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Log.e("LoginActivity", "Facebook login error: " + exception.toString());
+                exception.printStackTrace();
             }
         });
     }
 
+
+    // called when Facebook login returns
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    // pulls a user's likes from the Graph API "likes" edge
     protected void getLikedPageInfo(AccessToken access_token) {
         GraphRequest data_request = GraphRequest.newMeRequest(
                 access_token,
@@ -275,8 +288,10 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
         Bundle permission_param = new Bundle();
-        // add the field to get the details of liked pages
-        permission_param.putString("fields", "likes{id,category,name,location,likes,cover,picture}");
+        // add fields to get the details of liked pages
+        permission_param.putString(Constants.FIELDS, Constants.GET_LIKES_FIELDS);
+        // grab more than 25 pages
+        permission_param.putString(Constants.LIMIT, Integer.toString(Constants.LIKES_LIMIT));
         data_request.setParameters(permission_param);
         data_request.executeAsync();
     }
@@ -355,7 +370,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
         request.executeAsync();
     }
-    
+
     protected void getUserInfo(final AccessToken access_token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 access_token,
@@ -433,7 +448,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle permission_param = new Bundle();
-        permission_param.putString("fields", "id,name,email,picture");
+        permission_param.putString(Constants.FIELDS, Constants.GET_USER_FIELDS);
         request.setParameters(permission_param);
         request.executeAsync();
     }
@@ -468,9 +483,9 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(id, PASSWORD, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-                    Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
-                    user.put(NAME, name);
-                    user.put(PROF_PIC_URL, profPicUrl);
+                    Toast.makeText(LoginActivity.this, "Logged in!", Toast.LENGTH_LONG).show();
+                    user.put(Constants.NAME, name);
+                    user.put(Constants.PROF_PIC_URL, profPicUrl);
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
                 } else {
