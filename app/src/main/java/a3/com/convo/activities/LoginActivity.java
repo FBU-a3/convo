@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-    private Context context;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     private HashMap<String, String> existingPages;
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        context = getApplicationContext();
+        final Context context = this;
 
         // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();
@@ -303,7 +302,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(id, Constants.PASSWORD, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-                    Toast.makeText(context, "Logged in!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Logged in!", Toast.LENGTH_LONG).show();
                     user.put(Constants.NAME, name);
                     user.put(Constants.PROF_PIC_URL, profPicUrl);
                     getLikedPageInfo(access_token);

@@ -72,7 +72,7 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                tvTimer.setText(R.string.game_over);
+                tvTimer.setText(getString(R.string.game_over));
             }
         };
         timer.start();
