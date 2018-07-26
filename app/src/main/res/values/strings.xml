@@ -2,38 +2,10 @@
 <resources>
     <string name="app_name">Convo</string>
 
-    <!--Messages-->
-    <string name="login_message">Login successful.</string>
-    <string name="page_created">Page created.</string>
-
-    <!--Tags-->
-    <string name="login_tag">LoginActivity</string>
-
-    <!--LoginActivity-->
-    <string name="object_id">objectId</string>
-    <string name="user_likes">user_likes</string>
-    <string name="user_friends">user_friends</string>
-    <string name="email">email</string>
-    <string name="user_hometown">user_hometown</string>
-    <string name="user_location">user_location</string>
-    <string name="user_tagged_places">user_tagged_places</string>
-
-    <string name="page_likes">pageLikes</string>
-
-    <string name="fb_likes">likes</string>
-    <string name="likes_data">data</string>
-
-    <string name="page_category">category</string>
-    <string name="page_name">name</string>
-    <string name="page_cover">cover</string>
-    <string name="page_cover_source">source</string>
-
-    <string name="prof_pic">picture</string>
-    <string name="prof_pic_data">data</string>
-    <string name="prof_pic_url">url</string>
-
-    <!--FriendAdapter-->
-    <string name="username">username</string>
-    <string name="friend_pic">profPicUrl</string>
-    <string name="full_name">name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_message">Logged in to facebook</string>
+    <string name="add_more_likes">Add More Likes</string>
+    <string name="your_hometown">Your Hometown</string>
+    <string name="your_name">Your Name</string>
 </resources>
