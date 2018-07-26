@@ -17,6 +17,10 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -24,16 +28,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
-    private int selectedPos = RecyclerView.NO_POSITION;
+    private Context context;
+    // Your friends usernames
     private ArrayList<String> myFriends;
-    Context context;
-    String selectedFriend;
+    // Selected position on RV/selected friend(s)
+    private int selectedPos = RecyclerView.NO_POSITION;
+    private String selectedFriend;
+    // For display
+    private ParseUser currentFriend;
+    private String profPic;
+    private String name;
+    // Parse columns
+    private static final String USER_NAME = "username";
+    private static final String PROF_PIC_URL = "profPicUrl";
+    private static final String FULL_NAME = "name";
 
+    // Brings friends in to adjust into RV
     public FriendAdapter(ArrayList<String> friends) {
         myFriends = friends;
     }
@@ -46,68 +63,47 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View friendView = inflater.inflate(R.layout.item_friend, parent, false);
-        ViewHolder viewHolder = new ViewHolder(friendView);
-        return viewHolder;
+        return new ViewHolder(friendView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, int position) {
-        holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229,229,229) : Color.TRANSPARENT);
-        // Get friends user ID's
-        final String friendId = myFriends.get(position);
-        final String profilePicPath = "/" + friendId + "/picture";
-
-        //Get friends profile picture
-//        GraphRequest picRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), "/" + friendId + "/picture", new GraphRequest.Callback() {
-//            @Override
-//            public void onCompleted(GraphResponse response) {
-//                try {
-//
-//                } catch (JSONException e) {
-//
-//                }
-//            }
-//        });
-
-        GraphRequest picRequest = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(
-                            JSONObject json_object,
-                            GraphResponse response) {
-                        try {
-                            JSONObject picInfo = json_object.getJSONObject("picture").getJSONObject("data");
-                            String picURL = picInfo.optString("url");
-                            GlideApp.with(context)
-                                    .load(picURL)
-                                    .circleCrop()
-                                    .into(holder.ivFriend);
-                        } catch(Exception e){
-                            e.printStackTrace();
-                            Toast.makeText(context, "Pic URL not retrieved", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-        // Get friends name
-        Bundle picParams = new Bundle();
-        picParams.putString("fields", "url");
-        picRequest.setParameters(picParams);
-        picRequest.executeAsync();
-
-        GraphRequest nameRequest = GraphRequest.newGraphPathRequest(AccessToken.getCurrentAccessToken(), "/" + friendId, new GraphRequest.Callback() {
+    public void onBindViewHolder(@NonNull final FriendAdapter.ViewHolder holder, @NonNull int position) {
+        String friend = null;
+        // Check if position on view holder is less than/equal to array size
+        if (position <= myFriends.size()) {
+            // Highlights clicked item view
+            holder.itemView.setBackgroundColor(selectedPos == position ? Color.rgb(229, 229, 229) : Color.TRANSPARENT);
+            // Get friend
+            friend = myFriends.get(position);
+        }
+        // Find friend in background
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo(USER_NAME, friend);
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void onCompleted(GraphResponse response) {
-                try {
-                    String name = response.getJSONObject().getString("name");
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (objects != null && !objects.isEmpty()) {
+                    // Get object's values from parse
+                    currentFriend = objects.get(0);
+                    profPic = currentFriend.getString(PROF_PIC_URL);
+                    name = currentFriend.getString(FULL_NAME);
+
+                    // Set friend's photo
+                    if (profPic != null && context != null && holder.ivFriend != null) {
+                        GlideApp.with(context)
+                                .load(profPic)
+                                .circleCrop()
+                                .into(holder.ivFriend);
+                    }
+
+                    // Set friends name
                     holder.tvFriend.setText(name);
-                } catch (JSONException e) {
-                    Toast.makeText(context, "Name not retrieved", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Objects may be empty.", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
             }
         });
-        nameRequest.executeAsync();
     }
 
     @Override
@@ -138,18 +134,16 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 System.out.println("/" + selectedFriend);
             }
 
+            // Highlight selected friend(s)
             notifyItemChanged(selectedPos);
             selectedPos = getAdapterPosition();
             notifyItemChanged(selectedPos);
         }
     }
 
+    // Passes selected friend onto game fragment
     public String getSelectedFriend() {
         return selectedFriend;
     }
 
-    public void clear() {
-        myFriends.clear();
-        notifyDataSetChanged();
-    }
 }
