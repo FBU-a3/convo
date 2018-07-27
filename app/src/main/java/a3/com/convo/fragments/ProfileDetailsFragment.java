@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
+import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
@@ -59,13 +60,13 @@ public class ProfileDetailsFragment extends Fragment {
             Log.e("ProfileDetailsFragment", "Somehow user was logged out of parse?");
             return;
         }
-        String user_name = user.getString("name");
+        String user_name = user.getString(Constants.NAME);
         if (user_name == null) {
             Log.e("ProfileDetailsFragment", "User doesn't have name for some reason.");
             return;
         }
         userName.setText(user_name);
-        String user_hometown = user.getString("hometown");
+        String user_hometown = user.getString(Constants.HOMETOWN);
         if (user_hometown == null) {
             Log.e("ProfileDetailsFragment", "User doesn't have hometown and that's fine");
             userHometown.setText("");
@@ -74,7 +75,7 @@ public class ProfileDetailsFragment extends Fragment {
             userHometown.setText(user_hometown);
         }
 
-        String profPicUrl = user.getString("profPicUrl");
+        String profPicUrl = user.getString(Constants.PROF_PIC_URL);
         if (profPicUrl != null) {
             GlideApp.with(view.getContext())
                     .load(profPicUrl)

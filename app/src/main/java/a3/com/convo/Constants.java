@@ -31,6 +31,7 @@ public class Constants {
     public static final String COVER_URL = "coverUrl";
     public static final String OTHER_LIKES = "otherLikes";
     public static final String PAGE_LIKES = "pageLikes";
+    public static final String HOMETOWN = "hometown";
 
     // request params fields for fetching user's likes from Graph API
     public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";
