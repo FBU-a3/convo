@@ -21,15 +21,20 @@ import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
 import a3.com.convo.Models.Page;
 import a3.com.convo.R;
+import a3.com.convo.fragments.GameFragment;
 
 public class CardAdapter extends BaseAdapter {
 
     private List<String> pages;
-    private Context context;
+    private GameFragment gameFragment;
 
-    public CardAdapter(List<String> data, Context context) {
+    public CardAdapter(List<String> data, GameFragment gf) {
         this.pages = data;
-        this.context = context;
+        this.gameFragment = gf;
+    }
+
+    public interface onTimeUp {
+        public void onCardTimerExpired();
     }
 
     @Override
@@ -48,8 +53,8 @@ public class CardAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-
+    public View getView(final int i, final View view, ViewGroup viewGroup) {
+        final Context context = viewGroup.getContext();
         View v = view;
 
         if (v == null) {
@@ -72,6 +77,15 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
+                    // TODO: takes far too long to load picture
+                    if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
+                        GlideApp.with(context)
+                                .load(object.getCoverUrl())
+                                .override(view.getWidth(), 300) // trying 300 height for now, will scale later
+                                .centerCrop()
+                                .into(ivCover);
+                    }
+
                     // TODO: reset card timer for each card and only start it once card is showing
                     CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
                         @Override
@@ -86,15 +100,11 @@ public class CardAdapter extends BaseAdapter {
 
                         @Override
                         public void onFinish() {
-                            tvTime.setText(context.getResources().getString(R.string.next_card));
+                            gameFragment.onCardTimerExpired();
                         }
                     };
                     timer.start();
 
-                    // TODO: takes far too long to load picture
-                    if (object.getPageId() != null && object.getPageId() != Constants.EMPTY_STRING && object.getCoverUrl() != null) {
-                        GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
-                    }
                 }
                 else {
                     Log.e("name error", "Oops!");
