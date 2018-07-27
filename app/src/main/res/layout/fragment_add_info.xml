@@ -28,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/et_new_like" />
+        android:layout_below="@+id/et_new_like"
+        android:layout_alignParentLeft="true" />
 
     <EditText
         android:id="@+id/et_new_like"
@@ -38,7 +39,8 @@
         android:layout_alignParentTop="true"
         android:ems="10"
         android:hint="Add a new like..."
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:id="@+id/add_like_btn"
@@ -46,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:text="Add" />
+        android:text="Add"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.daprlabs.aaron.swipedeck.SwipeDeck
-        android:id="@+id/cardStack"
+        android:id="@+id/card_stack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         swipedeck:max_visible="3"

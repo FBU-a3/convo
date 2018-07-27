@@ -1,5 +1,6 @@
 package a3.com.convo.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import a3.com.convo.GlideApp;
-import a3.com.convo.Models.Page;
+import a3.com.convo.models.Page;
 import a3.com.convo.R;
 
 /** The CardAdapter handles the display of playing cards during gameplay, it collects information on
@@ -38,7 +39,8 @@ public class CardAdapter extends BaseAdapter {
     private String player2name;
     private static final String FULL_NAME = "name";
 
-    public CardAdapter(List<String> data, Context context, ArrayList<String> player1Likes, ArrayList<String> player2Likes, ParseUser player2) {
+    public CardAdapter(List<String> data, Context context, ArrayList<String> player1Likes,
+                       ArrayList<String> player2Likes, ParseUser player2) {
         this.pages = data;
         this.context = context;
         this.player1Likes = player1Likes;
@@ -61,6 +63,7 @@ public class CardAdapter extends BaseAdapter {
         return i;
     }
 
+    @SuppressLint("StringFormatMatches")
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         View v = view;
@@ -70,9 +73,9 @@ public class CardAdapter extends BaseAdapter {
             v = inflater.inflate(R.layout.item_card, viewGroup, false);
         }
 
-        final TextView tvTopic = v.findViewById(R.id.tvTopic);
-        final TextView tvUsers = v.findViewById(R.id.tvUsers);
-        final ImageView ivCover = v.findViewById(R.id.ivCover);
+        final TextView tvTopic = v.findViewById(R.id.tv_topic);
+        final TextView tvUsers = v.findViewById(R.id.tv_users);
+        final ImageView ivCover = v.findViewById(R.id.iv_cover);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
@@ -89,13 +92,13 @@ public class CardAdapter extends BaseAdapter {
         String usersWhoLiked;
         if (player1Likes.contains(objectId) && player2Likes.contains(objectId)) {
             // If liked by both players
-            usersWhoLiked = "Both " + player1name + " and " + player2name + " like this!";
+            usersWhoLiked = context.getResources().getString(R.string.bothUsersLike, player1name, player2name);
         } else if (player1Likes.contains(objectId)) {
             // If liked by player 1 only
-            usersWhoLiked = player1name + " likes this.";
+            usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player1name);
         } else {
             // If liked by player 2 only
-            usersWhoLiked = player2name + " likes this.";
+            usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player2name);
         }
 
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);

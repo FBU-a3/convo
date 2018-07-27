@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import a3.com.convo.Models.Page;
+import a3.com.convo.models.Page;
 import a3.com.convo.R;
 
 public class LoginActivity extends AppCompatActivity {

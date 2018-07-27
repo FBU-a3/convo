@@ -1,39 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Convo</string>
-
-    <!--Messages-->
-    <string name="login_message">Login successful.</string>
-    <string name="page_created">Page created.</string>
-
-    <!--Tags-->
-    <string name="login_tag">LoginActivity</string>
-
-    <!--LoginActivity-->
-    <string name="object_id">objectId</string>
-    <string name="user_likes">user_likes</string>
-    <string name="user_friends">user_friends</string>
-    <string name="email">email</string>
-    <string name="user_hometown">user_hometown</string>
-    <string name="user_location">user_location</string>
-    <string name="user_tagged_places">user_tagged_places</string>
-
-    <string name="page_likes">pageLikes</string>
-
-    <string name="fb_likes">likes</string>
-    <string name="likes_data">data</string>
-
-    <string name="page_category">category</string>
-    <string name="page_name">name</string>
-    <string name="page_cover">cover</string>
-    <string name="page_cover_source">source</string>
-
-    <string name="prof_pic">picture</string>
-    <string name="prof_pic_data">data</string>
-    <string name="prof_pic_url">url</string>
-
-    <!--FriendAdapter-->
-    <string name="username">username</string>
-    <string name="friend_pic">profPicUrl</string>
-    <string name="full_name">name</string>
+    <string name="bothUsersLike">%1$s and %2$s like this.</string>
+    <string name="userWhoLikes">%1$s like this.</string>
 </resources>

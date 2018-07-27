@@ -24,7 +24,6 @@ import a3.com.convo.adapters.CardAdapter;
 
 
 public class GameFragment extends Fragment {
-
     private Context context;
     SwipeDeck cardStack;
     private String friend;
@@ -51,7 +50,7 @@ public class GameFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        cardStack = view.findViewById(R.id.cardStack);
+        cardStack = view.findViewById(R.id.card_stack);
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
