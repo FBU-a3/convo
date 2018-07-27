@@ -102,13 +102,14 @@ public class GameFragment extends Fragment {
                         allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
-                    adapter = new CardAdapter(allLikes, context, p1Likes, p2Likes, player2);
-                    cardStack.setAdapter(adapter);
-                } else {
-                    e.printStackTrace();
+                        adapter = new CardAdapter(allLikes, context, player1Likes, player2Likes, player2);
+                        cardStack.setAdapter(adapter);
+                    } else {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void setFriend(String selectedFriend) {

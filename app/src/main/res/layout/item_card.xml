@@ -53,8 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="95dp"
-                android:text="Liked by:" />
+                android:layout_marginBottom="@dimen/card_liked_by_margin_bottom"
+                android:text="@string/loading" />
 
         </RelativeLayout>
 
