@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
-import a3.com.convo.models.Page;
 import a3.com.convo.R;
+import a3.com.convo.models.Page;
 
 /** The CardAdapter handles the display of playing cards during gameplay, it collects information on
  * liked pages and displays it one page/like at a time. The CardAdapter will change depending the
@@ -33,7 +33,6 @@ import a3.com.convo.R;
 public class CardAdapter extends BaseAdapter {
 
     private List<String> pages;
-    private Context context;
     private ArrayList<String> player1Likes;
     private ArrayList<String> player2Likes;
     private ParseUser player1;
@@ -45,7 +44,6 @@ public class CardAdapter extends BaseAdapter {
     public CardAdapter(List<String> data, Context context, ArrayList<String> player1Likes,
                        ArrayList<String> player2Likes, ParseUser player2) {
         this.pages = data;
-        this.context = context;
         this.player1Likes = player1Likes;
         this.player2Likes = player2Likes;
         this.player2 = player2;
@@ -128,7 +126,7 @@ public class CardAdapter extends BaseAdapter {
 
                         @Override
                         public void onFinish() {
-                            gameFragment.onCardTimerExpired();
+                            tvTime.setText(context.getResources().getString(R.string.next_card));
                         }
                     };
                     timer.start();
