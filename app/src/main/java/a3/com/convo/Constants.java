@@ -2,10 +2,13 @@ package a3.com.convo;
 
 public class Constants {
     // length of game in milliseconds
-    public static final int GAME_TIME = 300000;
+    public static final int GAME_TIME = 10000;
 
     // time for each card in milliseconds
-    public static final int CARD_TIME = 30000;
+    public static final int CARD_TIME = 5000;
+
+    // length of time that each card takes to autoswipe
+    public static final int CARD_SWIPE_DURATION = 100;
 
     // timer interval (ticks once per second)
     public static final int TIMER_INTERVAL = 1000;
@@ -35,7 +38,7 @@ public class Constants {
     // request params fields for fetching user's likes from Graph API
     public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";
     public static final String LIMIT = "limit";
-    public static final int LIKES_LIMIT = 50;
+    public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
     public static final String GET_USER_FIELDS = "id,name,email,picture";
 
