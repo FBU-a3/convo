@@ -77,11 +77,10 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
-                    // TODO: takes far too long to load picture
                     if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
                         GlideApp.with(context)
                                 .load(object.getCoverUrl())
-                                .override(view.getWidth(), 300) // trying 300 height for now, will scale later
+                                .override(300, 300) // trying 300 height for now, will scale later
                                 .centerCrop()
                                 .into(ivCover);
                     }
