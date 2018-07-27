@@ -37,7 +37,7 @@ public class ConclusionFragment extends Fragment {
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToConclusion();
+                ((PlayGameActivity)context).goToFriends();
             }
         });
     }

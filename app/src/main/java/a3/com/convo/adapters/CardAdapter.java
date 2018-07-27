@@ -135,7 +135,11 @@ public class CardAdapter extends BaseAdapter {
                     tvUsers.setText(finalUsersWhoLiked);
                     // TODO: takes far too long to load picture
                     if (object.getPageId() != null && object.getPageId() != Constants.EMPTY_STRING && object.getCoverUrl() != null) {
-                        GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
+                        GlideApp.with(context)
+                                .load(object.getCoverUrl())
+                                .override(500, 500)
+                                .centerCrop()
+                                .into(ivCover);
                     }
                 } else {
                     Log.e("name error", "Oops!");

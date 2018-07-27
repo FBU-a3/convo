@@ -35,7 +35,7 @@ public class Constants {
     // request params fields for fetching user's likes from Graph API
     public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";
     public static final String LIMIT = "limit";
-    public static final int LIKES_LIMIT = 50;
+    public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
     public static final String GET_USER_FIELDS = "id,name,email,picture";
 

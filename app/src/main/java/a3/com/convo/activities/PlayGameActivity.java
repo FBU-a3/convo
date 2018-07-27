@@ -38,8 +38,14 @@ public class PlayGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void goToFriends() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.play_game_fragment, friendsFrag);
+        fragmentTransaction.commit();
+    }
+
     public void goToMode(String selectedFriend){
-        //Fragment fragment = new ModeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.play_game_fragment, modeFrag);
