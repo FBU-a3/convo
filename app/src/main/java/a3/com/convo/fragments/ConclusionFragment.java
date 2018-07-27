@@ -36,6 +36,8 @@ public class ConclusionFragment extends Fragment {
 
         tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));
 
+        tvTopics.setText(TextUtils.join(", ", discussedTopics));
+
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
