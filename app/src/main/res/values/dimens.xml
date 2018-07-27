@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="game_timer_text_size">50sp</dimen>
+    <dimen name="topic_timer_text_size">30sp</dimen>
+    <dimen name="game_padding">5dp</dimen>
+    <dimen name="game_margin_bottom">30dp</dimen>
+    <dimen name="card_spacing">15dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="topic_text_size">40sp</dimen>
+    <dimen name="card_topic_margin_bottom">125dp</dimen>
+    <dimen name="card_image_margin_bottom">50dp</dimen>
+    <dimen name="card_timer_margin_bottom">65dp</dimen>
+</resources>

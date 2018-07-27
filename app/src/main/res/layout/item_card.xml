@@ -6,8 +6,8 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardElevation="@dimen/card_elevation"
     card_view:cardUseCompatPadding="true"
     android:gravity="center_horizontal">
 
@@ -25,12 +25,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="125dp"
-                android:text="Loading..."
+                android:layout_marginBottom="@dimen/card_topic_margin_bottom"
+                android:text="@string/loading"
                 android:textColor="@android:color/holo_blue_bright"
-                android:textSize="30sp"
-                tools:layout_editor_absoluteX="121dp"
-                tools:layout_editor_absoluteY="351dp" />
+                android:textSize="@dimen/topic_text_size" />
 
             <ImageView
                 android:id="@+id/iv_cover"
@@ -38,7 +36,16 @@
                 android:layout_height="wrap_content"
                 card_view:srcCompat="@android:color/holo_orange_dark"
                 android:layout_above="@id/tvTopic"
-                android:layout_marginBottom="50dp"/>
+                android:layout_marginBottom="@dimen/card_image_margin_bottom"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/card_timer_margin_bottom"
+                android:textSize="@dimen/topic_timer_text_size" />
 
             <TextView
                 android:id="@+id/tv_users"

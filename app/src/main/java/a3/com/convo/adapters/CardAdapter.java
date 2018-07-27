@@ -2,6 +2,7 @@ package a3.com.convo.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
 import a3.com.convo.models.Page;
 import a3.com.convo.R;
@@ -76,6 +79,7 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvTopic = v.findViewById(R.id.tv_topic);
         final TextView tvUsers = v.findViewById(R.id.tv_users);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
+        final TextView tvTime = (TextView) v.findViewById(R.id.tvTime);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
@@ -108,14 +112,34 @@ public class CardAdapter extends BaseAdapter {
             public void done(Page object, ParseException e) {
                 if (e == null) {
                     tvTopic.setText(object.getName());
+
+                    CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
+                        @Override
+                        public void onTick(long l) {
+                            tvTime.setText(
+                                    String.format(context.getResources().getString(R.string.timer_format),
+                                            TimeUnit.MILLISECONDS.toMinutes(l),
+                                            TimeUnit.MILLISECONDS.toSeconds(l)
+                                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+                            );
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            tvTime.setText(context.getResources().getString(R.string.next_card));
+                        }
+                    };
+                    timer.start();
+
                     tvUsers.setText(finalUsersWhoLiked);
                     // TODO: takes far too long to load picture
                     if (object.getPageId() != null && !object.getPageId().equals("")) {
+                    if (object.getPageId() != null && object.getPageId() != Constants.EMPTY_STRING && object.getCoverUrl() != null) {
                         GlideApp.with(context).load(object.getCoverUrl()).into(ivCover);
                     }
                 }
                 else {
-                    Log.e("Error displaying card.", "Oops!");
+                    Log.e("name error", "Oops!");
                     e.printStackTrace();
                 }
             }
