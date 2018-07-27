@@ -72,6 +72,7 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
+                    // TODO: reset card timer for each card and only start it once card is showing
                     CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
                         @Override
                         public void onTick(long l) {
