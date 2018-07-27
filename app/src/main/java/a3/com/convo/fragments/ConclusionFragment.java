@@ -18,7 +18,6 @@ import a3.com.convo.activities.PlayGameActivity;
 
 public class ConclusionFragment extends Fragment {
     private ArrayList<String> discussedTopics;
-    private String discussedTopics;
 
     public ConclusionFragment() {
 
