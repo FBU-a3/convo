@@ -1,10 +1,7 @@
 package a3.com.convo.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Movie;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,22 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import a3.com.convo.GlideApp;
 import a3.com.convo.R;
@@ -83,13 +70,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         }
         // Find friend in background
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo(USER_NAME, friend);
-        query.findInBackground(new FindCallback<ParseUser>() {
+        query.getInBackground(friend, new GetCallback<ParseUser>() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if (objects != null && !objects.isEmpty()) {
+            public void done(ParseUser object, ParseException e) {
+                if (object != null) {
                     // Get object's values from parse
-                    currentFriend = objects.get(0);
+                    currentFriend = object;
                     profPic = currentFriend.getString(PROF_PIC_URL);
                     name = currentFriend.getString(FULL_NAME);
 
@@ -103,7 +89,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
                     // Set friends name
                     holder.tvFriend.setText(name);
-                } else {
+                } else if (e != null) {
                     Toast.makeText(context, "Objects may be empty.", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
