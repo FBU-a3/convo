@@ -3,6 +3,7 @@ package a3.com.convo.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
+import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 
@@ -38,6 +42,9 @@ public class ProfileDetailsFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         addLikes = (Button) view.findViewById(R.id.add_likes_btn);
+        userName = (TextView) view.findViewById(R.id.tv_user_name);
+        userHometown = (TextView) view.findViewById(R.id.tv_user_hometown);
+        userProfPic = (ImageView) view.findViewById(R.id.iv_user_prof_pic);
         context = getActivity();
 
         addLikes.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +53,37 @@ public class ProfileDetailsFragment extends Fragment {
                 ((ProfileActivity)context).goToAddInfo();
             }
         });
+
+        ParseUser user = ParseUser.getCurrentUser();
+        if (user == null) {
+            Log.e("ProfileDetailsFragment", "Somehow user was logged out of parse?");
+            return;
+        }
+        String user_name = user.getString("name");
+        if (user_name == null) {
+            Log.e("ProfileDetailsFragment", "User doesn't have name for some reason.");
+            return;
+        }
+        userName.setText(user_name);
+        String user_hometown = user.getString("hometown");
+        if (user_hometown == null) {
+            Log.e("ProfileDetailsFragment", "User doesn't have hometown and that's fine");
+            userHometown.setText("");
+        }
+        else {
+            userHometown.setText(user_hometown);
+        }
+
+        String profPicUrl = user.getString("profPicUrl");
+        if (profPicUrl != null) {
+            GlideApp.with(view.getContext())
+                    .load(profPicUrl)
+                    .circleCrop()
+                    .into(userProfPic);
+        }
+        else {
+            Log.e("ProfileDetailsFragment", "User doesn't have profile picture and that's fine");
+        }
 
     }
 }
