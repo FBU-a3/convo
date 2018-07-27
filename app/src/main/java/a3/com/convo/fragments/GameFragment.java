@@ -4,6 +4,7 @@ package a3.com.convo.fragments;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +108,7 @@ public class GameFragment extends Fragment {
                         allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
-                        adapter = new CardAdapter(allLikes, context, player1Likes, player2Likes, player2);
+                        adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
                         cardStack.setAdapter(adapter);
 
                         // when a card is swiped, add it to topics discussed

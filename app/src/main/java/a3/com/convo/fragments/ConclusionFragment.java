@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
-import a3.com.convo.adapters.FriendAdapter;
+
 
 public class ConclusionFragment extends Fragment {
-    private Button playAgainButton;
     private ArrayList<String> discussedTopics;
+    private String discussedTopics;
 
     public ConclusionFragment() {
 
@@ -32,7 +32,7 @@ public class ConclusionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
         TextView tvTopics = (TextView) view.findViewById(R.id.tv_topics);
 
         tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));

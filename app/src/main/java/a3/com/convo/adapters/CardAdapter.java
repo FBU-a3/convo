@@ -41,7 +41,7 @@ public class CardAdapter extends BaseAdapter {
     private String player2name;
     private static final String FULL_NAME = "name";
 
-    public CardAdapter(List<String> data, Context context, ArrayList<String> player1Likes,
+    public CardAdapter(List<String> data, ArrayList<String> player1Likes,
                        ArrayList<String> player2Likes, ParseUser player2) {
         this.pages = data;
         this.player1Likes = player1Likes;
