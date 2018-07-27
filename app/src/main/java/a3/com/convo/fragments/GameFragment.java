@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.R;
+import a3.com.convo.activities.PlayGameActivity;
 import a3.com.convo.adapters.CardAdapter;
 
 /**
@@ -44,6 +46,8 @@ public class GameFragment extends Fragment {
     private ArrayList<String> allLikes;
     private CardAdapter adapter;
 
+    private ArrayList<String> topicsDiscussed;
+
 
     public GameFragment() {
         // Required empty public constructor
@@ -61,9 +65,9 @@ public class GameFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
+        topicsDiscussed = new ArrayList<>();
 
         // Overall game timer elements
-        // TODO: make sure that this shows above the cards
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         CountDownTimer timer = new CountDownTimer(Constants.GAME_TIME, Constants.TIMER_INTERVAL) {
             @Override
@@ -78,6 +82,8 @@ public class GameFragment extends Fragment {
             @Override
             public void onFinish() {
                 tvTimer.setText(getString(R.string.game_over));
+                if (getContext() instanceof PlayGameActivity)
+                    ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
             }
         };
         timer.start();
@@ -103,8 +109,23 @@ public class GameFragment extends Fragment {
                         allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
-                        adapter = new CardAdapter(allLikes, context, player1Likes, player2Likes, player2);
+                        adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
                         cardStack.setAdapter(adapter);
+
+                        // when a card is swiped, add it to topics discussed
+                        cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
+                            @Override
+                            public void cardSwipedLeft(long stableId) {
+                                // reset the timer of the next card
+                                topicsDiscussed.add(allLikes.get((int)stableId));
+                            }
+
+                            @Override
+                            public void cardSwipedRight(long stableId) {
+                                // reset the timer of the next card
+                                topicsDiscussed.add(allLikes.get((int)stableId));
+                            }
+                        });
                     } else {
                         e.printStackTrace();
                     }

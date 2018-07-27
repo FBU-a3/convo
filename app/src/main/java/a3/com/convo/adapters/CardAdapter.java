@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
-import a3.com.convo.models.Page;
 import a3.com.convo.R;
+import a3.com.convo.models.Page;
 
 /** The CardAdapter handles the display of playing cards during gameplay, it collects information on
  * liked pages and displays it one page/like at a time. The CardAdapter will change depending the
@@ -42,10 +42,9 @@ public class CardAdapter extends BaseAdapter {
     private String player2name;
     private static final String FULL_NAME = "name";
 
-    public CardAdapter(List<String> data, Context context, ArrayList<String> player1Likes,
+    public CardAdapter(List<String> data, ArrayList<String> player1Likes,
                        ArrayList<String> player2Likes, ParseUser player2) {
         this.pages = data;
-        this.context = context;
         this.player1Likes = player1Likes;
         this.player2Likes = player2Likes;
         this.player2 = player2;
@@ -68,7 +67,8 @@ public class CardAdapter extends BaseAdapter {
 
     @SuppressLint("StringFormatMatches")
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, final View view, ViewGroup viewGroup) {
+        final Context context = viewGroup.getContext();
         View v = view;
 
         if (v == null) {

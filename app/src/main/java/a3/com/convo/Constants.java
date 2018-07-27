@@ -2,10 +2,13 @@ package a3.com.convo;
 
 public class Constants {
     // length of game in milliseconds
-    public static final int GAME_TIME = 300000;
+    public static final int GAME_TIME = 10000;
 
     // time for each card in milliseconds
-    public static final int CARD_TIME = 30000;
+    public static final int CARD_TIME = 5000;
+
+    // length of time that each card takes to autoswipe
+    public static final int CARD_SWIPE_DURATION = 100;
 
     // timer interval (ticks once per second)
     public static final int TIMER_INTERVAL = 1000;

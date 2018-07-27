@@ -7,15 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import java.util.ArrayList;
-
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
-import a3.com.convo.adapters.FriendAdapter;
+
 
 public class ConclusionFragment extends Fragment {
-    private Context context;
     private String discussedTopics;
 
     public ConclusionFragment() {
@@ -31,12 +27,12 @@ public class ConclusionFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
-        context = getActivity();
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToFriends();
+                if (getContext() instanceof PlayGameActivity)
+                    ((PlayGameActivity) getContext()).goToFriends();
             }
         });
     }
