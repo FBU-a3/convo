@@ -59,5 +59,6 @@ public class PlayGameActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.play_game_fragment, new ConclusionFragment());
         fragmentTransaction.commit();
+        conclusionFrag.setDiscussedTopics(topicsDiscussed);
     }
 }
