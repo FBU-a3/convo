@@ -64,6 +64,7 @@ public class GameFragment extends Fragment {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
 
         // Overall game timer elements
+        // TODO: make sure that this shows above the cards
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         CountDownTimer timer = new CountDownTimer(Constants.GAME_TIME, Constants.TIMER_INTERVAL) {
             @Override
