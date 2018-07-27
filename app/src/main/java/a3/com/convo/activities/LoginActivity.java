@@ -93,11 +93,12 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 for (Page page : objects) {
-                    if (page != null && page.getObjectId() == null && page.getPageId() != null) {
-                        existingPages.put(page.getPageId(), page.getObjectId());
-                    }
-                    else if (page == null){
+                    if (page == null) {
                         Log.e("LoginActivity", "page was null");
+                        return;
+                    }
+                    if (page.getObjectId() != null && page.getPageId() != null) {
+                        existingPages.put(page.getPageId(), page.getObjectId());
                     }
                 }
             }
