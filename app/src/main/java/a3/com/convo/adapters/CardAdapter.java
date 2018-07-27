@@ -2,6 +2,7 @@ package a3.com.convo.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,12 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
-import a3.com.convo.R;
 import a3.com.convo.models.Page;
+import a3.com.convo.R;
 
 /** The CardAdapter handles the display of playing cards during gameplay, it collects information on
  * liked pages and displays it one page/like at a time. The CardAdapter will change depending the
@@ -31,6 +33,7 @@ import a3.com.convo.models.Page;
 public class CardAdapter extends BaseAdapter {
 
     private List<String> pages;
+    private Context context;
     private ArrayList<String> player1Likes;
     private ArrayList<String> player2Likes;
     private ParseUser player1;
@@ -39,9 +42,10 @@ public class CardAdapter extends BaseAdapter {
     private String player2name;
     private static final String FULL_NAME = "name";
 
-    public CardAdapter(List<String> data, ArrayList<String> player1Likes,
+    public CardAdapter(List<String> data, Context context, ArrayList<String> player1Likes,
                        ArrayList<String> player2Likes, ParseUser player2) {
         this.pages = data;
+        this.context = context;
         this.player1Likes = player1Likes;
         this.player2Likes = player2Likes;
         this.player2 = player2;
@@ -110,15 +114,35 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
-                    if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
+                    // TODO: reset card timer for each card and only start it once card is showing
+                    CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
+                        @Override
+                        public void onTick(long l) {
+                            tvTime.setText(
+                                    String.format(context.getResources().getString(R.string.timer_format),
+                                            TimeUnit.MILLISECONDS.toMinutes(l),
+                                            TimeUnit.MILLISECONDS.toSeconds(l)
+                                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+                            );
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            gameFragment.onCardTimerExpired();
+                        }
+                    };
+                    timer.start();
+
+                    tvUsers.setText(finalUsersWhoLiked);
+                    // TODO: takes far too long to load picture
+                    if (object.getPageId() != null && object.getPageId() != Constants.EMPTY_STRING && object.getCoverUrl() != null) {
                         GlideApp.with(context)
                                 .load(object.getCoverUrl())
-                                .override(300, 300) // trying 300 height for now, will scale later
+                                .override(500, 500)
                                 .centerCrop()
                                 .into(ivCover);
                     }
-                }
-                else {
+                } else {
                     Log.e("name error", "Oops!");
                     e.printStackTrace();
                 }
