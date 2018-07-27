@@ -4,6 +4,7 @@ package a3.com.convo.fragments;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.R;
-import a3.com.convo.activities.PlayGameActivity;
 import a3.com.convo.adapters.CardAdapter;
+import a3.com.convo.activities.PlayGameActivity;
 
 /**
  * This class is a Fragment in PlayGameActivity where the user actually plays the game with the
