@@ -174,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
     // called when Facebook login returns
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -494,4 +493,213 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void getTaggedPlaces(final AccessToken access_token) {
+        GraphRequest data_request = GraphRequest.newMeRequest(
+                access_token,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject json_object,
+                            GraphResponse response) {
+                        final ParseUser user = ParseUser.getCurrentUser();
+                        if (user == null) {
+                            Log.e("Login getTaggedPlaces()", "The user was somehow automatically logged out of Parse after being logged in.");
+                            return;
+                        }
+                        // initialize empty likes array
+                        user.put("taggedPlaces", new ArrayList<String>());
+                        if (json_object == null) {
+                            // for some reason, API request to facebook to fetch tagged places
+                            // failed, continue without updated information.
+                            Log.e("LoginActivity", "API Request to facebook for tagged places failed.");
+                            return;
+                        }
+                            try {
+                                // get all the tagged places
+                                // convert Json object into Json array
+                                JSONObject taggedPlacesData = json_object.getJSONObject("tagged_places");
+                                if (taggedPlacesData == null) {
+                                    Log.e("LoginActivity", "Query returned null for tagged places.");
+                                    return;
+                                }
+                                JSONArray taggedPlaces = taggedPlacesData.optJSONArray(DATA);
+                                if (taggedPlaces == null) {
+                                    Log.e("LoginActivity", "Tagged places array has no data");
+                                    return;
+                                }
+                                for (int i = 0; i < taggedPlaces.length(); i++) {
+                                    final JSONObject place = taggedPlaces.optJSONObject(i);
+                                    if (place == null) {
+                                        Log.e("LoginActivity", "place in tagged places array has no data");
+                                        return;
+                                    }
+                                    String id = place.optString(ID);
+                                    if (id == null) {
+                                        Log.e("LoginActivity", "id in place in tagged places array is null");
+                                        return;
+                                    }
+
+                                    if (existingPages.containsKey(id)) {
+                                        // page already exists in Parse, so we just get the object id and add it to their likes array
+                                        user.add("taggedPlaces", existingPages.get(id));
+                                    } else {
+                                        // doesn't exist yet, so we add it to the server
+                                        String name = place.optString(NAME);
+                                        if (name == null) {
+                                            Log.e("LoginActivity", "name of place in tagged places array is null");
+                                            return;
+                                        }
+                                        final Page newPlacePage = Page.newInstance(id, name, null, null, null);
+                                        newPlacePage.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    Log.e("LoginActivity", "Create page success");
+                                                    user.add("taggedPlaces", newPlacePage.getObjectId());
+                                                    user.saveInBackground();
+                                                } else {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                // finished getting all the tagged places
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                    }
+                });
+        Bundle permission_param = new Bundle();
+        permission_param.putString("fields", "tagged_places");
+        data_request.setParameters(permission_param);
+        data_request.executeAsync();
+    }
+    public void getHometown(final AccessToken access_token) {
+        GraphRequest data_request = GraphRequest.newMeRequest(
+                access_token,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject json_object,
+                            GraphResponse response) {
+                        final ParseUser user = ParseUser.getCurrentUser();
+                        if (user == null) {
+                            Log.e("Login getHometown()", "The user was somehow automatically logged out of Parse after being logged in.");
+                            return;
+                        }
+                        if (json_object == null) {
+                            // for some reason, API request to facebook to fetch hometown
+                            // failed, continue without updated information.
+                            Log.e("LoginActivity", "API Request to facebook for hometown failed.");
+                        }
+                            try {
+                                // get hometown
+                                JSONObject hometown = json_object.getJSONObject("hometown");
+                                if (hometown == null) {
+                                    Log.e("Login getHometown()", "object hometown is null.");
+                                    return;
+                                }
+                                String home_id = hometown.optString(ID);
+                                if (home_id == null) {
+                                    Log.e("Login getHometown()", "object hometown's id is null.");
+                                    return;
+                                }
+                                if (existingPages.containsKey(home_id)) {
+                                    // page already exists in Parse, so we just get the object id and add it to their likes array
+                                    user.add("hometown", existingPages.get(home_id));
+                                } else {
+                                    // doesn't exist yet, so we add it to the server
+                                    String name = hometown.optString(NAME);
+                                    if (name == null) {
+                                        Log.e("Login getHometown()", "object hometown's name is null.");
+                                        return;
+                                    }
+                                    final Page newHometownPage = Page.newInstance(home_id, name, null, null, null);
+
+                                    newHometownPage.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                Log.e("LoginActivity", "Create page success");
+                                                user.put("hometown", newHometownPage.getObjectId());
+                                                user.saveInBackground();
+                                            } else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                                // finished getting hometown
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                    }
+                });
+        Bundle permission_param = new Bundle();
+        permission_param.putString("fields", "hometown");
+        data_request.setParameters(permission_param);
+        data_request.executeAsync();
+    }
+
+    public void getCurrentLocation(final AccessToken access_token) {
+        GraphRequest data_request = GraphRequest.newMeRequest(
+                access_token,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject json_object,
+                            GraphResponse response) {
+                        final ParseUser user = ParseUser.getCurrentUser();
+                        if (user == null) {
+                            Log.e("Login getLocation()", "The user was somehow automatically logged out of Parse after being logged in.");
+                            return;
+                        }
+                        if (json_object == null) {
+                            // for some reason, API request to facebook to fetch location
+                            // failed, continue without updated information.
+                            Log.e("LoginActivity", "API Request to facebook for location failed.");
+                            return;
+                        }
+                            try {
+                                // get location
+                                JSONObject location = json_object.getJSONObject("location");
+                                String location_id = location.optString(ID);
+
+                                if (existingPages.containsKey(location_id)) {
+                                    // page already exists in Parse, so we just get the object id and add it to their likes array
+                                    user.put("location", existingPages.get(location_id));
+                                } else {
+                                    // doesn't exist yet, so we add it to the server
+                                    String name = location.optString(NAME);
+                                    final Page newLocationPage = Page.newInstance(location_id, name, null, null, null);
+
+                                    newLocationPage.saveInBackground(new SaveCallback() {
+
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                Log.e("LoginActivity", "Create page success");
+                                                user.add("location", newLocationPage.getObjectId());
+                                                user.saveInBackground();
+                                            } else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // finished getting location
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                    }
+                });
+        Bundle permission_param = new Bundle();
+        permission_param.putString("fields", "location");
+        data_request.setParameters(permission_param);
+        data_request.executeAsync();
+    }
+
 }
