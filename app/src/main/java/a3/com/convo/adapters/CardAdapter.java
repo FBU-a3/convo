@@ -33,7 +33,6 @@ import a3.com.convo.models.Page;
 public class CardAdapter extends BaseAdapter {
 
     private List<String> pages;
-    private Context context;
     private ArrayList<String> player1Likes;
     private ArrayList<String> player2Likes;
     private ParseUser player1;

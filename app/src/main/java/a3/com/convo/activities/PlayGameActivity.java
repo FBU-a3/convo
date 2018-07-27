@@ -55,9 +55,10 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {
+        ConclusionFragment conclusionFrag = new ConclusionFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, new ConclusionFragment());
+        fragmentTransaction.replace(R.id.play_game_fragment, conclusionFrag);
         fragmentTransaction.commit();
         conclusionFrag.setDiscussedTopics(topicsDiscussed);
     }
