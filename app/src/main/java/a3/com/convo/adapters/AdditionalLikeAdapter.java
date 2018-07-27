@@ -21,7 +21,6 @@ import a3.com.convo.R;
 
 public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAdapter.ViewHolder> {
     private List <String> mLikes;
-    private Context context;
     private RecyclerViewItemClickListener recyclerViewItemClickListener;
 
     public AdditionalLikeAdapter(List<String> likes) {
@@ -31,7 +30,7 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        context = viewGroup.getContext();
+        Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View likeView = inflater.inflate(R.layout.item_like, viewGroup, false);
