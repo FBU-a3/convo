@@ -68,7 +68,8 @@ public class CardAdapter extends BaseAdapter {
 
     @SuppressLint("StringFormatMatches")
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, final View view, ViewGroup viewGroup) {
+        final Context context = viewGroup.getContext();
         View v = view;
 
         if (v == null) {
@@ -127,7 +128,7 @@ public class CardAdapter extends BaseAdapter {
 
                         @Override
                         public void onFinish() {
-                            tvTime.setText(context.getResources().getString(R.string.next_card));
+                            gameFragment.onCardTimerExpired();
                         }
                     };
                     timer.start();
