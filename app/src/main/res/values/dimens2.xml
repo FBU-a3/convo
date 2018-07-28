@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name = "name_top_margin">20dp</dimen>
-    <dimen name = "hometown_top_margin">10dp</dimen>
-    <dimen name = "name_text_size">25dp</dimen>
-</resources>

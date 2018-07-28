@@ -30,12 +30,16 @@ public class Constants {
     public static final String PROF_PIC_URL = "profPicUrl";
     public static final String COVER_URL = "coverUrl";
     public static final String OTHER_LIKES = "otherLikes";
-    public static final String PAGE_LIKES = "pageLikes";
+    public static final String PARSE_TAGGED_PLACES = "taggedPlaces";
+    public static final String PARSE_HOMETOWN = "hometown";
+    public static final String PARSE_LOCATION = "location";
+    public static final String PAGE_ID = "pageId";
+    public static final String PROF_URL = "profUrl";
 
     // request params fields for fetching user's likes from Graph API
     public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";
     public static final String LIMIT = "limit";
-    public static final int LIKES_LIMIT = 50;
+    public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
     public static final String GET_USER_FIELDS = "id,name,email,picture";
 
@@ -49,5 +53,9 @@ public class Constants {
     public static final String SOURCE = "source";
     public static final String PICTURE = "picture";
     public static final String URL = "url";
+    public static final String PLACE = "place";
+    public static final String TAGGED_PLACES = "tagged_places";
+    public static final String LOCATION = "location";
+    public static final String HOMETOWN = "hometown";
 
 }
