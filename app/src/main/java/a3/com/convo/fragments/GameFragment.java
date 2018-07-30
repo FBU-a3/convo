@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.R;
-import a3.com.convo.adapters.CardAdapter;
 import a3.com.convo.activities.PlayGameActivity;
+import a3.com.convo.adapters.CardAdapter;
 
 /**
  * This class is a Fragment in PlayGameActivity where the user actually plays the game with the
@@ -30,8 +30,8 @@ import a3.com.convo.activities.PlayGameActivity;
  * been to are displayed in a stack. In this mode (freestyle mode) the user swipes cards away
  * to get the next card until the cards run out.
  **/
+public class GameFragment extends Fragment implements CardAdapter.onTimeUp {
 
-public class GameFragment extends Fragment {
     private SwipeDeck cardStack;
 
     // objectId of the other player
@@ -79,8 +79,9 @@ public class GameFragment extends Fragment {
             @Override
             public void onFinish() {
                 tvTimer.setText(getString(R.string.game_over));
-                if (getContext() instanceof PlayGameActivity)
-                    ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
+                if (view.getContext().getClass() == PlayGameActivity.class) {
+                    ((PlayGameActivity) view.getContext()).goToConclusion(topicsDiscussed);
+                }
             }
         };
         timer.start();
@@ -106,7 +107,7 @@ public class GameFragment extends Fragment {
                         allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
-                        adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
+                        adapter = new CardAdapter(allLikes, GameFragment.this);
                         cardStack.setAdapter(adapter);
 
                         // when a card is swiped, add it to topics discussed
@@ -137,5 +138,10 @@ public class GameFragment extends Fragment {
 
     public void setFriend(String selectedFriend) {
         friend = selectedFriend;
+    }
+
+    @Override
+    public void onCardTimerExpired() {
+        cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
     }
 }
