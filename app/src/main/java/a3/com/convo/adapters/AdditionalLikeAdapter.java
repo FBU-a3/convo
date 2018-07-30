@@ -87,7 +87,5 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
         public void onClick(View view) {
 
         }
-
-
     }
 }
