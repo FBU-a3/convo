@@ -36,14 +36,15 @@ public class ConclusionFragment extends Fragment {
 
         tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));
 
-        if (view.getContext().getClass() == PlayGameActivity.class) {
-            playAgainButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((PlayGameActivity) view.getContext()).goToFriends();
-                }
-            });
-        }
+
+        playAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getContext() instanceof PlayGameActivity)
+                    ((PlayGameActivity) getContext()).goToFriends();
+            }
+        });
+
     }
 
     public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
