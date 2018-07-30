@@ -15,8 +15,8 @@ import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 
-
 public class ConclusionFragment extends Fragment {
+    private Button playAgainButton;
     private ArrayList<String> discussedTopics;
 
     public ConclusionFragment() {
