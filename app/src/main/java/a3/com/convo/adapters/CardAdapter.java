@@ -24,11 +24,9 @@ import a3.com.convo.fragments.GameFragment;
 public class CardAdapter extends BaseAdapter {
 
     private List<String> pages;
-    private GameFragment gameFragment;
 
-    public CardAdapter(List<String> data, GameFragment gf) {
+    public CardAdapter(List<String> data) {
         this.pages = data;
-        this.gameFragment = gf;
     }
 
     @Override

@@ -107,7 +107,7 @@ public class GameFragment extends Fragment {
                         allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
-                        adapter = new CardAdapter(allLikes, GameFragment.this);
+                        adapter = new CardAdapter(allLikes);
                         cardStack.setAdapter(adapter);
 
                         // when a card is swiped, add it to topics discussed
