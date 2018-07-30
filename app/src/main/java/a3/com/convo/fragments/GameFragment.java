@@ -79,7 +79,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onFinish() {
                 tvTimer.setText(getString(R.string.game_over));
-                if (view.getContext().getClass() == PlayGameActivity.class) {
+                if (getContext() instanceof PlayGameActivity) {
                     ((PlayGameActivity) view.getContext()).goToConclusion(topicsDiscussed);
                 }
             }
