@@ -16,6 +16,9 @@ public class Constants {
     // empty string constant
     public static final String EMPTY_STRING = "";
 
+    // ArrayList join string
+    public static final String JOIN_STRING = ", ";
+
     // permissions we request from the user upon signup
     public static final String USER_LIKES = "user_likes";
     public static final String USER_FRIENDS = "user_friends";
