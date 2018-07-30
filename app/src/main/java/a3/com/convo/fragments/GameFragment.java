@@ -30,7 +30,7 @@ import a3.com.convo.adapters.CardAdapter;
  * been to are displayed in a stack. In this mode (freestyle mode) the user swipes cards away
  * to get the next card until the cards run out.
  **/
-public class GameFragment extends Fragment implements CardAdapter.onTimeUp {
+public class GameFragment extends Fragment {
 
     private SwipeDeck cardStack;
 
@@ -138,10 +138,5 @@ public class GameFragment extends Fragment implements CardAdapter.onTimeUp {
 
     public void setFriend(String selectedFriend) {
         friend = selectedFriend;
-    }
-
-    @Override
-    public void onCardTimerExpired() {
-        cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
     }
 }

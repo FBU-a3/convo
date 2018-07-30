@@ -1,7 +1,6 @@
 package a3.com.convo.adapters;
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
@@ -31,10 +29,6 @@ public class CardAdapter extends BaseAdapter {
     public CardAdapter(List<String> data, GameFragment gf) {
         this.pages = data;
         this.gameFragment = gf;
-    }
-
-    public interface onTimeUp {
-        public void onCardTimerExpired();
     }
 
     @Override
@@ -65,7 +59,7 @@ public class CardAdapter extends BaseAdapter {
 
         final TextView tvTopic = (TextView) v.findViewById(R.id.tvTopic);
         final ImageView ivCover = (ImageView) v.findViewById(R.id.ivCover);
-        final TextView tvTime = (TextView) v.findViewById(R.id.tvTime);
+
 
         // get the page name associated with the id at that position in the array
         String objectId = getItem(i);
@@ -84,29 +78,6 @@ public class CardAdapter extends BaseAdapter {
                                 .centerCrop()
                                 .into(ivCover);
                     }
-
-                    // TODO: reset card timer for each card and only start it once card is showing
-                    CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
-                        @Override
-                        public void onTick(long l) {
-                            tvTime.setText(
-                                    String.format(context.getResources().getString(R.string.timer_format),
-                                            TimeUnit.MILLISECONDS.toMinutes(l),
-                                            TimeUnit.MILLISECONDS.toSeconds(l)
-                                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
-                            );
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            gameFragment.onCardTimerExpired();
-                        }
-                    };
-                    timer.start();
-                    /* FIX: use a callback to GameFragment
-                    in that callback, return the adapter position from cardStack.getAdapterPosition();
-                    then use a callback for every time the position changes, compare it, and if they're equal, start the timer
-                    */
                 }
                 else {
                     Log.e("name error", "Oops!");
