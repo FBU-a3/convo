@@ -84,7 +84,7 @@ public class GameFragment extends Fragment {
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
-        player1Likes = (ArrayList<String>) player1.get(Constants.PAGE_LIKES);
+        player1Likes = (ArrayList<String>) player1.get(Constants.PARSE_PAGE_LIKES_KEY);
 
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -95,7 +95,7 @@ public class GameFragment extends Fragment {
                 public void done(ParseUser object, ParseException e) {
                     if (object != null) {
                         player2 = object;
-                        player2Likes = (ArrayList<String>) player2.get(Constants.PAGE_LIKES);
+                        player2Likes = (ArrayList<String>) player2.get(Constants.PARSE_PAGE_LIKES_KEY);
 
                         // put together both player's likes and shuffle them
                         allLikes = new ArrayList<>();

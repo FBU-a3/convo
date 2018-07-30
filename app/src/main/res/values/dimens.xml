@@ -16,4 +16,8 @@
     <dimen name="end_message_text_size">18sp</dimen>
     <dimen name="play_again_margin_bottom">30dp</dimen>
     <dimen name="end_topics_margin_top">70dp</dimen>
+    <dimen name = "name_top_margin">20dp</dimen>
+    <dimen name = "hometown_top_margin">10dp</dimen>
+    <dimen name = "name_text_size">25dp</dimen>
+    <dimen name = "pic_width">200sp</dimen>
 </resources>
