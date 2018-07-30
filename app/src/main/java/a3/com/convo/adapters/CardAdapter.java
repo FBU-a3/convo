@@ -103,7 +103,10 @@ public class CardAdapter extends BaseAdapter {
                         }
                     };
                     timer.start();
-
+                    /* FIX: use a callback to GameFragment
+                    in that callback, return the adapter position from cardStack.getAdapterPosition();
+                    then use a callback for every time the position changes, compare it, and if they're equal, start the timer
+                    */
                 }
                 else {
                     Log.e("name error", "Oops!");
