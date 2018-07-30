@@ -1,4 +1,4 @@
-package a3.com.convo.Models;
+package a3.com.convo.models;
 
 import android.support.annotation.Nullable;
 

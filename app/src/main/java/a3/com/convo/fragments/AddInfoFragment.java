@@ -19,7 +19,7 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import a3.com.convo.Models.Page;
+import a3.com.convo.models.Page;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.adapters.AdditionalLikeAdapter;

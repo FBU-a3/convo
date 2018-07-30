@@ -11,5 +11,9 @@
     <string name="add_more_likes">Add More Likes</string>
     <string name="your_hometown">Your Hometown</string>
     <string name="your_name">Your Name</string>
-
+    <string name="bothUsersLike">%1$s and %2$s like this.</string>
+    <string name="userWhoLikes">%1$s like this.</string>
+    <string name="end_message">The Convo\'s only over if you want it to be!</string>
+    <string name="play_again">Play Again?</string>
+    <string name="end_topics">The following topics were talked about:</string>
 </resources>

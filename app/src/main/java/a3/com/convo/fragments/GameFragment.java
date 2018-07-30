@@ -31,7 +31,6 @@ import a3.com.convo.adapters.CardAdapter;
  * to get the next card until the cards run out.
  **/
 public class GameFragment extends Fragment {
-
     private Context context;
     private SwipeDeck cardStack;
 
@@ -104,7 +103,7 @@ public class GameFragment extends Fragment {
                         allLikes.addAll(player2Likes);
                         Collections.shuffle(allLikes);
 
-                        adapter = new CardAdapter(allLikes, context);
+                        adapter = new CardAdapter(allLikes, context, player1Likes, player2Likes, player2);
                         cardStack.setAdapter(adapter);
                     } else {
                         e.printStackTrace();

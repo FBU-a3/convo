@@ -16,7 +16,7 @@
         android:text="Freestyle" />
 
     <Button
-        android:id="@+id/timedMode"
+        android:id="@+id/timed_mode"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

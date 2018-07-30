@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tvTopic"
+                android:id="@+id/tv_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -31,12 +31,12 @@
                 android:textSize="@dimen/topic_text_size" />
 
             <ImageView
-                android:id="@+id/ivCover"
+                android:id="@+id/iv_cover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:srcCompat="@android:color/holo_orange_dark"
                 android:layout_above="@id/tvTopic"
-                android:layout_marginBottom="@dimen/card_image_margin_bottom"/>
+                android:layout_marginBottom="@dimen/card_image_margin_bottom"
+                card_view:srcCompat="@android:color/holo_orange_dark" />
 
             <TextView
                 android:id="@+id/tvTime"
@@ -46,6 +46,15 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/card_timer_margin_bottom"
                 android:textSize="@dimen/topic_timer_text_size" />
+
+            <TextView
+                android:id="@+id/tv_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/card_liked_by_margin_bottom"
+                android:text="@string/loading" />
 
         </RelativeLayout>
 
