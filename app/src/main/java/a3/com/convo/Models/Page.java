@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import a3.com.convo.Constants;
+
 
 /** Page class represents a Facebook page and contains its name, page ID, category,
  * and profile and cover photo URLS. When we get a page from its Graph API endpoint,
@@ -13,12 +15,6 @@ import com.parse.ParseObject;
  **/
 @ParseClassName("Page")
 public class Page extends ParseObject{
-
-    private static final String PAGE_ID = "pageId";
-    private static final String NAME = "name";
-    private static final String PROF_URL = "profUrl";
-    private static final String COVER_URL = "coverUrl";
-    private static final String CATEGORY = "category";
 
     public static Page newInstance(@Nullable String pageId, String name, @Nullable String profUrl, @Nullable String coverUrl, @Nullable String category) {
         final Page page = new Page();
@@ -35,43 +31,43 @@ public class Page extends ParseObject{
     }
 
     public String getPageId() {
-        return getString(PAGE_ID);
+        return getString(Constants.PAGE_ID);
     }
 
     public void setPageId(String pageId) {
-        put(PAGE_ID, pageId);
+        put(Constants.PAGE_ID, pageId);
     }
 
     public String getName() {
-        return getString(NAME);
+        return getString(Constants.NAME);
     }
 
     public void setName(String name) {
-        put(NAME, name);
+        put(Constants.NAME, name);
     }
 
     // getter and setter for the Page's profile picture
     public String getProfUrl() {
-        return getString(PROF_URL);
+        return getString(Constants.PROF_URL);
     }
     public void setProfUrl(String profUrl) {
-        put(PROF_URL, profUrl);
+        put(Constants.PROF_URL, profUrl);
     }
 
     // getter and setter for the Page's cover photo
     public String getCoverUrl() {
-        return getString(COVER_URL);
+        return getString(Constants.COVER_URL);
     }
     public void setCoverUrl(String coverUrl) {
-        put(COVER_URL, coverUrl);
+        put(Constants.COVER_URL, coverUrl);
     }
 
     public String getCategory() {
-        return getString(CATEGORY);
+        return getString(Constants.CATEGORY_KEY);
     }
 
     public void setCategory(String category) {
-        put(CATEGORY, category);
+        put(Constants.CATEGORY_KEY, category);
     }
 
 }

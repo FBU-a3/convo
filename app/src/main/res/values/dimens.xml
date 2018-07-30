@@ -11,4 +11,7 @@
     <dimen name="card_topic_margin_bottom">125dp</dimen>
     <dimen name="card_image_margin_bottom">50dp</dimen>
     <dimen name="card_timer_margin_bottom">65dp</dimen>
+    <dimen name = "name_top_margin">20dp</dimen>
+    <dimen name = "hometown_top_margin">10dp</dimen>
+    <dimen name = "name_text_size">25dp</dimen>
 </resources>
