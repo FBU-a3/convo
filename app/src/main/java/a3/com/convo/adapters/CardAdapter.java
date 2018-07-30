@@ -1,6 +1,5 @@
 package a3.com.convo.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +61,6 @@ public class CardAdapter extends BaseAdapter {
         return i;
     }
 
-    @SuppressLint("StringFormatMatches")
     @Override
     public View getView(final int i, final View view, ViewGroup viewGroup) {
         final Context context = viewGroup.getContext();
