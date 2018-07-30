@@ -1,7 +1,6 @@
 package a3.com.convo.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -31,8 +30,8 @@ import a3.com.convo.adapters.CardAdapter;
  * been to are displayed in a stack. In this mode (freestyle mode) the user swipes cards away
  * to get the next card until the cards run out.
  **/
+
 public class GameFragment extends Fragment {
-    private Context context;
     private SwipeDeck cardStack;
 
     // objectId of the other player
@@ -56,13 +55,11 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        context = getContext();
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
@@ -72,7 +69,8 @@ public class GameFragment extends Fragment {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(
-                        String.format(context.getResources().getString(R.string.timer_format), TimeUnit.MILLISECONDS.toMinutes(l),
+                        String.format(view.getContext().getResources().getString(R.string.timer_format),
+                                TimeUnit.MILLISECONDS.toMinutes(l),
                                 TimeUnit.MILLISECONDS.toSeconds(l)
                                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
                 );
@@ -81,7 +79,9 @@ public class GameFragment extends Fragment {
             @Override
             public void onFinish() {
                 tvTimer.setText(getString(R.string.game_over));
-                ((PlayGameActivity)context).goToConclusion(topicsDiscussed);
+                if (view.getContext().getClass() == PlayGameActivity.class) {
+                    ((PlayGameActivity) view.getContext()).goToConclusion(topicsDiscussed);
+                }
             }
         };
         timer.start();
@@ -115,13 +115,17 @@ public class GameFragment extends Fragment {
                             @Override
                             public void cardSwipedLeft(long stableId) {
                                 // reset the timer of the next card
-                                topicsDiscussed.add(allLikes.get((int)stableId));
+                                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
+                                    topicsDiscussed.add(allLikes.get((int)stableId));
+                                }
                             }
 
                             @Override
                             public void cardSwipedRight(long stableId) {
                                 // reset the timer of the next card
-                                topicsDiscussed.add(allLikes.get((int)stableId));
+                                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
+                                    topicsDiscussed.add(allLikes.get((int)stableId));
+                                }
                             }
                         });
                     } else {
