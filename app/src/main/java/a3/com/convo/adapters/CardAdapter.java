@@ -2,7 +2,6 @@ package a3.com.convo.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
@@ -112,35 +110,15 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     tvTopic.setText(object.getName());
 
-                    // TODO: reset card timer for each card and only start it once card is showing
-                    CountDownTimer timer = new CountDownTimer(Constants.CARD_TIME, Constants.TIMER_INTERVAL) {
-                        @Override
-                        public void onTick(long l) {
-                            tvTime.setText(
-                                    String.format(context.getResources().getString(R.string.timer_format),
-                                            TimeUnit.MILLISECONDS.toMinutes(l),
-                                            TimeUnit.MILLISECONDS.toSeconds(l)
-                                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
-                            );
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            tvTime.setText(context.getResources().getString(R.string.next_card));
-                        }
-                    };
-                    timer.start();
-
-                    tvUsers.setText(finalUsersWhoLiked);
-                    // TODO: takes far too long to load picture
-                    if (object.getPageId() != null && object.getPageId() != Constants.EMPTY_STRING && object.getCoverUrl() != null) {
+                    if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
                         GlideApp.with(context)
                                 .load(object.getCoverUrl())
-                                .override(500, 500)
+                                .override(300, 300) // trying 300 height for now, will scale later
                                 .centerCrop()
                                 .into(ivCover);
                     }
-                } else {
+                }
+                else {
                     Log.e("name error", "Oops!");
                     e.printStackTrace();
                 }
