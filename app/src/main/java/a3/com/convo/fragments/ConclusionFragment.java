@@ -35,7 +35,6 @@ public class ConclusionFragment extends Fragment {
 
         tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));
 
-
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,7 +42,6 @@ public class ConclusionFragment extends Fragment {
                     ((PlayGameActivity) getContext()).goToFriends();
             }
         });
-
     }
 
     public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
