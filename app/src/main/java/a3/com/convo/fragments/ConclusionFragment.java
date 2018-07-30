@@ -16,7 +16,6 @@ import a3.com.convo.adapters.FriendAdapter;
 
 public class ConclusionFragment extends Fragment {
     private Context context;
-    private Button playAgainButton;
     private String discussedTopics;
 
     public ConclusionFragment() {
@@ -31,7 +30,7 @@ public class ConclusionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
         context = getActivity();
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {

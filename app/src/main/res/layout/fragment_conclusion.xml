@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="The Convo's only over if you want it to be!"
+        android:layout_marginTop="@dimen/end_message_margin_top"
+        android:text="@string/end_message"
         android:textSize="18sp" />
 
     <Button
@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:text="Play Again?" />
+        android:layout_marginBottom="@dimen/play_again_margin_bottom"
+        android:text="@string/play_again" />
 
     <TextView
         android:id="@+id/tv_topics"
@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="The following topics were talked about:" />
+        android:layout_marginTop="@dimen/end_topics_margin_top"
+        android:text="@string/end_topics" />
+
 
 </RelativeLayout>
