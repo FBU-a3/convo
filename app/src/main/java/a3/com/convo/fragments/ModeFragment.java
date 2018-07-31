@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 
@@ -39,7 +40,7 @@ public class ModeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getContext() instanceof PlayGameActivity) {
-                    ((PlayGameActivity) getContext()).goToGame(friend, "freestyle");
+                    ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE);
                 }
             }
         });
@@ -49,7 +50,7 @@ public class ModeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getContext() instanceof PlayGameActivity) {
-                    ((PlayGameActivity) getContext()).goToGame(friend, "timed");
+                    ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED);
                 }
             }
         });
