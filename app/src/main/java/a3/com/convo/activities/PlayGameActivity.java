@@ -1,7 +1,6 @@
 package a3.com.convo.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -16,14 +15,12 @@ import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
 
-    private FragmentTransaction ft;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         ft.replace(R.id.play_game_fragment, new FriendsFragment());
         ft.commit();
