@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.squareup.leakcanary.LeakCanary;
 
 import a3.com.convo.models.Page;
 import okhttp3.OkHttpClient;
@@ -17,6 +18,13 @@ public class ParseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
         ParseObject.registerSubclass(Page.class);
 

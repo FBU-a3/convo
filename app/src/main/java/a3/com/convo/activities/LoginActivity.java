@@ -1,6 +1,5 @@
 package a3.com.convo.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,14 +35,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import a3.com.convo.Constants;
-import a3.com.convo.models.Page;
 import a3.com.convo.R;
+import a3.com.convo.models.Page;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
-    private boolean onSuccessCalled;
+    private CallbackManager mCallbackManager;
+    private boolean mOnSuccessCalled;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     private HashMap<String, String> existingPages;
@@ -54,12 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // TODO fix this quick fix to on success being called twice
         // onSuccess for login is being called twice even though login button onClick is called once
-        onSuccessCalled = false;
-
-        final Context context = this;
+        mOnSuccessCalled = false;
 
         // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();
+        Log.d("SKU", "Pages query");
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
         if (query == null) {
             Log.e("LoginActivity", "Query was null");
@@ -69,12 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Page>() {
             @Override
             public void done(List<Page> objects, ParseException e) {
+                Log.d("SKU", "Pages query: done");
+
                 if (objects == null || objects.isEmpty()) {
                     // there are no pages in the parse server so hash map stays empty
                     Log.e("LoginActivity", "no pages in the server or query failed because objects was empty.");
                     return;
                 }
-                int i = objects.size();
                 for (Page page : objects) {
                     if (page == null) {
                         Log.e("LoginActivity", "page was null");
@@ -88,8 +85,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // check to see if the user is already logged in
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        mCallbackManager = CallbackManager.Factory.create();
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
@@ -102,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 getPlace(accessToken, Constants.HOMETOWN, Constants.PARSE_HOMETOWN);
                 getPlace(accessToken, Constants.LOCATION, Constants.PARSE_LOCATION);
                 getTaggedPlaces(accessToken);
-                Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                Intent i = new Intent(this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -116,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("SKU", "login button: onclick");
                 LoginManager lm = LoginManager.getInstance();
                 if (lm == null) {
                     Log.e("LoginActivity", "LoginManager is null");
@@ -132,11 +130,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                if (!onSuccessCalled) {
-                    Toast.makeText(context, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
+                Log.d("SKU", "login button: onsuccess");
+
+                if (!mOnSuccessCalled) {
+                    Toast.makeText(LoginActivity.this, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
                     AccessToken at = loginResult.getAccessToken();
                     if (at == null) {
                         Log.e("LoginActivity", "AccessToken at was null.");
@@ -145,17 +145,21 @@ public class LoginActivity extends AppCompatActivity {
                     getUserInfo(at);
                     Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                     startActivity(i);
-                    onSuccessCalled = true;
+                    mOnSuccessCalled = true;
                 }
             }
 
             @Override
             public void onCancel() {
+                Log.d("SKU", "login button: cancel");
+
                 Log.e("LoginActivity", "Facebook login cancelled");
             }
 
             @Override
             public void onError(FacebookException exception) {
+                Log.d("SKU", "login button: error");
+
                 Log.e("LoginActivity", "Facebook login error: " + exception.toString());
                 exception.printStackTrace();
             }
@@ -165,7 +169,9 @@ public class LoginActivity extends AppCompatActivity {
     // called when Facebook login returns
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        Log.d("SKU", "activity result");
+
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -178,6 +184,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject json_object,
                             GraphResponse response) {
+                        Log.d("SKU", "page info: onsuccess");
+
                         final ParseUser user = ParseUser.getCurrentUser();
                         if (user == null) {
                             Log.e("LoginActivity", "The user was somehow automatically logged out of Parse after being logged in.");
@@ -297,6 +305,8 @@ public class LoginActivity extends AppCompatActivity {
                 new GraphRequest.GraphJSONArrayCallback() {
                     @Override
                     public void onCompleted(JSONArray friends, GraphResponse response) {
+                        Log.d("SKU", "friends: onsuccess");
+
                         try {
                             final ParseUser user = ParseUser.getCurrentUser();
                             if (user == null) {
@@ -371,6 +381,8 @@ public class LoginActivity extends AppCompatActivity {
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.d("SKU", "user info: onsuccess");
+
                         if (object == null) {
                             // API request to facebook to fetch user info failed
                             Log.e("LoginActivity", "API Request to facebook for user info failed.");
@@ -505,6 +517,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject json_object,
                             GraphResponse response) {
+                        Log.d("SKU", "tagged places: onsuccess");
                         final ParseUser user = ParseUser.getCurrentUser();
                         if (user == null) {
                             Log.e("Login getTaggedPlaces()", "The user was somehow automatically logged out of Parse after being logged in.");
@@ -600,6 +613,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject json_object,
                             GraphResponse response) {
+                        Log.d("SKU", "place info: onsuccess");
+
                         final ParseUser user = ParseUser.getCurrentUser();
                         if (user == null) {
                             Log.e("Login getPlace()", "The user was somehow automatically logged out of Parse after being logged in.");

@@ -56,12 +56,13 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
+            final SwipeDeck cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
         // Overall game timer elements
