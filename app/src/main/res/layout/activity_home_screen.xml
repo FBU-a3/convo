@@ -15,7 +15,8 @@
         android:layout_marginTop="176dp"
         android:text="Edit Profile"
         tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="94dp" />
+        tools:layout_editor_absoluteY="94dp"
+        android:fontFamily="@font/nunito_extralight"/>
 
     <Button
         android:id="@+id/play_game_btn"
@@ -24,7 +25,8 @@
         android:layout_centerInParent="true"
         android:text="Play Game"
         tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="231dp" />
+        tools:layout_editor_absoluteY="231dp"
+        android:fontFamily="@font/nunito_extralight"/>
 
     <Button
         android:id="@+id/logout_btn"
@@ -35,5 +37,7 @@
         android:layout_marginBottom="177dp"
         android:text="Log Out"
         tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="373dp" />
+        tools:layout_editor_absoluteY="373dp"
+        android:fontFamily="@font/nunito_extralight"/>
+
 </RelativeLayout>
