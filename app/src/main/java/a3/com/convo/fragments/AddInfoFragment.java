@@ -84,14 +84,13 @@ public class AddInfoFragment extends Fragment {
                 final ParseUser user = ParseUser.getCurrentUser();
                 final Page newPage = Page.newInstance(null, itemText, null, null, null);
                 newPage.saveInBackground(new SaveCallback() {
-
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.e("LoginActivity", "Create page success");
                             user.add("otherLikes", newPage.getObjectId());
                             user.saveInBackground();
-                            additionalLikes.add(0, newPage.getName());
+                            additionalLikes.add(0, newPage.getObjectId());
                             alAdapter.notifyDataSetChanged();
                             etNewLike.setText("");
                         }
@@ -120,5 +119,4 @@ public class AddInfoFragment extends Fragment {
             }
         });
     }
-
 }

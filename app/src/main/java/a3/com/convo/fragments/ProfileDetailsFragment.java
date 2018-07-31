@@ -11,10 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
+import a3.com.convo.Models.Page;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 
@@ -28,6 +32,7 @@ public class ProfileDetailsFragment extends Fragment {
     private TextView tvUserName;
     private TextView tvUserHometown;
     private ImageView ivUserProfPic;
+    private TextView tvNumGamesPlayed;
 
     public ProfileDetailsFragment() {
         // Required empty public constructor
@@ -46,6 +51,7 @@ public class ProfileDetailsFragment extends Fragment {
         tvUserName = (TextView) view.findViewById(R.id.tv_user_name);
         tvUserHometown = (TextView) view.findViewById(R.id.tv_user_hometown);
         ivUserProfPic = (ImageView) view.findViewById(R.id.iv_user_prof_pic);
+        tvNumGamesPlayed = (TextView) view.findViewById(R.id.tv_games_played);
         context = getActivity();
 
         addLikes.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +72,38 @@ public class ProfileDetailsFragment extends Fragment {
             return;
         }
         tvUserName.setText(userName);
-        String userHometown = user.getString(Constants.HOMETOWN);
-        if (userHometown == null) {
+        String userHometownObjectId = user.getString(Constants.HOMETOWN);
+        if (userHometownObjectId == null) {
             Log.e("ProfileDetailsFragment", "User doesn't have hometown and that's fine");
             tvUserHometown.setText(Constants.EMPTY_STRING);
         }
         else {
-            tvUserHometown.setText(userHometown);
+            ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
+            query.getInBackground(userHometownObjectId, new GetCallback<Page>() {
+                @Override
+                public void done(Page object, ParseException e) {
+                    if (e == null && object != null) {
+                        String hometown_name = object.getName();
+                        if (hometown_name == null || hometown_name.isEmpty()){
+                            Log.e("ProfileDetailsFragment", "User's hometown object has no name");
+                            return;
+                        }
+                        tvUserHometown.setText("From " + hometown_name);
+                    }
+                    else {
+                        Log.e("hometown", "hometown not showing up");
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
+        Integer gamesPlayed = ((Integer)user.getNumber(Constants.NUM_GAMES));
+        if (gamesPlayed == null) {
+            Log.e("ProfileDetailsFragment", "User doesn't have num games");
+            return;
+        }
+        int userGamesPlayed = gamesPlayed.intValue();
+        tvNumGamesPlayed.setText("Number of games played: " + userGamesPlayed);
 
         String profPicUrl = user.getString(Constants.PROF_PIC_URL);
         if (profPicUrl != null) {

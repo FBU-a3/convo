@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,22 @@ public class GameFragment extends Fragment {
             @Override
             public void onFinish() {
                 tvTimer.setText(getString(R.string.game_over));
+                Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
+                if (player1Games == null) {
+                    Log.e("GameFragment", "Query returned null number of games in player1games");
+                    return;
+                }
+                Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
+                player1.put(Constants.NUM_GAMES, player1GamesIncremented);
+                player1.saveInBackground();
+                Integer player2Games = (Integer)player2.getNumber(Constants.NUM_GAMES);
+                if (player2Games == null) {
+                    Log.e("GameFragment", "Query returned null number of games in player2games");
+                    return;
+                }
+                Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
+                player2.put(Constants.NUM_GAMES, player2GamesIncremented);
+                player2.saveInBackground();
             }
         };
         timer.start();
