@@ -11,17 +11,13 @@ import a3.com.convo.fragments.AddInfoFragment;
 import a3.com.convo.fragments.ProfileDetailsFragment;
 
 public class ProfileActivity extends AppCompatActivity {
-
-    private FragmentTransaction ft;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment profileFrag = new ProfileDetailsFragment();
-
         ft.replace(R.id.show_profile_fragment, profileFrag);
         ft.commit();
     }
