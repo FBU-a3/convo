@@ -40,6 +40,9 @@ public class GameFragment extends Fragment {
     // gameplay mode
     private String mode;
 
+    // amount of time per game/card, depending on mode above
+    private int time;
+
     private ParseUser player1;
     private ArrayList<String> player1Likes;
     private ParseUser player2;
@@ -70,7 +73,7 @@ public class GameFragment extends Fragment {
         topicsDiscussed = new ArrayList<>();
 
         // change initial amount based on if timer is set per game or per card
-        int startTime = mode.equals(Constants.FREESTYLE) ? Constants.GAME_TIME : Constants.CARD_TIME;
+        int startTime = time;
 
         // Overall game timer elements
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
@@ -165,5 +168,11 @@ public class GameFragment extends Fragment {
     }
     public void setMode(String selectedMode) {
         mode = selectedMode;
+    }
+
+    // sets the time per card (timed mode) or per game (freestyle mode)
+    public void setTime(int selectedTime) {
+        if (mode.equals(Constants.FREESTYLE)) time = 1000 * 60 * selectedTime; //convert entered number of minutes to ms
+        else time = 1000 * selectedTime; // convert entered number of seconds to ms
     }
 }
