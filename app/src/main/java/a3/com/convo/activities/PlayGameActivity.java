@@ -45,13 +45,13 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     public void goToGame(String selectedFriend, String mode) {
-        // TODO: set the mode here and take to a new mode based on that
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.play_game_fragment, gameFrag);
         fragmentTransaction.commit();
         gameFrag.setFriend(selectedFriend);
+        gameFrag.setMode(mode);
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {
