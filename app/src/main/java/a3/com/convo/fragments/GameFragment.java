@@ -61,7 +61,7 @@ public class GameFragment extends Fragment {
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
+        final SwipeDeck cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
         // Overall game timer elements
