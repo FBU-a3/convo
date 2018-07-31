@@ -1,7 +1,6 @@
 package a3.com.convo.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +44,8 @@ public class PlayGameActivity extends AppCompatActivity {
         modeFrag.setFriend(selectedFriend);
     }
 
-    public void goToGame(String selectedFriend) {
+    public void goToGame(String selectedFriend, String mode) {
+        // TODO: set the mode here and take to a new mode based on that
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
