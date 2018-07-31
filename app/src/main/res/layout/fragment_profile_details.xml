@@ -50,5 +50,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user_hometown"
         android:layout_centerHorizontal="true"
-        android:text="Number of Games Played" />
+        android:text="@string/num_games_played" />
 </RelativeLayout>
