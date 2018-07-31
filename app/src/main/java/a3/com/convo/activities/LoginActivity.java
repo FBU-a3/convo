@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -14,7 +13,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.FindCallback;
@@ -86,6 +84,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // check to see if the user is already logged in
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(Constants.USER_LIKES,
+                                Constants.USER_FRIENDS,
+                                Constants.EMAIL,
+                                Constants.USER_HOMETOWN,
+                                Constants.USER_LOCATION,
+                                Constants.USER_TAGGED_PLACES));
         mCallbackManager = CallbackManager.Factory.create();
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
@@ -108,27 +112,6 @@ public class LoginActivity extends AppCompatActivity {
                 getUserInfo(accessToken);
             }
         }
-
-        // if user is not logged in/signed up to Facebook, the button shows up
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("SKU", "login button: onclick");
-                LoginManager lm = LoginManager.getInstance();
-                if (lm == null) {
-                    Log.e("LoginActivity", "LoginManager is null");
-                    return;
-                }
-                lm.logInWithReadPermissions(LoginActivity.this,
-                        Arrays.asList(Constants.USER_LIKES,
-                                Constants.USER_FRIENDS,
-                                Constants.EMAIL,
-                                Constants.USER_HOMETOWN,
-                                Constants.USER_LOCATION,
-                                Constants.USER_TAGGED_PLACES));
-
-            }
-        });
 
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
