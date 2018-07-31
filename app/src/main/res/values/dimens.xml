@@ -21,4 +21,8 @@
     <dimen name = "name_text_size">25dp</dimen>
     <dimen name = "pic_width">200sp</dimen>
     <dimen name="convo_over_text_size">18sp</dimen>
+    <dimen name="mode_button_width">100dp</dimen>
+    <dimen name="freestyle_margin_top">150dp</dimen>
+    <dimen name="timed_margin_top">250dp</dimen>
+    <dimen name="linear_layout_height">200dp</dimen>
 </resources>
