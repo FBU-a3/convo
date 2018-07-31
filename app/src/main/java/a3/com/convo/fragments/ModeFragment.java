@@ -54,7 +54,7 @@ public class ModeFragment extends Fragment {
                         int seconds = Integer.parseInt(timeInput.getText().toString());
                         // TODO: send seconds for timer to game activity
                         if (getContext() instanceof PlayGameActivity) {
-                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE);
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE, seconds);
                         }
                     }
                 });
@@ -73,7 +73,7 @@ public class ModeFragment extends Fragment {
                         int minutes = Integer.parseInt(timeInput.getText().toString());
                         // TODO: send minutes for timer to game activity
                         if (getContext() instanceof PlayGameActivity) {
-                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED);
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED, minutes);
                         }
                     }
                 });

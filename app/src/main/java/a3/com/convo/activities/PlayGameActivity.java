@@ -44,7 +44,7 @@ public class PlayGameActivity extends AppCompatActivity {
         modeFrag.setFriend(selectedFriend);
     }
 
-    public void goToGame(String selectedFriend, String mode) {
+    public void goToGame(String selectedFriend, String mode, int time) {
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -52,6 +52,7 @@ public class PlayGameActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         gameFrag.setFriend(selectedFriend);
         gameFrag.setMode(mode);
+        gameFrag.setTime(time);
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {
