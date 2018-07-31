@@ -41,6 +41,7 @@ public class Constants {
     public static final String PARSE_LOCATION = "location";
     public static final String PAGE_ID = "pageId";
     public static final String PROF_URL = "profUrl";
+    public static final String NUM_GAMES = "numGames";
 
     // request params fields for fetching user's likes from Graph API
     public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";

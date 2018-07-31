@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("LoginActivity", "no pages in the server or query failed because objects was empty.");
                     return;
                 }
+                int i = objects.size();
                 for (Page page : objects) {
                     if (page == null) {
                         Log.e("LoginActivity", "page was null");
@@ -215,6 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (existingPages.containsKey(id)) {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
                                     user.add(Constants.PARSE_PAGE_LIKES_KEY, existingPages.get(id));
+                                    user.saveInBackground();
                                 } else {
                                     // doesn't exist yet, so we add it to the server
                                     String category = page.optString(Constants.CATEGORY_KEY);
@@ -457,6 +459,7 @@ public class LoginActivity extends AppCompatActivity {
         user.put(Constants.NAME, name);
         user.put(Constants.PROF_PIC_URL, profPicUrl);
         user.put(Constants.OTHER_LIKES, new ArrayList<String>());
+        user.put(Constants.NUM_GAMES, 0);
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -542,6 +545,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (existingPages.containsKey(id)) {
                                         // page already exists in Parse, so we just get the object id and add it to their likes array
                                         user.add(Constants.PARSE_TAGGED_PLACES, existingPages.get(id));
+                                        user.saveInBackground();
                                     } else {
                                         // doesn't exist yet, so we add it to the server
                                         JSONObject place_object = place.getJSONObject(Constants.PLACE);
@@ -614,14 +618,16 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.e("Login getPlace()", "object place is null.");
                                     return;
                                 }
-                                final String place_id = place.optString(Constants.ID_KEY);
-                                if (place_id == null) {
+                                final String placeId = place.optString(Constants.ID_KEY);
+                                if (placeId == null) {
                                     Log.e("Login getPlace()", "object place's id is null.");
                                     return;
                                 }
-                                if (existingPages.containsKey(place_id)) {
+                                if (existingPages.containsKey(placeId)) {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
-                                    user.add(parse_constant, existingPages.get(place_id));
+                                    user.put(parse_constant, existingPages.get(placeId));
+                                    user.saveInBackground();
+                                    Log.e("login", "duplicate page is " + place.optString(Constants.NAME));
                                 } else {
                                     // doesn't exist yet, so we add it to the server
                                     String name = place.optString(Constants.NAME);
@@ -629,7 +635,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("Login getPlace()", "object place's name is null.");
                                         return;
                                     }
-                                    final Page newPlacePage = Page.newInstance(place_id, name, null, null, null);
+                                    final Page newPlacePage = Page.newInstance(placeId, name, null, null, null);
                                     newPlacePage.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
@@ -640,7 +646,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     Log.e("tagged places", "object id was null");
                                                     return;
                                                 }
-                                                existingPages.put(place_id, objectId);
+                                                existingPages.put(placeId, objectId);
                                                 user.put(parse_constant, objectId);
                                                 user.saveInBackground();
                                             } else {
