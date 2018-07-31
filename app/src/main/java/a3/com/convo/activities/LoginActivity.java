@@ -493,6 +493,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // TODO: combine this with getPlace()
     public void getTaggedPlaces(final AccessToken access_token) {
         GraphRequest data_request = GraphRequest.newMeRequest(
                 access_token,
@@ -586,6 +587,7 @@ public class LoginActivity extends AppCompatActivity {
         data_request.executeAsync();
     }
 
+    // TODO: combine this with getTaggedPlaces()
     public void getPlace(final AccessToken access_token, final String api_constant, final String parse_constant) {
         GraphRequest data_request = GraphRequest.newMeRequest(
                 access_token,

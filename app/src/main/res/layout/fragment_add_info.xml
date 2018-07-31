@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AddInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="Add Info Here"
+        android:text="@string/add_info_here"
         android:layout_alignParentLeft="true" />
 
     <Button
@@ -20,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="BACK"
+        android:text="@string/back"
         android:layout_alignParentRight="true" />
 
     <android.support.v7.widget.RecyclerView
@@ -38,7 +37,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="Add a new like..."
+        android:hint="@string/add_new_like"
         android:inputType="textPersonName"
         android:layout_alignParentLeft="true" />
 
@@ -48,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:text="Add"
+        android:text="@string/add"
         android:layout_alignParentRight="true" />
 
 </RelativeLayout>
