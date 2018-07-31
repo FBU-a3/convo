@@ -70,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("LoginActivity", "no pages in the server or query failed because objects was empty.");
                     return;
                 }
-                int i = objects.size();
                 for (Page page : objects) {
                     if (page == null) {
                         Log.e("LoginActivity", "page was null");
