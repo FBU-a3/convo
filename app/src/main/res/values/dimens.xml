@@ -34,4 +34,5 @@
     <dimen name = "hometown_top_margin">10dp</dimen>
     <dimen name = "name_text_size">25dp</dimen>
     <dimen name = "pic_width">200sp</dimen>
+    <dimen name="convo_over_text_size">18sp</dimen>
 </resources>
