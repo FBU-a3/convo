@@ -14,7 +14,6 @@ import a3.com.convo.fragments.GameFragment;
 import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
-
     private FragmentTransaction ft;
 
     @Override
