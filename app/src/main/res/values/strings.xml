@@ -4,6 +4,9 @@
     <string name="app_name">Convo</string>
     // activity_home_screen
     // activity_play_game
+    <string name="edit_prof_btn">Edit Profile</string>
+    <string name="play_game_btn">Play Game</string>
+    <string name="logout_btn">Log Out</string>
     // fragment_add_info
     // fragment_conclusion
     // fragment_friends
