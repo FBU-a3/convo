@@ -99,6 +99,22 @@ public class GameFragment extends Fragment {
 
                 if (getContext() instanceof PlayGameActivity)
                     ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
+                Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
+                if (player1Games == null) {
+                    Log.e("GameFragment", "Query returned null number of games in player1games");
+                    return;
+                }
+                Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
+                player1.put(Constants.NUM_GAMES, player1GamesIncremented);
+                player1.saveInBackground();
+                Integer player2Games = (Integer)player2.getNumber(Constants.NUM_GAMES);
+                if (player2Games == null) {
+                    Log.e("GameFragment", "Query returned null number of games in player2games");
+                    return;
+                }
+                Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
+                player2.put(Constants.NUM_GAMES, player2GamesIncremented);
+                player2.saveInBackground();
             }
         };
         timer.start();
