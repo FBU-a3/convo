@@ -12,9 +12,6 @@ import a3.com.convo.fragments.ProfileDetailsFragment;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private AddInfoFragment addInfoFrag;
-    private ProfileDetailsFragment profileDetailsFrag;
-    private Fragment profileFrag;
     private FragmentTransaction ft;
 
     @Override
@@ -23,10 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         ft = getSupportFragmentManager().beginTransaction();
-
-        addInfoFrag = new AddInfoFragment();
-        profileDetailsFrag = new ProfileDetailsFragment();
-        profileFrag = profileDetailsFrag;
+        Fragment profileFrag = new ProfileDetailsFragment();
 
         ft.replace(R.id.show_profile_fragment, profileFrag);
         ft.commit();
