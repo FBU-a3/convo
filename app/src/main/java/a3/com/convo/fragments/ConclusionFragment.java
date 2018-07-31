@@ -3,10 +3,12 @@ package a3.com.convo.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -16,10 +18,9 @@ import a3.com.convo.adapters.FriendAdapter;
 
 public class ConclusionFragment extends Fragment {
     private Context context;
-    private String discussedTopics;
+    private ArrayList<String> topicsDiscussed;
 
     public ConclusionFragment() {
-
     }
 
     @Override
@@ -31,6 +32,8 @@ public class ConclusionFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        TextView tvTopics = view.findViewById(R.id.tv_topics);
+        tvTopics.setText(TextUtils.join(",", topicsDiscussed));
         context = getActivity();
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {
@@ -39,5 +42,9 @@ public class ConclusionFragment extends Fragment {
                 ((PlayGameActivity)context).goToFriends();
             }
         });
+    }
+
+    public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
+        this.topicsDiscussed = topicsDiscussed;
     }
 }

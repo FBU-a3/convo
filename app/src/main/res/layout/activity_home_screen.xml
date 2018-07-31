@@ -8,36 +8,29 @@
 
     <Button
         android:id="@+id/edit_profile_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="176dp"
-        android:text="Edit Profile"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="94dp"
-        android:fontFamily="@font/nunito_extralight"/>
+        android:layout_marginTop="@dimen/edit_prof_margin_top"
+        android:text="@string/edit_prof_btn" />
 
     <Button
         android:id="@+id/play_game_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Play Game"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="231dp"
-        android:fontFamily="@font/nunito_extralight"/>
+        android:layout_above="@+id/logout_btn"
+        android:text="@string/play_game_btn"
+        android:paddingVertical="30dp" />
 
     <Button
         android:id="@+id/logout_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="177dp"
-        android:text="Log Out"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="373dp"
-        android:fontFamily="@font/nunito_extralight"/>
+        android:text="@string/logout_btn"
+        android:paddingVertical="30dp" />
 
 </RelativeLayout>

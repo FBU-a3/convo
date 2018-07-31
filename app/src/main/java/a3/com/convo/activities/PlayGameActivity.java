@@ -15,7 +15,6 @@ import a3.com.convo.fragments.GameFragment;
 import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
-
     private FragmentTransaction ft;
 
     @Override
@@ -55,9 +54,11 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {
+        ConclusionFragment endFrag = new ConclusionFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, new ConclusionFragment());
+        fragmentTransaction.replace(R.id.play_game_fragment, endFrag);
         fragmentTransaction.commit();
+        endFrag.setDiscussedTopics(topicsDiscussed);
     }
 }
