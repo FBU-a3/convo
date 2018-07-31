@@ -17,6 +17,7 @@ import com.parse.ParseUser;
 
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
+import a3.com.convo.models.Page;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.models.Page;
