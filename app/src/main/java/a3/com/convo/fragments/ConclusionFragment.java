@@ -31,6 +31,7 @@ public class ConclusionFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
         TextView tvTopics = (TextView) view.findViewById(R.id.tv_topics);
 
         tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));
