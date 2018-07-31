@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // activity_login
+    // activity_home_screen
+    // activity_play_game
+    // fragment_add_info
+    // fragment_conclusion
+    // fragment_friends
+    // fragment_game
+    // fragment_mode
+    // fragment_profile_details
+    // item_card
+    // item_friend
+    // item_like
     <dimen name="game_timer_text_size">50sp</dimen>
     <dimen name="topic_timer_text_size">30sp</dimen>
     <dimen name="game_padding">5dp</dimen>

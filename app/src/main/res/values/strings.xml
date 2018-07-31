@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // activity_login
     <string name="app_name">Convo</string>
+    // activity_home_screen
+    // activity_play_game
+    // fragment_add_info
+    // fragment_conclusion
+    // fragment_friends
+    // fragment_game
+    // fragment_mode
+    // fragment_profile_details
+    // item_card
+    // item_friend
+    // item_like
+
     <string name="game_over">Game over!</string>
     <string name="next_card">onto the next one</string>
     <string name="timer_text">Timer</string>
