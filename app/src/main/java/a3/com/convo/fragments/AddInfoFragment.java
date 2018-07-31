@@ -1,6 +1,5 @@
 package a3.com.convo.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,11 +18,11 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import a3.com.convo.models.Page;
 import a3.com.convo.R;
 import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.adapters.AdditionalLikeAdapter;
 import a3.com.convo.adapters.RecyclerViewItemClickListener;
+import a3.com.convo.models.Page;
 
 /**
  * This class is the fragment in Profile Activity where the user can add additional likes.
@@ -32,13 +31,7 @@ import a3.com.convo.adapters.RecyclerViewItemClickListener;
  * long clicks on any list item, it's deleted from the recycler view and the otherLikes array.
  **/
 public class AddInfoFragment extends Fragment {
-    private Context context;
-    private Button backButton;
-    private Button addLikeButton;
-    private EditText etNewLike;
-    RecyclerView rvLikes;
     ArrayList<String> additionalLikes;
-    AdditionalLikeAdapter alAdapter;
 
     public AddInfoFragment() {
         // Required empty public constructor
@@ -53,29 +46,28 @@ public class AddInfoFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        context = getActivity();
-        backButton = (Button) view.findViewById(R.id.back_to_prof_btn);
-        etNewLike = (EditText) view.findViewById(R.id.et_new_like);
+        Button backButton = (Button) view.findViewById(R.id.back_to_prof_btn);
+        final EditText etNewLike = (EditText) view.findViewById(R.id.et_new_like);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProfileActivity)context).goBackToProfile();
+                ((ProfileActivity)getActivity()).goBackToProfile();
             }
         });
 
-        rvLikes = (RecyclerView) view.findViewById(R.id.rv_likes);
+        RecyclerView rvLikes = (RecyclerView) view.findViewById(R.id.rv_likes);
 
         // read in existing likes
         additionalLikes = new ArrayList<>();
         ParseUser user = ParseUser.getCurrentUser();
         additionalLikes.addAll(user.<String>getList("otherLikes"));
 
-        alAdapter = new AdditionalLikeAdapter(additionalLikes);
+        final AdditionalLikeAdapter alAdapter = new AdditionalLikeAdapter(additionalLikes);
         rvLikes.setLayoutManager(new LinearLayoutManager(getContext()));
         rvLikes.setAdapter(alAdapter);
 
-        addLikeButton = (Button) view.findViewById(R.id.add_like_btn);
+        Button addLikeButton = (Button) view.findViewById(R.id.add_like_btn);
         addLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,14 +76,13 @@ public class AddInfoFragment extends Fragment {
                 final ParseUser user = ParseUser.getCurrentUser();
                 final Page newPage = Page.newInstance(null, itemText, null, null, null);
                 newPage.saveInBackground(new SaveCallback() {
-
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.e("LoginActivity", "Create page success");
                             user.add("otherLikes", newPage.getObjectId());
                             user.saveInBackground();
-                            additionalLikes.add(0, newPage.getName());
+                            additionalLikes.add(0, newPage.getObjectId());
                             alAdapter.notifyDataSetChanged();
                             etNewLike.setText("");
                         }
@@ -120,5 +111,4 @@ public class AddInfoFragment extends Fragment {
             }
         });
     }
-
 }
