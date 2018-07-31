@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import a3.com.convo.Constants;
@@ -35,13 +38,27 @@ public class ModeFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        final LinearLayout layout = (LinearLayout) view.findViewById(R.id.layout);
+        final TextView tvPickTime = (TextView) view.findViewById(R.id.tvPickTime);
+        final EditText timeInput = (EditText) view.findViewById(R.id.etPickTime);
+        final Button playButton = (Button) view.findViewById(R.id.playButton);
+
         startGame = (Button) view.findViewById(R.id.start_game_btn);
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getContext() instanceof PlayGameActivity) {
-                    ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE);
-                }
+                tvPickTime.setText(getString(R.string.pick_game_time));
+                playButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int seconds = Integer.parseInt(timeInput.getText().toString());
+                        // TODO: send seconds for timer to game activity
+                        if (getContext() instanceof PlayGameActivity) {
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE);
+                        }
+                    }
+                });
+                layout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -49,9 +66,18 @@ public class ModeFragment extends Fragment {
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getContext() instanceof PlayGameActivity) {
-                    ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED);
-                }
+                tvPickTime.setText(getString(R.string.pick_card_time));
+                playButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int minutes = Integer.parseInt(timeInput.getText().toString());
+                        // TODO: send minutes for timer to game activity
+                        if (getContext() instanceof PlayGameActivity) {
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED);
+                        }
+                    }
+                });
+                layout.setVisibility(View.VISIBLE);
             }
         });
     }
