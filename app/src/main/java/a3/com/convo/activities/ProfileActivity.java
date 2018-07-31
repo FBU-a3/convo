@@ -11,6 +11,9 @@ import a3.com.convo.fragments.AddInfoFragment;
 import a3.com.convo.fragments.ProfileDetailsFragment;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private FragmentTransaction ft;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
