@@ -19,7 +19,6 @@ public class ConclusionFragment extends Fragment {
     private ArrayList<String> discussedTopics;
 
     public ConclusionFragment() {
-
     }
 
     @Override
