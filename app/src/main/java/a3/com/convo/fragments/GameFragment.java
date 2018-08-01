@@ -64,8 +64,6 @@ public class GameFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         final SwipeDeck cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        final SwipeDeck cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
 
         // Overall game timer elements
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
