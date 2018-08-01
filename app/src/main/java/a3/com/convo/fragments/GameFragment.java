@@ -65,13 +65,14 @@ public class GameFragment extends Fragment {
         final SwipeDeck cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
+
         // Overall game timer elements
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         CountDownTimer timer = new CountDownTimer(Constants.GAME_TIME, Constants.TIMER_INTERVAL) {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(
-                        String.format(view.getContext().getResources().getString(R.string.timer_format),
+                        String.format(getActivity().getResources().getString(R.string.timer_format),
                                 TimeUnit.MILLISECONDS.toMinutes(l),
                                 TimeUnit.MILLISECONDS.toSeconds(l)
                                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
