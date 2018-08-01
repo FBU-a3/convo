@@ -36,4 +36,9 @@
     <string name="end_message">The Convo\'s only over if you want it to be!</string>
     <string name="play_again">Play Again?</string>
     <string name="end_topics">The following topics were talked about:</string>
+    <string name="freestyle_mode">Freestyle</string>
+    <string name="timed_mode">Timed</string>
+    <string name="pick_card_time">Pick the amount of time for each topic</string>
+    <string name="pick_game_time">Pick the amount of time for your game</string>
+    <string name="play">Let\'s chat!</string>
 </resources>

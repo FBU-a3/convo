@@ -37,12 +37,21 @@ public class GameFragment extends Fragment {
     // objectId of the other player
     private String friend;
 
+    // gameplay mode
+    private String mode;
+
+    // amount of time per game/card, depending on mode above
+    private int time;
+
     private ParseUser player1;
     private ArrayList<String> player1Likes;
     private ParseUser player2;
     private ArrayList<String> player2Likes;
     private ArrayList<String> allLikes;
     private CardAdapter adapter;
+
+    // declared as instance for use in other methods
+    private CountDownTimer timer;
 
     private ArrayList<String> topicsDiscussed;
 
@@ -63,9 +72,12 @@ public class GameFragment extends Fragment {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
+        // change initial amount based on if timer is set per game or per card
+        int startTime = time;
+
         // Overall game timer elements
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-        CountDownTimer timer = new CountDownTimer(Constants.GAME_TIME, Constants.TIMER_INTERVAL) {
+        timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(
@@ -78,12 +90,35 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                tvTimer.setText(getString(R.string.game_over));
-                if (getContext() instanceof PlayGameActivity)
-                    ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
+                if (mode.equals(Constants.FREESTYLE)) {
+                    endGame(tvTimer);
+                } else {
+                    cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
+                    restartTimer();
+                }
             }
         };
-        timer.start();
+
+        // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
+        cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
+            @Override
+            public void cardSwipedLeft(long stableId) {
+                // reset the timer of the next card if they're playing in timed mode
+                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
+                    topicsDiscussed.add(allLikes.get((int)stableId));
+                }
+            }
+
+            @Override
+            public void cardSwipedRight(long stableId) {
+                // reset the timer of the next card if they're playing in timed mode
+                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
+                    topicsDiscussed.add(allLikes.get((int)stableId));
+                }
+            }
+        });
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
@@ -108,34 +143,36 @@ public class GameFragment extends Fragment {
 
                         adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
                         cardStack.setAdapter(adapter);
-
-                        // when a card is swiped, add it to topics discussed
-                        cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
-                            @Override
-                            public void cardSwipedLeft(long stableId) {
-                                // reset the timer of the next card
-                                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
-                                    topicsDiscussed.add(allLikes.get((int)stableId));
-                                }
-                            }
-
-                            @Override
-                            public void cardSwipedRight(long stableId) {
-                                // reset the timer of the next card
-                                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
-                                    topicsDiscussed.add(allLikes.get((int)stableId));
-                                }
-                            }
-                        });
                     } else {
                         e.printStackTrace();
                     }
                 }
             });
         }
+        timer.start();
+    }
+
+    private void endGame(TextView tv) {
+        tv.setText(getString(R.string.game_over));
+        if (getContext() instanceof PlayGameActivity)
+            ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
+    }
+
+    private void restartTimer() {
+        timer.cancel();
+        timer.start();
     }
 
     public void setFriend(String selectedFriend) {
         friend = selectedFriend;
+    }
+    public void setMode(String selectedMode) {
+        mode = selectedMode;
+    }
+
+    // sets the time per card (timed mode) or per game (freestyle mode)
+    public void setTime(int selectedTime) {
+        if (mode.equals(Constants.FREESTYLE)) time = 1000 * 60 * selectedTime; //convert entered number of minutes to ms
+        else time = 1000 * selectedTime; // convert entered number of seconds to ms
     }
 }

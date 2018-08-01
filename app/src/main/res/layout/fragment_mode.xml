@@ -5,22 +5,60 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ModeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <Button
         android:id="@+id/start_game_btn"
-        android:layout_width="100dp"
+        android:layout_width="@dimen/mode_button_width"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:text="Freestyle" />
+        android:layout_marginTop="@dimen/freestyle_margin_top"
+        android:text="@string/freestyle_mode" />
 
     <Button
         android:id="@+id/timed_mode"
-        android:layout_width="100dp"
+        android:layout_width="@dimen/mode_button_width"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
-        android:text="Timed" />
+        android:layout_marginTop="@dimen/timed_margin_top"
+        android:text="@string/timed_mode" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/linear_layout_height"
+        android:visibility="invisible"
+        android:layout_below="@id/timed_mode"
+        android:layout_marginTop="@dimen/end_message_margin_top"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvPickTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/end_message_margin_top"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/etPickTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:inputType="number" />
+        
+        <Button
+            android:id="@+id/playButton"
+            android:layout_width="@dimen/mode_button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/end_message_margin_top"
+            android:text="@string/play" />
+
+
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
