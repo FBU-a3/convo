@@ -56,13 +56,15 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
+        final SwipeDeck cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
+
 
         // Overall game timer elements
         final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
@@ -70,7 +72,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onTick(long l) {
                 tvTimer.setText(
-                        String.format(view.getContext().getResources().getString(R.string.timer_format),
+                        String.format(getActivity().getResources().getString(R.string.timer_format),
                                 TimeUnit.MILLISECONDS.toMinutes(l),
                                 TimeUnit.MILLISECONDS.toSeconds(l)
                                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
