@@ -1,7 +1,6 @@
 package a3.com.convo.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -45,13 +44,15 @@ public class PlayGameActivity extends AppCompatActivity {
         modeFrag.setFriend(selectedFriend);
     }
 
-    public void goToGame(String selectedFriend) {
+    public void goToGame(String selectedFriend, String mode, int time) {
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.play_game_fragment, gameFrag);
         fragmentTransaction.commit();
         gameFrag.setFriend(selectedFriend);
+        gameFrag.setMode(mode);
+        gameFrag.setTime(time);
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {
