@@ -16,7 +16,6 @@ import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 
 public class ConclusionFragment extends Fragment {
-    private Context context;
     private ArrayList<String> topicsDiscussed;
 
     public ConclusionFragment() {
@@ -33,12 +32,11 @@ public class ConclusionFragment extends Fragment {
         Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
         TextView tvTopics = view.findViewById(R.id.tv_topics);
         tvTopics.setText(TextUtils.join(",", topicsDiscussed));
-        context = getActivity();
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToFriends();
+                ((PlayGameActivity)getActivity()).goToFriends();
             }
         });
     }
