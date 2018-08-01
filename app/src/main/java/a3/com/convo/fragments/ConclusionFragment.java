@@ -16,7 +16,8 @@ import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 
 public class ConclusionFragment extends Fragment {
-    private ArrayList<String> discussedTopics;
+    private Context context;
+    private ArrayList<String> topicsDiscussed;
 
     public ConclusionFragment() {
     }
@@ -30,21 +31,19 @@ public class ConclusionFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
-        playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
-        TextView tvTopics = (TextView) view.findViewById(R.id.tv_topics);
-
-        tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));
+        TextView tvTopics = view.findViewById(R.id.tv_topics);
+        tvTopics.setText(TextUtils.join(",", topicsDiscussed));
+        context = getActivity();
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getContext() instanceof PlayGameActivity)
-                    ((PlayGameActivity) getContext()).goToFriends();
+                ((PlayGameActivity)context).goToFriends();
             }
         });
     }
 
     public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
-        discussedTopics = topicsDiscussed;
+        this.topicsDiscussed = topicsDiscussed;
     }
 }
