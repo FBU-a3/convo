@@ -62,7 +62,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, final View view, ViewGroup viewGroup) {
+    public View getView(final int i, final View view, final ViewGroup viewGroup) {
         final Context context = viewGroup.getContext();
         View v = view;
 
@@ -109,6 +109,7 @@ public class CardAdapter extends BaseAdapter {
                     tvTopic.setText(object.getName());
 
                     if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
+                        // TODO: add check for if activity has been destroyed in order to avoid crash
                         GlideApp.with(context)
                                 .load(object.getCoverUrl())
                                 .override(300, 300) // trying 300 height for now, will scale later
