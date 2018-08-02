@@ -25,4 +25,5 @@
     <dimen name="freestyle_margin_top">150dp</dimen>
     <dimen name="timed_margin_top">250dp</dimen>
     <dimen name="linear_layout_height">200dp</dimen>
+    <dimen name="button_height">90dp</dimen>
 </resources>
