@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -15,7 +14,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.FindCallback;
@@ -36,14 +34,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import a3.com.convo.Constants;
-import a3.com.convo.models.Page;
 import a3.com.convo.R;
+import a3.com.convo.models.Page;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
-    private boolean onSuccessCalled;
+    private CallbackManager mCallbackManager;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     private HashMap<String, String> existingPages;
@@ -52,9 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // TODO fix this quick fix to on success being called twice
-        // onSuccess for login is being called twice even though login button onClick is called once
-        onSuccessCalled = false;
 
         final Context context = this;
 
@@ -87,8 +80,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // check to see if the user is already logged in
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(Constants.USER_LIKES,
+                Constants.USER_FRIENDS,
+                Constants.EMAIL,
+                Constants.USER_HOMETOWN,
+                Constants.USER_LOCATION,
+                Constants.USER_TAGGED_PLACES));
+        mCallbackManager = CallbackManager.Factory.create();
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
@@ -111,30 +110,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        // if user is not logged in/signed up to Facebook, the button shows up
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginManager lm = LoginManager.getInstance();
-                if (lm == null) {
-                    Log.e("LoginActivity", "LoginManager is null");
-                    return;
-                }
-                lm.logInWithReadPermissions(LoginActivity.this,
-                        Arrays.asList(Constants.USER_LIKES,
-                                Constants.USER_FRIENDS,
-                                Constants.EMAIL,
-                                Constants.USER_HOMETOWN,
-                                Constants.USER_LOCATION,
-                                Constants.USER_TAGGED_PLACES));
-
-            }
-        });
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                if (!onSuccessCalled) {
                     Toast.makeText(context, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
                     AccessToken at = loginResult.getAccessToken();
                     if (at == null) {
@@ -144,8 +122,6 @@ public class LoginActivity extends AppCompatActivity {
                     getUserInfo(at);
                     Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                     startActivity(i);
-                    onSuccessCalled = true;
-                }
             }
 
             @Override
@@ -164,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     // called when Facebook login returns
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -215,6 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (existingPages.containsKey(id)) {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
                                     user.add(Constants.PARSE_PAGE_LIKES_KEY, existingPages.get(id));
+                                    user.saveInBackground();
                                 } else {
                                     // doesn't exist yet, so we add it to the server
                                     String category = page.optString(Constants.CATEGORY_KEY);
@@ -457,6 +434,7 @@ public class LoginActivity extends AppCompatActivity {
         user.put(Constants.NAME, name);
         user.put(Constants.PROF_PIC_URL, profPicUrl);
         user.put(Constants.OTHER_LIKES, new ArrayList<String>());
+        user.put(Constants.NUM_GAMES, new Integer(0));
         // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -542,6 +520,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (existingPages.containsKey(id)) {
                                         // page already exists in Parse, so we just get the object id and add it to their likes array
                                         user.add(Constants.PARSE_TAGGED_PLACES, existingPages.get(id));
+                                        user.saveInBackground();
                                     } else {
                                         // doesn't exist yet, so we add it to the server
                                         JSONObject place_object = place.getJSONObject(Constants.PLACE);
@@ -614,14 +593,14 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.e("Login getPlace()", "object place is null.");
                                     return;
                                 }
-                                final String place_id = place.optString(Constants.ID_KEY);
-                                if (place_id == null) {
+                                final String placeId = place.optString(Constants.ID_KEY);
+                                if (placeId == null) {
                                     Log.e("Login getPlace()", "object place's id is null.");
                                     return;
                                 }
-                                if (existingPages.containsKey(place_id)) {
+                                if (existingPages.containsKey(placeId)) {
                                     // page already exists in Parse, so we just get the object id and add it to their likes array
-                                    user.add(parse_constant, existingPages.get(place_id));
+                                    user.add(parse_constant, existingPages.get(placeId));
                                 } else {
                                     // doesn't exist yet, so we add it to the server
                                     String name = place.optString(Constants.NAME);
@@ -629,7 +608,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("Login getPlace()", "object place's name is null.");
                                         return;
                                     }
-                                    final Page newPlacePage = Page.newInstance(place_id, name, null, null, null);
+                                    final Page newPlacePage = Page.newInstance(placeId, name, null, null, null);
                                     newPlacePage.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
@@ -640,7 +619,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     Log.e("tagged places", "object id was null");
                                                     return;
                                                 }
-                                                existingPages.put(place_id, objectId);
+                                                existingPages.put(placeId, objectId);
                                                 user.put(parse_constant, objectId);
                                                 user.saveInBackground();
                                             } else {
