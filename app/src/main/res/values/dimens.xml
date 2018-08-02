@@ -26,4 +26,5 @@
     <dimen name="timed_margin_top">250dp</dimen>
     <dimen name="linear_layout_height">200dp</dimen>
     <dimen name="button_height">90dp</dimen>
+    <dimen name="login_button_corner_radius">12dp</dimen>
 </resources>

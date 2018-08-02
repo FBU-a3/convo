@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/colorPrimary"></solid>
-    <corners android:radius="12dp"/>
-    <padding android:left="12dp"
-        android:bottom="12dp"
-        android:right="12dp"
-        android:top="12dp"></padding>
+    <corners android:radius="@dimen/login_button_corner_radius"/>
+    <padding android:left="@dimen/login_button_corner_radius"
+        android:bottom="@dimen/login_button_corner_radius"
+        android:right="@dimen/login_button_corner_radius"
+        android:top="@dimen/login_button_corner_radius"></padding>
 </shape>
