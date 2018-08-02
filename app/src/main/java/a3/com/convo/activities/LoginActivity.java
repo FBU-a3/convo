@@ -40,7 +40,6 @@ import a3.com.convo.models.Page;
 import a3.com.convo.R;
 
 public class LoginActivity extends AppCompatActivity {
-
     private LoginButton loginButton;
     private CallbackManager callbackManager;
     private boolean onSuccessCalled;

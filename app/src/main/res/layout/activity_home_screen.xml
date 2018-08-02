@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/edit_prof_margin_top"
+        android:enabled="true"
         android:text="@string/edit_prof_btn" />
 
     <Button
@@ -22,7 +23,7 @@
         android:layout_centerInParent="true"
         android:layout_above="@+id/logout_btn"
         android:text="@string/play_game_btn"
-        android:paddingVertical="30dp" />
+        android:paddingVertical="@dimen/buttons_vertical_padding" />
 
     <Button
         android:id="@+id/logout_btn"
@@ -31,6 +32,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/logout_btn"
-        android:paddingVertical="30dp" />
+        android:paddingVertical="@dimen/buttons_vertical_padding" />
 
 </RelativeLayout>

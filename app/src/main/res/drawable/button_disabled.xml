@@ -7,7 +7,8 @@
         android:centerColor="@color/color_tertiary"
         android:endColor="@color/color_stone"
         android:angle="90"/>
-    <padding android:left="7dp"
+    <padding
+        android:left="12dp"
         android:top="12dp"
         android:right="12dp"
         android:bottom="12dp" />

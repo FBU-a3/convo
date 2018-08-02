@@ -2,6 +2,7 @@ package a3.com.convo.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,10 @@ public class ModeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 tvPickTime.setText(getString(R.string.pick_game_time));
+                if (tvPickTime == null) {
+                    Log.e("ModeFragment", "Picked time is null.");
+                    return;
+                }
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -63,6 +68,10 @@ public class ModeFragment extends Fragment {
         });
 
         Button timedMode = (Button) view.findViewById(R.id.timed_mode);
+        if (timedMode == null) {
+            Log.e("ModeFragment", "Timed mode is null.");
+            return;
+        }
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

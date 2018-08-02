@@ -55,7 +55,6 @@ public class GameFragment extends Fragment {
 
     private ArrayList<String> topicsDiscussed;
 
-
     public GameFragment() {
         // Required empty public constructor
     }
