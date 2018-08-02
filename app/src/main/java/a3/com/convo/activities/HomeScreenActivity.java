@@ -12,19 +12,14 @@ import com.parse.ParseUser;
 import a3.com.convo.R;
 
 public class HomeScreenActivity extends AppCompatActivity {
-
-    private Button editProfile;
-    private Button playGame;
-    private Button logout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        editProfile = (Button) findViewById(R.id.edit_profile_btn);
-        playGame = (Button) findViewById(R.id.play_game_btn);
-        logout = (Button) findViewById(R.id.logout_btn);
+        Button editProfile = (Button) findViewById(R.id.edit_profile_btn);
+        Button playGame = (Button) findViewById(R.id.play_game_btn);
+        Button logout = (Button) findViewById(R.id.logout_btn);
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
