@@ -91,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
+        loginButton.setScaleX((float)2);
+        loginButton.setScaleY((float)2);
         if (isLoggedIn) {
             ParseUser user = ParseUser.getCurrentUser();
             // if user logged into Facebook and Parse, then refresh their info and send them to the home screen
