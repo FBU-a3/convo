@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -111,16 +112,24 @@ public class AdditionalLikeAdapter extends RecyclerView.Adapter<AdditionalLikeAd
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvLike;
+        private Button deleteBtn;
         private int position;
         public ViewHolder(View itemView) {
             super(itemView);
             tvLike =  itemView.findViewById(R.id.tv_liked_item);
+            deleteBtn = itemView.findViewById(R.id.delete_like);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            deleteBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public boolean onLongClick(View v) {
-                    recyclerViewItemClickListener.onItemLongClick(v,position);
-                    return true;
+                public void onClick(View view) {
+                    recyclerViewItemClickListener.onItemDelete(view,position);
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    recyclerViewItemClickListener.onItemClick(view,position);
                 }
             });
 

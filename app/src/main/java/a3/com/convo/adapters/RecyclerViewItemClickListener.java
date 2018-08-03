@@ -8,4 +8,5 @@ public interface RecyclerViewItemClickListener
 {
     void onItemClick(View view, int position);
     void onItemLongClick(View view, int position);
+    void onItemDelete(View view, int position);
 }
