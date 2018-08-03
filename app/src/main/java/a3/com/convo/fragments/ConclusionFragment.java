@@ -2,23 +2,19 @@ package a3.com.convo.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-
+import java.net.URL;
 import java.util.ArrayList;
 
-import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
+import a3.com.convo.adapters.TopicAdapter;
 
 public class ConclusionFragment extends Fragment {
     private ArrayList<String> discussedTopics;
@@ -34,31 +30,18 @@ public class ConclusionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
-        TextView tvTopics = (TextView) view.findViewById(R.id.tv_topics);
+        Button playAgainButton = view.findViewById(R.id.play_again_btn);
 
-        ParseQuery<a3.com.convo.models.Page> query = ParseQuery.getQuery(a3.com.convo.models.Page.class);
-        query.getInBackground(objectId, new GetCallback<a3.com.convo.models.Page>() {
-            @Override
-            public void done(a3.com.convo.models.Page object, ParseException e) {
-                if (e == null && discussedTopics != null) {
-                    for (int i = 0; i < discussedTopics.size(); i++) {
-                        discussedTopics.set(i, object.getName());
-                    }
-                }
-                else {
-                        Log.e("Page name error", "Oops!");
-                        e.printStackTrace();
-                }
-            }
-        });
+        RecyclerView topicsRv = view.findViewById(R.id.rv_topics);
+        TopicAdapter topicAdapter = new TopicAdapter(discussedTopics);
+        topicsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        topicsRv.setAdapter(topicAdapter);
 
-        tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, discussedTopics));
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (getContext() instanceof PlayGameActivity)
-                    ((PlayGameActivity) getContext()).goToFriends();
+                    ((PlayGameActivity)getContext()).goToFriends();
             }
         });
     }

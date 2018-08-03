@@ -27,4 +27,8 @@
     <dimen name="linear_layout_height">200dp</dimen>
     <dimen name="button_height">90dp</dimen>
     <dimen name="login_button_corner_radius">12dp</dimen>
+
+    <dimen name="topic_rv_margin_top"></dimen>
+    <dimen name="topic_rv_margin_bottom"></dimen>
+    <dimen name="topic_rv_height">326dp</dimen>
 </resources>
