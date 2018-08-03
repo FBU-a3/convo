@@ -14,15 +14,12 @@ import a3.com.convo.fragments.GameFragment;
 import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
-
-    private FragmentTransaction ft;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         ft.replace(R.id.play_game_fragment, new FriendsFragment());
         ft.commit();
