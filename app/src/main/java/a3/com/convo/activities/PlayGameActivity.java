@@ -39,6 +39,17 @@ public class PlayGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+//        // if we've already navigated to the GameFragment, save that to restore later
+//        if (gameFrag != null)
+//            getSupportFragmentManager().putFragment(outState, "gameFrag", gameFrag);
+
+    }
+
     public void goToFriends() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
