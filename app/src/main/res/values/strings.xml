@@ -25,6 +25,10 @@
     <string name="pick_card_time">Pick the amount of time for each topic</string>
     <string name="pick_game_time">Pick the amount of time for your game</string>
     <string name="play">Let\'s chat!</string>
+    <string name="game_time_mins">Game time (in minutes)</string>
+    <string name="topic_time_secs">Topic time (in seconds)</string>
+    <string name="from">From </string>
+    <string name="num_games">Number of games played</string>
     <string name="from">From </string>
     <string name="num_games">Number of games played</string>
     <string name="login">Two friends hanging out together.</string>

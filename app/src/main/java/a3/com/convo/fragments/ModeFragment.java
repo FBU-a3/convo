@@ -47,12 +47,14 @@ public class ModeFragment extends Fragment {
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvPickNumTopics.setVisibility(View.INVISIBLE);
+                etPickNumTopics.setVisibility(View.INVISIBLE);
                 tvPickTime.setText(getString(R.string.pick_game_time));
+                timeInput.setHint(getString(R.string.game_time_mins));
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int seconds = Integer.parseInt(timeInput.getText().toString());
-                        // TODO: send seconds for timer to game activity
                         if (getContext() instanceof PlayGameActivity) {
                             ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE, seconds);
                         }
@@ -67,11 +69,11 @@ public class ModeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 tvPickTime.setText(getString(R.string.pick_card_time));
+                timeInput.setHint(R.string.topic_time_secs);
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int minutes = Integer.parseInt(timeInput.getText().toString());
-                        // TODO: send minutes for timer to game activity
                         if (getContext() instanceof PlayGameActivity) {
                             ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED, minutes);
                         }
