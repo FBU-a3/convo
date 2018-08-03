@@ -3,6 +3,7 @@ package a3.com.convo.fragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +36,13 @@ import a3.com.convo.adapters.CardAdapter;
  **/
 
 public class GameFragment extends Fragment {
+    // string constants used only in this fragment
+    private static final String FRIEND = "friend";
+    private static final String MODE = "mode";
+    private static final String TIME = "time";
+    private static final String TIME_LEFT = "timeLeft";
+    private static final String CONFIG_CHANGE = "configChange";
+
     private SwipeDeck cardStack;
 
     // objectId of the other player
@@ -42,7 +52,16 @@ public class GameFragment extends Fragment {
     private String mode;
 
     // amount of time per game/card, depending on mode above
-    private int time;
+    private long time;
+
+    // amount of time left at any given moment, used for orientation changes
+    private long timeLeft;
+
+    // boolean telling if configuration was changed and timer needs to be reset
+    private boolean configChange;
+
+    // number of topics if in timed mode
+    private int numTopics;
 
     private ParseUser player1;
     private ArrayList<String> player1Likes;
@@ -54,8 +73,10 @@ public class GameFragment extends Fragment {
     // declared as instance for use in other methods
     private CountDownTimer timer;
 
-    private ArrayList<String> topicsDiscussed;
+    // need as an instance for when we recreate the CountdownTimer after config change
+    private TextView tvTimer;
 
+    private ArrayList<String> topicsDiscussed;
 
     public GameFragment() {
         // Required empty public constructor
@@ -65,32 +86,46 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        if (savedInstanceState != null) {
+            friend = Parcels.unwrap(savedInstanceState.getParcelable(FRIEND));
+            mode = Parcels.unwrap(savedInstanceState.getParcelable(MODE));
+            time = Parcels.unwrap(savedInstanceState.getParcelable(TIME));
+            timeLeft = Parcels.unwrap(savedInstanceState.getParcelable(TIME_LEFT));
+            configChange = Parcels.unwrap(savedInstanceState.getParcelable(CONFIG_CHANGE));
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(FRIEND, Parcels.wrap(friend));
+        outState.putParcelable(MODE, Parcels.wrap(mode));
+        outState.putParcelable(TIME, Parcels.wrap(time));
+        outState.putParcelable(TIME_LEFT, Parcels.wrap(timeLeft));
+        configChange = true;
+        outState.putParcelable(CONFIG_CHANGE, Parcels.wrap(configChange));
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
-        // change initial amount based on if timer is set per game or per card
-        int startTime = time;
+        // check for if timeLeft is null (default value), and if so, set clock to "time"
+        long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
 
         // Overall game timer elements
-        final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
+        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
             @Override
             public void onTick(long l) {
-                tvTimer.setText(
-                        String.format(view.getContext().getResources().getString(R.string.timer_format),
-                                TimeUnit.MILLISECONDS.toMinutes(l),
-                                TimeUnit.MILLISECONDS.toSeconds(l)
-                                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
-                );
+                onTimerTick(l);
             }
 
             @Override
             public void onFinish() {
+                onTimerFinish();
                 Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
                 if (player1Games == null) {
                     Log.e("GameFragment", "Query returned null number of games in player1games");
@@ -116,12 +151,16 @@ public class GameFragment extends Fragment {
             }
         };
 
+        // TODO: check countdown of numTopics, off by one now
         // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
             public void cardSwipedLeft(long stableId) {
                 // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (mode.equals(Constants.TIMED)) {
+                    numTopics--;
+                    restartTimer();
+                }
                 if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
                     topicsDiscussed.add(allLikes.get((int)stableId));
                 }
@@ -130,7 +169,10 @@ public class GameFragment extends Fragment {
             @Override
             public void cardSwipedRight(long stableId) {
                 // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (mode.equals(Constants.TIMED)) {
+                    numTopics--;
+                    restartTimer();
+                }
                 if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
                     topicsDiscussed.add(allLikes.get((int)stableId));
                 }
@@ -144,7 +186,7 @@ public class GameFragment extends Fragment {
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-        if (!friend.equals(Constants.EMPTY_STRING)) {
+        if (friend != null && !friend.equals(Constants.EMPTY_STRING)) {
             query.getInBackground(friend, new GetCallback<ParseUser>() {
                 @Override
                 public void done(ParseUser object, ParseException e) {
@@ -169,14 +211,59 @@ public class GameFragment extends Fragment {
         timer.start();
     }
 
-    private void endGame(TextView tv) {
-        tv.setText(getString(R.string.game_over));
+    // called in the fragment lifecycle, overridden to avoid crashes from timer continuing after
+    @Override
+    public void onStop() {
+        // stop the timer so that endGame is not called after the fragment goes away
+        timer.cancel();
+        super.onStop();
+    }
+
+    private void onTimerTick(long l) {
+        timeLeft = l;
+        tvTimer.setText(
+                String.format(getActivity().getResources().getString(R.string.timer_format),
+                        TimeUnit.MILLISECONDS.toMinutes(l),
+                        TimeUnit.MILLISECONDS.toSeconds(l)
+                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+        );
+    }
+
+    private void onTimerFinish() {
+        if (mode.equals(Constants.FREESTYLE)) {
+            endGame();
+        } else {
+            if (numTopics == 0) {
+                endGame();
+            } else {
+                cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
+                restartTimer();
+            }
+        }
+    }
+
+    private void endGame() {
         if (getContext() instanceof PlayGameActivity)
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
 
     private void restartTimer() {
         timer.cancel();
+        if (numTopics == 0) endGame();
+        // on restart timer, we don't want to restart with timeLeft but rather with original time
+        if (configChange) {
+            timer = new CountDownTimer(time, Constants.TIMER_INTERVAL) {
+                @Override
+                public void onTick(long l) {
+                    onTimerTick(l);
+                }
+
+                @Override
+                public void onFinish() {
+                    onTimerFinish();
+                }
+            };
+        }
         timer.start();
     }
 
@@ -185,6 +272,10 @@ public class GameFragment extends Fragment {
     }
     public void setMode(String selectedMode) {
         mode = selectedMode;
+    }
+    public void setNumTopics(int selectedNumber) {
+        numTopics = selectedNumber;
+        Log.e("Topics", String.valueOf(numTopics));
     }
 
     // sets the time per card (timed mode) or per game (freestyle mode)
