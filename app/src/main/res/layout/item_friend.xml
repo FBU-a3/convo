@@ -21,5 +21,6 @@
         android:layout_marginLeft="@dimen/friend_tv_margin_start"
         android:layout_marginStart="@dimen/friend_tv_margin_start"
         android:layout_toRightOf="@id/friend_iv"
-        android:textColor="@color/color_black" />
+        android:textColor="@color/color_black"
+        android:layout_toEndOf="@id/friend_iv" />
 </RelativeLayout>
