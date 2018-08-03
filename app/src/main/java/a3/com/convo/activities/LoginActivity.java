@@ -236,7 +236,17 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("LoginActivity", "Page prof was null.");
                                         // no need to return since field is nullable
                                     }
-                                    final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category);
+                                    JSONObject engagementObject = page.getJSONObject(Constants.ENGAGEMENT);
+                                    if (engagementObject == null) {
+                                        Log.e("LoginActivity", "engagement was null.");
+                                        return;
+                                    }
+                                    String likesString = engagementObject.optString(Constants.SOCIAL_SENTENCE);
+                                    if (likesString == null) {
+                                        Log.e("LoginActivity", "engagement string was null.");
+                                        // no need to return since field is nullable
+                                    }
+                                    final Page newPage = Page.newInstance(id, name, profUrl, coverUrl, category, likesString);
 
                                     newPage.saveInBackground(new SaveCallback() {
                                         @Override
@@ -540,7 +550,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.e("LoginActivity", "name of place in tagged places array is null");
                                             return;
                                         }
-                                        final Page newPlacePage = Page.newInstance(id, name, null, null, null);
+                                        final Page newPlacePage = Page.newInstance(id, name, null, null, null, null);
 
                                         newPlacePage.saveInBackground(new SaveCallback() {
                                             @Override
@@ -615,7 +625,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("Login getPlace()", "object place's name is null.");
                                         return;
                                     }
-                                    final Page newPlacePage = Page.newInstance(placeId, name, null, null, null);
+                                    final Page newPlacePage = Page.newInstance(placeId, name, null, null, null, null);
                                     newPlacePage.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
