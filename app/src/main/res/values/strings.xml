@@ -29,4 +29,7 @@
     <string name="topic_time_secs">Topic time (in seconds)</string>
     <string name="from">From </string>
     <string name="num_games">Number of games played</string>
+    <string name="from">From </string>
+    <string name="num_games">Number of games played</string>
+    <string name="login">Two friends hanging out together.</string>
 </resources>

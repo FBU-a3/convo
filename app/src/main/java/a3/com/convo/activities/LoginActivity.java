@@ -2,8 +2,10 @@ package a3.com.convo.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
     private HashMap<String, String> existingPages;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,11 @@ public class LoginActivity extends AppCompatActivity {
                 Constants.USER_LOCATION,
                 Constants.USER_TAGGED_PLACES));
         mCallbackManager = CallbackManager.Factory.create();
+
+        loginButton.setScaleX((float)2);
+        loginButton.setScaleY((float)2);
+        loginButton.setBackground(getDrawable(R.drawable.login_button));
+
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         final boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
