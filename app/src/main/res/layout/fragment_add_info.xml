@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AddInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="Add Info Here"
+        android:text="@string/add_info_here"
         android:layout_alignParentLeft="true" />
 
     <Button
@@ -20,8 +19,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="BACK"
-        android:layout_alignParentRight="true" />
+        android:text="@string/back"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:focusable="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_likes"
@@ -29,16 +30,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/et_new_like"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:clickable="true" />
 
     <EditText
         android:id="@+id/et_new_like"
-        android:layout_width="293dp"
+        android:layout_width="@dimen/new_like_width"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="Add a new like..."
+        android:hint="@string/add_new_like"
         android:inputType="textPersonName"
         android:layout_alignParentLeft="true" />
 
@@ -47,8 +49,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Add"
-        android:layout_alignParentRight="true" />
+        android:text="@string/add"
+        android:clickable="true" />
 
 </RelativeLayout>

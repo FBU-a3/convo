@@ -44,7 +44,6 @@ public class AddInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,7 +90,7 @@ public class AddInfoFragment extends Fragment {
                             Log.e("LoginActivity", "Create page success");
                             user.add("otherLikes", newPage.getObjectId());
                             user.saveInBackground();
-                            additionalLikes.add(0, newPage.getName());
+                            additionalLikes.add(0, newPage.getObjectId());
                             alAdapter.notifyDataSetChanged();
                             etNewLike.setText("");
                         }
@@ -120,5 +119,4 @@ public class AddInfoFragment extends Fragment {
             }
         });
     }
-
 }

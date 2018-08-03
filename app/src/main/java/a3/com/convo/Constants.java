@@ -1,17 +1,22 @@
 package a3.com.convo;
 
 public class Constants {
-    // length of game in milliseconds
-    public static final int GAME_TIME = 300000;
 
-    // time for each card in milliseconds
-    public static final int CARD_TIME = 30000;
+    // length of time that each card takes to autoswipe
+    public static final int CARD_SWIPE_DURATION = 80;
 
     // timer interval (ticks once per second)
     public static final int TIMER_INTERVAL = 1000;
 
     // empty string constant
     public static final String EMPTY_STRING = "";
+
+    // ArrayList join string
+    public static final String JOIN_STRING = ", ";
+
+    // game modes
+    public static final String FREESTYLE = "freestyle";
+    public static final String TIMED = "timed";
 
     // permissions we request from the user upon signup
     public static final String USER_LIKES = "user_likes";
@@ -30,7 +35,12 @@ public class Constants {
     public static final String PROF_PIC_URL = "profPicUrl";
     public static final String COVER_URL = "coverUrl";
     public static final String OTHER_LIKES = "otherLikes";
-    public static final String PAGE_LIKES = "pageLikes";
+    public static final String PARSE_TAGGED_PLACES = "taggedPlaces";
+    public static final String PARSE_HOMETOWN = "hometown";
+    public static final String PARSE_LOCATION = "location";
+    public static final String PAGE_ID = "pageId";
+    public static final String PROF_URL = "profUrl";
+    public static final String NUM_GAMES = "numGames";
 
     // request params fields for fetching user's likes from Graph API
     public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";
@@ -49,5 +59,9 @@ public class Constants {
     public static final String SOURCE = "source";
     public static final String PICTURE = "picture";
     public static final String URL = "url";
+    public static final String PLACE = "place";
+    public static final String TAGGED_PLACES = "tagged_places";
+    public static final String LOCATION = "location";
+    public static final String HOMETOWN = "hometown";
 
 }

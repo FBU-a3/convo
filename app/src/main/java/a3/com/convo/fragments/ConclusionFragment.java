@@ -1,26 +1,24 @@
 package a3.com.convo.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
-import a3.com.convo.adapters.FriendAdapter;
 
 public class ConclusionFragment extends Fragment {
-    private Context context;
-    private Button playAgainButton;
-    private String discussedTopics;
+    private ArrayList<String> topicsDiscussed;
 
     public ConclusionFragment() {
-
     }
 
     @Override
@@ -31,14 +29,21 @@ public class ConclusionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
-        context = getActivity();
+        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        TextView tvTopics = (TextView) view.findViewById(R.id.tv_topics);
+
+        tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, topicsDiscussed));
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToFriends();
+                if (getContext() instanceof PlayGameActivity)
+                    ((PlayGameActivity) getContext()).goToFriends();
             }
         });
+    }
+
+    public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
+        this.topicsDiscussed = topicsDiscussed;
     }
 }

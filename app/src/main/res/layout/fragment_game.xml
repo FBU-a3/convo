@@ -15,6 +15,7 @@
         xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/tvTimer"
         android:id="@+id/swipeLayout"
         android:orientation="vertical">
 
@@ -27,6 +28,5 @@
             swipedeck:card_spacing="@dimen/card_spacing"
             swipedeck:max_visible="3"
             swipedeck:swipe_enabled="true" />
-
     </com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout>
 </RelativeLayout>
