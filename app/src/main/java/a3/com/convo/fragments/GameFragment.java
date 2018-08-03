@@ -60,6 +60,9 @@ public class GameFragment extends Fragment {
     // boolean telling if configuration was changed and timer needs to be reset
     private boolean configChange;
 
+    // number of topics if in timed mode
+    private int numTopics;
+
     private ParseUser player1;
     private ArrayList<String> player1Likes;
     private ParseUser player2;
@@ -126,12 +129,16 @@ public class GameFragment extends Fragment {
             }
         };
 
+        // TODO: check countdown of numTopics, off by one now
         // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
             public void cardSwipedLeft(long stableId) {
                 // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (mode.equals(Constants.TIMED)) {
+                    numTopics--;
+                    restartTimer();
+                }
                 if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
                     topicsDiscussed.add(allLikes.get((int)stableId));
                 }
@@ -140,7 +147,10 @@ public class GameFragment extends Fragment {
             @Override
             public void cardSwipedRight(long stableId) {
                 // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (mode.equals(Constants.TIMED)) {
+                    numTopics--;
+                    restartTimer();
+                }
                 if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
                     topicsDiscussed.add(allLikes.get((int)stableId));
                 }
@@ -231,7 +241,7 @@ public class GameFragment extends Fragment {
 
     private void restartTimer() {
         timer.cancel();
-
+        if (numTopics == 0) endGame();
         // on restart timer, we don't want to restart with timeLeft but rather with original time
         if (configChange) {
             timer = new CountDownTimer(time, Constants.TIMER_INTERVAL) {
@@ -254,6 +264,10 @@ public class GameFragment extends Fragment {
     }
     public void setMode(String selectedMode) {
         mode = selectedMode;
+    }
+    public void setNumTopics(int selectedNumber) {
+        numTopics = selectedNumber;
+        Log.e("Topics", String.valueOf(numTopics));
     }
 
     // sets the time per card (timed mode) or per game (freestyle mode)
