@@ -8,6 +8,9 @@ public class Constants {
     // timer interval (ticks once per second)
     public static final int TIMER_INTERVAL = 1000;
 
+    // null/default value for uninitialized longs
+    public static final long LONG_NULL = 0L;
+
     // empty string constant
     public static final String EMPTY_STRING = "";
 
@@ -40,13 +43,14 @@ public class Constants {
     public static final String PARSE_LOCATION = "location";
     public static final String PAGE_ID = "pageId";
     public static final String PROF_URL = "profUrl";
+    public static final String NUM_GAMES = "numGames";
 
     // request params fields for fetching user's likes from Graph API
-    public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture}";
+    public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture.type(large)}";
     public static final String LIMIT = "limit";
     public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
-    public static final String GET_USER_FIELDS = "id,name,email,picture";
+    public static final String GET_USER_FIELDS = "id,name,email,picture.type(large)";
 
     // field names in Graph API response data object
     public static final String DATA_KEY = "data";

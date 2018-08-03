@@ -15,15 +15,26 @@ import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
 
-    private FragmentTransaction ft;
+    private static final String GAME_FRAG_TAG = "gameFrag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+        // for orientation changes, saves the instance of GameFragment that's active in the game
+        if (savedInstanceState != null) {
+            GameFragment gf = (GameFragment) getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG);
+            if (gf != null) {
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.play_game_fragment, gf).addToBackStack(GAME_FRAG_TAG).commit();
+                return;
+            }
+        }
+
+        // if there's no saved instance or no saved GameFragment, set up the FriendsFragment
         ft.replace(R.id.play_game_fragment, new FriendsFragment());
         ft.commit();
     }
@@ -44,11 +55,12 @@ public class PlayGameActivity extends AppCompatActivity {
         modeFrag.setFriend(selectedFriend);
     }
 
-    public void goToGame(String selectedFriend, String mode, int time) {
+    public void goToGame(String selectedFriend, String mode, int time, int numTopics) {
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag);
+        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag, GAME_FRAG_TAG);
+        fragmentTransaction.addToBackStack(GAME_FRAG_TAG);
         fragmentTransaction.commit();
         gameFrag.setFriend(selectedFriend);
         gameFrag.setMode(mode);

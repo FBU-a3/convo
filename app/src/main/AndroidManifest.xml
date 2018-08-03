@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".activities.PlayGameActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:configChanges="keyboardHidden|screenSize">
         </activity>
         <activity
             android:name=".activities.ProfileActivity"

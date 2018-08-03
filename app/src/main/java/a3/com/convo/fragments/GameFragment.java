@@ -3,6 +3,7 @@ package a3.com.convo.fragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +16,16 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
 import a3.com.convo.R;
-import a3.com.convo.adapters.CardAdapter;
 import a3.com.convo.activities.PlayGameActivity;
+import a3.com.convo.adapters.CardAdapter;
 
 /**
  * This class is a Fragment in PlayGameActivity where the user actually plays the game with the
@@ -32,6 +35,13 @@ import a3.com.convo.activities.PlayGameActivity;
  **/
 
 public class GameFragment extends Fragment {
+    // string constants used only in this fragment
+    private static final String FRIEND = "friend";
+    private static final String MODE = "mode";
+    private static final String TIME = "time";
+    private static final String TIME_LEFT = "timeLeft";
+    private static final String CONFIG_CHANGE = "configChange";
+
     private SwipeDeck cardStack;
 
     // objectId of the other player
@@ -41,7 +51,13 @@ public class GameFragment extends Fragment {
     private String mode;
 
     // amount of time per game/card, depending on mode above
-    private int time;
+    private long time;
+
+    // amount of time left at any given moment, used for orientation changes
+    private long timeLeft;
+
+    // boolean telling if configuration was changed and timer needs to be reset
+    private boolean configChange;
 
     private ParseUser player1;
     private ArrayList<String> player1Likes;
@@ -53,8 +69,10 @@ public class GameFragment extends Fragment {
     // declared as instance for use in other methods
     private CountDownTimer timer;
 
-    private ArrayList<String> topicsDiscussed;
+    // need as an instance for when we recreate the CountdownTimer after config change
+    private TextView tvTimer;
 
+    private ArrayList<String> topicsDiscussed;
 
     public GameFragment() {
         // Required empty public constructor
@@ -64,38 +82,46 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        if (savedInstanceState != null) {
+            friend = Parcels.unwrap(savedInstanceState.getParcelable(FRIEND));
+            mode = Parcels.unwrap(savedInstanceState.getParcelable(MODE));
+            time = Parcels.unwrap(savedInstanceState.getParcelable(TIME));
+            timeLeft = Parcels.unwrap(savedInstanceState.getParcelable(TIME_LEFT));
+            configChange = Parcels.unwrap(savedInstanceState.getParcelable(CONFIG_CHANGE));
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(FRIEND, Parcels.wrap(friend));
+        outState.putParcelable(MODE, Parcels.wrap(mode));
+        outState.putParcelable(TIME, Parcels.wrap(time));
+        outState.putParcelable(TIME_LEFT, Parcels.wrap(timeLeft));
+        configChange = true;
+        outState.putParcelable(CONFIG_CHANGE, Parcels.wrap(configChange));
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
-        // change initial amount based on if timer is set per game or per card
-        int startTime = time;
+        // check for if timeLeft is null (default value), and if so, set clock to "time"
+        long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
 
         // Overall game timer elements
-        final TextView tvTimer = (TextView) view.findViewById(R.id.tvTimer);
+        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
             @Override
             public void onTick(long l) {
-                tvTimer.setText(
-                        String.format(view.getContext().getResources().getString(R.string.timer_format),
-                                TimeUnit.MILLISECONDS.toMinutes(l),
-                                TimeUnit.MILLISECONDS.toSeconds(l)
-                                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
-                );
+                onTimerTick(l);
             }
 
             @Override
             public void onFinish() {
-                if (mode.equals(Constants.FREESTYLE)) {
-                    endGame(tvTimer);
-                } else {
-                    cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
-                    restartTimer();
-                }
+                onTimerFinish();
             }
         };
 
@@ -127,7 +153,7 @@ public class GameFragment extends Fragment {
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-        if (!friend.equals(Constants.EMPTY_STRING)) {
+        if (friend != null && !friend.equals(Constants.EMPTY_STRING)) {
             query.getInBackground(friend, new GetCallback<ParseUser>() {
                 @Override
                 public void done(ParseUser object, ParseException e) {
@@ -152,14 +178,55 @@ public class GameFragment extends Fragment {
         timer.start();
     }
 
+    // called in the fragment lifecycle, overridden to avoid crashes from timer continuing after
+    @Override
+    public void onStop() {
+        // stop the timer so that endGame is not called after the fragment goes away
+        timer.cancel();
+        super.onStop();
+    }
+
+    private void onTimerTick(long l) {
+        timeLeft = l;
+        tvTimer.setText(
+                String.format(getActivity().getResources().getString(R.string.timer_format),
+                        TimeUnit.MILLISECONDS.toMinutes(l),
+                        TimeUnit.MILLISECONDS.toSeconds(l)
+                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+        );
+    }
+
+    private void onTimerFinish() {
+        if (mode.equals(Constants.FREESTYLE)) {
+            endGame(tvTimer);
+        } else {
+            cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
+            restartTimer();
+        }
+    }
+
     private void endGame(TextView tv) {
-        tv.setText(getString(R.string.game_over));
         if (getContext() instanceof PlayGameActivity)
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
 
     private void restartTimer() {
         timer.cancel();
+
+        // on restart timer, we don't want to restart with timeLeft but rather with original time
+        if (configChange) {
+            timer = new CountDownTimer(time, Constants.TIMER_INTERVAL) {
+                @Override
+                public void onTick(long l) {
+                    onTimerTick(l);
+                }
+
+                @Override
+                public void onFinish() {
+                    onTimerFinish();
+                }
+            };
+        }
         timer.start();
     }
 
