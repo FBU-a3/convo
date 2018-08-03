@@ -1,6 +1,11 @@
 package a3.com.convo.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -20,6 +27,7 @@ import java.util.List;
 import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
 import a3.com.convo.R;
+import a3.com.convo.activities.PlayGameActivity;
 import a3.com.convo.models.Page;
 
 /** The CardAdapter handles the display of playing cards during gameplay, it collects information on
@@ -74,7 +82,7 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvTopic = v.findViewById(R.id.tv_topic);
         final TextView tvUsers = v.findViewById(R.id.tv_users);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
-        final TextView tvTime = (TextView) v.findViewById(R.id.tvTime);
+        final CardView cvCard = v.findViewById(R.id.card_view);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
@@ -107,14 +115,31 @@ public class CardAdapter extends BaseAdapter {
             public void done(Page object, ParseException e) {
                 if (e == null) {
                     tvTopic.setText(object.getName());
+                    tvUsers.setText(finalUsersWhoLiked);
 
                     if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
-                        // TODO: add check for if activity has been destroyed in order to avoid crash
-                        GlideApp.with(context)
-                                .load(object.getCoverUrl())
-                                .override(300, 300) // trying 300 height for now, will scale later
-                                .centerCrop()
-                                .into(ivCover);
+                        // check for if activity is finishing in order to avoid crash
+                        if (context instanceof PlayGameActivity && ((PlayGameActivity) context).isFinishing()) {
+                            return;
+                        }
+
+                        int orientation = context.getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            GlideApp.with(context)
+                                    .load(object.getCoverUrl())
+                                    .dontTransform()
+                                    .into(ivCover);
+                        } else {
+                            GlideApp.with(context)
+                                    .load(object.getCoverUrl())
+                                    .dontTransform()
+                                    .into(new SimpleTarget<Drawable>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                            cvCard.setBackground(resource);
+                                        }
+                                    });
+                        }
                     }
                 }
                 else {
