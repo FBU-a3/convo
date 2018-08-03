@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
+import a3.com.convo.Constants;
 import a3.com.convo.GlideApp;
 import a3.com.convo.R;
 
@@ -37,10 +38,6 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     private ParseUser currentFriend;
     private String profPic;
     private String name;
-    // Parse columns
-    private static final String USER_NAME = "username";
-    private static final String PROF_PIC_URL = "profPicUrl";
-    private static final String FULL_NAME = "name";
 
     // Brings friends in to adjust into RV
     public FriendAdapter(ArrayList<String> friends) {
@@ -76,8 +73,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 if (object != null) {
                     // Get object's values from parse
                     currentFriend = object;
-                    profPic = currentFriend.getString(PROF_PIC_URL);
-                    name = currentFriend.getString(FULL_NAME);
+                    profPic = currentFriend.getString(Constants.PROF_PIC_URL);
+                    name = currentFriend.getString(Constants.NAME);
 
                     // Set friend's photo
                     if (profPic != null && context != null && holder.ivFriend != null) {

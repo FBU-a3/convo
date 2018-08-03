@@ -4,20 +4,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.net.URL;
 import java.util.ArrayList;
-
+import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 import a3.com.convo.adapters.TopicAdapter;
 
 public class ConclusionFragment extends Fragment {
-    private ArrayList<String> discussedTopics;
+    private ArrayList<String> topicsDiscussed;
 
     public ConclusionFragment() {
     }
@@ -30,10 +32,14 @@ public class ConclusionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Button playAgainButton = view.findViewById(R.id.play_again_btn);
+        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        TextView tvTopics = (TextView) view.findViewById(R.id.tv_topics);
+
+        tvTopics.setText(TextUtils.join(Constants.JOIN_STRING, topicsDiscussed));
 
         RecyclerView topicsRv = view.findViewById(R.id.rv_topics);
-        TopicAdapter topicAdapter = new TopicAdapter(discussedTopics);
+        TopicAdapter topicAdapter = new TopicAdapter(topicsDiscussed);
         topicsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
         topicsRv.setAdapter(topicAdapter);
 
@@ -41,12 +47,12 @@ public class ConclusionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (getContext() instanceof PlayGameActivity)
-                    ((PlayGameActivity)getContext()).goToFriends();
+                    ((PlayGameActivity) getContext()).goToFriends();
             }
         });
     }
 
     public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
-        discussedTopics = topicsDiscussed;
+        this.topicsDiscussed = topicsDiscussed;
     }
 }

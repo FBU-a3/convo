@@ -28,6 +28,5 @@
             swipedeck:card_spacing="@dimen/card_spacing"
             swipedeck:max_visible="3"
             swipedeck:swipe_enabled="true" />
-
     </com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout>
 </RelativeLayout>

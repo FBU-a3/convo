@@ -22,7 +22,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/play_again_margin_bottom"
-        android:text="@string/play_again" />
+        android:text="@string/play_again"
+        android:clickable="true" />
 
     <TextView
         android:id="@+id/tv_topics"
