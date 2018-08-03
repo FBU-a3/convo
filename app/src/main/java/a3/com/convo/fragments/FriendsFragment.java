@@ -48,7 +48,6 @@ public class FriendsFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("---->", "onClicked");
                 ((PlayGameActivity)getActivity()).goToMode(friendAdapter.getSelectedFriend());
             }
         });
