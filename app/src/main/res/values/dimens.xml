@@ -9,7 +9,7 @@
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="topic_text_size">40sp</dimen>
     <dimen name="card_topic_margin_bottom">125dp</dimen>
-    <dimen name="card_image_margin_bottom">50dp</dimen>
+    <dimen name="card_image_margin_bottom">20dp</dimen>
     <dimen name="card_timer_margin_bottom">65dp</dimen>
     <dimen name="card_liked_by_margin_bottom">100dp</dimen>
     <dimen name="end_message_margin_top">30dp</dimen>
@@ -24,7 +24,7 @@
     <dimen name="mode_button_width">100dp</dimen>
     <dimen name="freestyle_margin_top">150dp</dimen>
     <dimen name="timed_margin_top">250dp</dimen>
-    <dimen name="linear_layout_height">200dp</dimen>
+    <dimen name="linear_layout_height">300dp</dimen>
     <dimen name="button_height">90dp</dimen>
     <dimen name="login_button_corner_radius">12dp</dimen>
 </resources>

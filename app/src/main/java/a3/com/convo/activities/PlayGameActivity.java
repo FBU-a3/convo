@@ -22,10 +22,30 @@ public class PlayGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
-        ft = getSupportFragmentManager().beginTransaction();
+        // for orientation changes, saves the instance of GameFragment that's active in the game
+        if (savedInstanceState != null) {
+            GameFragment gameFrag = (GameFragment) getSupportFragmentManager().getFragment(savedInstanceState, "gameFrag");
+            if (gameFrag != null) {
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.play_game_fragment, gameFrag).commit();
+                return;
+            }
+        }
 
+        // if there's no saved instance or no saved GameFragment, set up the FriendsFragment
+        ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.play_game_fragment, new FriendsFragment());
         ft.commit();
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+//        // if we've already navigated to the GameFragment, save that to restore later
+//        if (gameFrag != null)
+//            getSupportFragmentManager().putFragment(outState, "gameFrag", gameFrag);
     }
 
     public void goToFriends() {
@@ -44,7 +64,7 @@ public class PlayGameActivity extends AppCompatActivity {
         modeFrag.setFriend(selectedFriend);
     }
 
-    public void goToGame(String selectedFriend, String mode, int time) {
+    public void goToGame(String selectedFriend, String mode, int time, int numTopics) {
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -53,6 +73,7 @@ public class PlayGameActivity extends AppCompatActivity {
         gameFrag.setFriend(selectedFriend);
         gameFrag.setMode(mode);
         gameFrag.setTime(time);
+        if (numTopics != 0) gameFrag.setNumTopics(numTopics);
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {
