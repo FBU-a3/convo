@@ -20,14 +20,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import a3.com.convo.activities.HomeScreenActivity;
+import a3.com.convo.activities.ProfileActivity;
 import a3.com.convo.models.Page;
 
 import a3.com.convo.R;
 
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> {
-    List<String> topics;
-    private String selectedTopic;
-    private RecyclerViewItemClickListener recyclerViewItemClickListener;
+    private List<String> topics;
+    private String topicPageId;
 
     public TopicAdapter(ArrayList<String> topicsDiscussed) {
         topics = topicsDiscussed;
@@ -85,37 +86,49 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private int position = getAdapterPosition();
         public TextView tvTopic;
-        private int position;
         public ViewHolder (View topicView) {
             super(topicView);
             tvTopic = topicView.findViewById(R.id.topic_tv);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
-                    recyclerViewItemClickListener.onItemLongClick(v,position);
-                    return true;
+                public void onClick(final View view) {
+                    // Make sure the position is valid/actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        String selectedTopic = topics.get(position);
+
+                        ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
+                        query.getInBackground(selectedTopic, new GetCallback<Page>() {
+                            @Override
+                            public void done(Page object, ParseException e) {
+                                if (e == null && object != null) {
+                                    topicPageId = object.getPageId();
+
+                                    // Get selected topic
+                                    String url = "http://facebook.com/" + topicPageId;
+                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                                    intent.setData(Uri.parse(url));
+                                    view.getContext().startActivity(intent);
+                                } else if (object == null) {
+                                    Log.e("TopicAdapter", "Object is null.");
+                                } else {
+                                    Log.e("TopicAdapter", "Error e");
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }
 
         @Override
         public void onClick(View view) {
-            // Get topic position
-            int position = getAdapterPosition();
 
-            // Make sure the position is valid/actually exists in the view
-            if (position != RecyclerView.NO_POSITION) {
-                // Get selected topic
-                selectedTopic = topics.get(position);
-
-                String url = "https://facebook.com/" + selectedTopic;
-
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent.setData(Uri.parse(url));
-//                context.startActivity(intent);
-            }
         }
     }
 }
+
+
