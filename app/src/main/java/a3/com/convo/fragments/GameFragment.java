@@ -198,7 +198,7 @@ public class GameFragment extends Fragment {
     }
 
     private void onTimerFinish() {
-        if (player1 != null and player2 != null) {
+        if (player1 != null && player2 != null) {
             Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
             if (player1Games == null) {
                 Log.e("GameFragment", "Query returned null number of games in player1games");

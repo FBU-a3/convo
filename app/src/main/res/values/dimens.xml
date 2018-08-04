@@ -63,5 +63,5 @@
     <dimen name="card_topic_margin_bottom">125dp</dimen>
 
     <dimen name="button_height">90dp</dimen>
-    <dimen name="login_button_corner_radius">12dp</dimen
+    <dimen name="login_button_corner_radius">12dp</dimen>
 </resources>

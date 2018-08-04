@@ -42,6 +42,8 @@ public class ModeFragment extends Fragment {
         final TextView tvPickTime = (TextView) view.findViewById(R.id.tvPickTime);
         final EditText timeInput = (EditText) view.findViewById(R.id.etPickTime);
         final Button playButton = (Button) view.findViewById(R.id.playButton);
+        final TextView tvPickNumTopics = (TextView) view.findViewById(R.id.tvPickNumTopics);
+        final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
         startGame = (Button) view.findViewById(R.id.start_game_btn);
         startGame.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +56,9 @@ public class ModeFragment extends Fragment {
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int seconds = Integer.parseInt(timeInput.getText().toString());
+                        int minutes = Integer.parseInt(timeInput.getText().toString());
                         if (getContext() instanceof PlayGameActivity) {
-                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE, seconds);
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE, minutes, 0);
                         }
                     }
                 });
@@ -73,13 +75,17 @@ public class ModeFragment extends Fragment {
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int minutes = Integer.parseInt(timeInput.getText().toString());
+                        int seconds = Integer.parseInt(timeInput.getText().toString());
+                        int numTopics = Integer.parseInt(etPickNumTopics.getText().toString());
+
                         if (getContext() instanceof PlayGameActivity) {
-                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED, minutes);
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED, seconds, numTopics);
                         }
                     }
                 });
                 layout.setVisibility(View.VISIBLE);
+                tvPickNumTopics.setVisibility(View.VISIBLE);
+                etPickNumTopics.setVisibility(View.VISIBLE);
             }
         });
     }
