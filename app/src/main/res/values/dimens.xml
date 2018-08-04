@@ -3,6 +3,11 @@
     // activity_login
     <dimen name="button_height">90dp</dimen>
     <dimen name="login_button_corner_radius">12dp</dimen>
+    <dimen name="text_logo_top_margin">97dp</dimen>
+    <dimen name="text_logo_height">239dp</dimen>
+    <dimen name="description_text_size">20sp</dimen>
+    <dimen name="description_width">300dp</dimen>
+    <dimen name="login_button_text_size">10sp</dimen>
 
     // activity_home_screen
     <dimen name="edit_prof_margin_top">176dp</dimen>
@@ -42,6 +47,7 @@
     <dimen name="name_top_margin">20dp</dimen>
     <dimen name="hometown_top_margin">10dp</dimen>
     <dimen name="name_text_size">25dp</dimen>
+    <dimen name="games_played_top_margin">15dp</dimen>
 
     // item_card
     <dimen name="topic_text_size">40sp</dimen>
