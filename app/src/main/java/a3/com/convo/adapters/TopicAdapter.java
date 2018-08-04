@@ -105,14 +105,15 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
                             public void done(Page object, ParseException e) {
                                 if (e == null && object != null) {
                                     topicPageId = object.getPageId();
-
-                                    // Get selected topic
-                                    String url = "http://facebook.com/" + topicPageId;
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setData(Uri.parse(url));
-                                    view.getContext().startActivity(intent);
-                                } else if (object == null) {
-                                    Log.e("TopicAdapter", "Object is null.");
+                                    if(topicPageId != null) {
+                                        // Get selected topic
+                                        String url = "http://facebook.com/" + topicPageId;
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(Uri.parse(url));
+                                        view.getContext().startActivity(intent);
+                                    }
+                                } else if (topicPageId == null) {
+                                    Log.e("TopicAdapter", "This topic does not have a pageId.");
                                 } else {
                                     Log.e("TopicAdapter", "Error e");
                                     e.printStackTrace();

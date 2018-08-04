@@ -2,7 +2,6 @@ package a3.com.convo.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,23 +42,23 @@ public class ModeFragment extends Fragment {
         final TextView tvPickTime = (TextView) view.findViewById(R.id.tvPickTime);
         final EditText timeInput = (EditText) view.findViewById(R.id.etPickTime);
         final Button playButton = (Button) view.findViewById(R.id.playButton);
+        final TextView tvPickNumTopics = (TextView) view.findViewById(R.id.tvPickNumTopics);
+        final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
         startGame = (Button) view.findViewById(R.id.start_game_btn);
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvPickNumTopics.setVisibility(View.INVISIBLE);
+                etPickNumTopics.setVisibility(View.INVISIBLE);
                 tvPickTime.setText(getString(R.string.pick_game_time));
-                if (tvPickTime == null) {
-                    Log.e("ModeFragment", "Picked time is null.");
-                    return;
-                }
+                timeInput.setHint(getString(R.string.game_time_mins));
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int seconds = Integer.parseInt(timeInput.getText().toString());
-                        // TODO: send seconds for timer to game activity
+                        int minutes = Integer.parseInt(timeInput.getText().toString());
                         if (getContext() instanceof PlayGameActivity) {
-                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE, seconds);
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.FREESTYLE, minutes, 0);
                         }
                     }
                 });
@@ -68,25 +67,25 @@ public class ModeFragment extends Fragment {
         });
 
         Button timedMode = (Button) view.findViewById(R.id.timed_mode);
-        if (timedMode == null) {
-            Log.e("ModeFragment", "Timed mode is null.");
-            return;
-        }
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tvPickTime.setText(getString(R.string.pick_card_time));
+                timeInput.setHint(R.string.topic_time_secs);
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int minutes = Integer.parseInt(timeInput.getText().toString());
-                        // TODO: send minutes for timer to game activity
+                        int seconds = Integer.parseInt(timeInput.getText().toString());
+                        int numTopics = Integer.parseInt(etPickNumTopics.getText().toString());
+
                         if (getContext() instanceof PlayGameActivity) {
-                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED, minutes);
+                            ((PlayGameActivity) getContext()).goToGame(friend, Constants.TIMED, seconds, numTopics);
                         }
                     }
                 });
                 layout.setVisibility(View.VISIBLE);
+                tvPickNumTopics.setVisibility(View.VISIBLE);
+                etPickNumTopics.setVisibility(View.VISIBLE);
             }
         });
     }

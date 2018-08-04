@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 Constants.USER_LOCATION,
                 Constants.USER_TAGGED_PLACES));
         mCallbackManager = CallbackManager.Factory.create();
+
         loginButton.setScaleX((float)2);
         loginButton.setScaleY((float)2);
         loginButton.setBackground(getDrawable(R.drawable.login_button));

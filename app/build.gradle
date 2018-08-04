@@ -38,4 +38,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'com.daprlabs.aaron:swipedeck:2.0.6'
+    implementation 'org.parceler:parceler-api:1.1.11' // Parceler
+    annotationProcessor 'org.parceler:parceler:1.1.11' // Parceler
 }
