@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // activity_login
+    <dimen name="button_height">90dp</dimen>
+    <dimen name="login_button_corner_radius">12dp</dimen>
 
     // activity_home_screen
     <dimen name="edit_prof_margin_top">176dp</dimen>
@@ -47,6 +49,9 @@
     <dimen name="card_timer_margin_bottom">65dp</dimen>
     <dimen name="topic_timer_text_size">30sp</dimen>
     <dimen name="card_liked_by_margin_bottom">100dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_topic_margin_bottom">125dp</dimen>
 
     // item_friend
     <dimen name="friend_iv_width_length">50dp</dimen>
@@ -57,11 +62,4 @@
     // item_like
     <dimen name="tv_like_margin_bottom">10dp</dimen>
     <dimen name="tv_like_text_size">20sp</dimen>
-
-    <dimen name="card_corner_radius">4dp</dimen>
-    <dimen name="card_elevation">4dp</dimen>
-    <dimen name="card_topic_margin_bottom">125dp</dimen>
-
-    <dimen name="button_height">90dp</dimen>
-    <dimen name="login_button_corner_radius">12dp</dimen>
 </resources>
