@@ -1,10 +1,10 @@
 package a3.com.convo.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +25,6 @@ import a3.com.convo.adapters.FriendAdapter;
  * the friend they would like to play the game with and click start to choose a game mode.
  **/
 public class FriendsFragment extends Fragment {
-    ParseUser user = ParseUser.getCurrentUser();
-    RecyclerView friendsRv;
-    private Context context;
-    private Button startButton;
-    FriendAdapter friendAdapter;
-    ArrayList<String> friends;
-
     public FriendsFragment() {
         // Required empty public constructor
     }
@@ -44,19 +37,19 @@ public class FriendsFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        startButton = (Button) view.findViewById(R.id.start_btn);
-        context = getActivity();
+        Button startButton = (Button) view.findViewById(R.id.start_btn);
+        ParseUser user = ParseUser.getCurrentUser();
+        ArrayList<String> friends = (ArrayList<String>) user.get("friends");
+        RecyclerView friendsRv = view.findViewById(R.id.rv_friends);
+        final FriendAdapter friendAdapter = new FriendAdapter(friends);
+        friendsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        friendsRv.setAdapter(friendAdapter);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((PlayGameActivity)context).goToMode(friendAdapter.getSelectedFriend());
+                ((PlayGameActivity)getActivity()).goToMode(friendAdapter.getSelectedFriend());
             }
         });
-        friends = (ArrayList<String>) user.get("friends");
-        friendsRv = view.findViewById(R.id.rv_friends);
-        friendAdapter = new FriendAdapter(friends);
-        friendsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        friendsRv.setAdapter(friendAdapter);
     }
 }

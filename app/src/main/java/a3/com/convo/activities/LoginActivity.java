@@ -40,7 +40,6 @@ import a3.com.convo.R;
 import a3.com.convo.models.Page;
 
 public class LoginActivity extends AppCompatActivity {
-
     private CallbackManager mCallbackManager;
 
     // maps Page IDs to Object IDs for quick lookup of duplicate pages
