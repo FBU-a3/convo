@@ -7,16 +7,16 @@
 
     <Button
         android:id="@+id/start_game_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/freestyle_margin_top"
         android:text="@string/freestyle_mode" />
 
     <Button
         android:id="@+id/timed_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/timed_margin_top"
         android:text="@string/timed_mode" />
@@ -69,8 +69,8 @@
 
         <Button
             android:id="@+id/playButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/std_btn_width"
+            android:layout_height="@dimen/std_btn_height"
             android:layout_gravity="center"
             android:text="@string/play"
             android:visibility="visible" />

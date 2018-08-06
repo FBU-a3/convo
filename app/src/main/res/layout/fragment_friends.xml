@@ -31,12 +31,13 @@
 
     <Button
         android:id="@+id/start_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/start_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentBottom="true"
-        android:text="@string/mode_btn_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/start_btn_bottom_margin"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:text="@string/mode_btn_text" />
 
 </RelativeLayout>

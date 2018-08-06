@@ -16,14 +16,14 @@
 
     <Button
         android:id="@+id/play_again_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/play_again_margin_bottom"
-        android:text="@string/play_again"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:text="@string/play_again" />
 
     <TextView
         android:id="@+id/tv_topics"

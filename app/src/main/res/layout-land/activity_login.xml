@@ -34,6 +34,7 @@
         android:layout_height="@dimen/login_image_landscape_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
         app:srcCompat="@drawable/convo_text_logo" />
 
     <TextView
@@ -43,6 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/description_margin_bottom"
+        android:background="@android:color/transparent"
         android:gravity="center"
         android:text="@string/description"
         android:textColor="@android:color/white"

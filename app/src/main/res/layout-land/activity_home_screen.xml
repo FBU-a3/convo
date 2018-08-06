@@ -8,32 +8,30 @@
 
     <Button
         android:id="@+id/edit_profile_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="79dp"
-        android:text="Edit Profile"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="94dp" />
+        android:layout_marginTop="@dimen/buttons_vertical_padding"
+        android:enabled="true"
+        android:paddingHorizontal="@dimen/buttons_vertical_padding"
+        android:text="@string/edit_prof_btn" />
 
     <Button
         android:id="@+id/play_game_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_centerInParent="true"
-        android:text="Play Game"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="231dp" />
+        android:paddingHorizontal="@dimen/buttons_vertical_padding"
+        android:text="@string/play_game_btn" />
 
     <Button
         android:id="@+id/logout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp"
-        android:text="Log Out"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="373dp" />
+        android:layout_marginBottom="@dimen/buttons_vertical_padding"
+        android:paddingHorizontal="@dimen/buttons_vertical_padding"
+        android:text="@string/logout_btn" />
 </RelativeLayout>
