@@ -86,7 +86,7 @@ public class CardAdapter extends BaseAdapter {
 
         // only for portrait mode, they're hidden in landscape
         final ImageView ivProf = v.findViewById(R.id.ivProf);
-        //final TextView tvCategory = v.findViewById(R.id.tvCategory);
+        final TextView tvCategory = v.findViewById(R.id.tvCategory);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
@@ -137,6 +137,7 @@ public class CardAdapter extends BaseAdapter {
                                         .load(object.getProfUrl())
                                         .circleCrop()
                                         .into(ivProf);
+                                tvCategory.setText(object.getCategory());
                             } else {
                                 GlideApp.with(context)
                                         .load(object.getCoverUrl())

@@ -41,12 +41,12 @@
                 android:layout_toRightOf="@id/ivProf"
                 android:layout_alignTop="@+id/ivProf"
                 android:layout_alignBottom="@id/ivProf"
-                android:padding="@dimen/game_padding"
                 android:layout_marginRight="@dimen/card_prof_pic_margin"
                 android:gravity="center"
                 android:text="@string/loading"
                 android:textColor="@android:color/darker_gray"
                 app:autoSizeTextType="uniform" />
+                <!--android:padding="@dimen/game_padding"-->
 
             <TextView
                 android:id="@+id/tv_users"
@@ -56,6 +56,18 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@android:color/darker_gray"
                 android:text="@string/loading" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivProf"
+                android:layout_marginRight="@dimen/card_prof_pic_margin"
+                android:layout_alignLeft="@id/tv_topic"
+                android:textColor="@android:color/darker_gray"
+                android:text="@string/loading"
+                android:gravity="center"
+                app:autoSizeTextType="uniform" />
 
         </RelativeLayout>
 
