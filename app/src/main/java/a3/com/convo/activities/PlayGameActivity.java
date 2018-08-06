@@ -29,7 +29,7 @@ public class PlayGameActivity extends AppCompatActivity {
             GameFragment gf = (GameFragment) getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG);
             if (gf != null) {
                 ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.play_game_fragment, gf).addToBackStack(GAME_FRAG_TAG).commit();
+                ft.replace(R.id.play_game_fragment, gf, GAME_FRAG_TAG).commit();
                 return;
             }
         }
@@ -37,6 +37,12 @@ public class PlayGameActivity extends AppCompatActivity {
         // if there's no saved instance or no saved GameFragment, set up the FriendsFragment
         ft.replace(R.id.play_game_fragment, new FriendsFragment());
         ft.commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, GAME_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG));
     }
 
     public void goToFriends() {
@@ -59,7 +65,7 @@ public class PlayGameActivity extends AppCompatActivity {
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag);
+        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag, GAME_FRAG_TAG);
         fragmentTransaction.commit();
         gameFrag.setFriend(selectedFriend);
         gameFrag.setMode(mode);
