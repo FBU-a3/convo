@@ -14,6 +14,9 @@ public class Constants {
     // empty string constant
     public static final String EMPTY_STRING = "";
 
+    // space char constant
+    public static final char SPACE = ' ';
+
     // ArrayList join string
     public static final String JOIN_STRING = ", ";
 

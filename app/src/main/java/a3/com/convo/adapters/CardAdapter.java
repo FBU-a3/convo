@@ -83,15 +83,18 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvUsers = v.findViewById(R.id.tv_users);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
         final CardView cvCard = v.findViewById(R.id.card_view);
+
+        // only for portrait mode, they're hidden in landscape
         final ImageView ivProf = v.findViewById(R.id.ivProf);
+        //final TextView tvCategory = v.findViewById(R.id.tvCategory);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
         player1name = player1.getString(FULL_NAME);
-        player1name = player1name.substring(0, player1name.indexOf(' '));
+        player1name = player1name.substring(0, player1name.indexOf(Constants.SPACE));
         // Get player 2 first name
         player2name = player2.getString(FULL_NAME);
-        player2name = player2name.substring(0, player2name.indexOf(' '));
+        player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
 
         // getItem searches array for page, we find the rest of the information with objectId
         String objectId = getItem(i);

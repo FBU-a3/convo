@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_gravity="center"
@@ -35,14 +36,17 @@
 
             <TextView
                 android:id="@+id/tv_topic"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_above="@id/tv_users"
+                android:layout_toRightOf="@id/ivProf"
+                android:layout_alignTop="@+id/ivProf"
+                android:layout_alignBottom="@id/ivProf"
                 android:padding="@dimen/game_padding"
+                android:layout_marginRight="@dimen/card_prof_pic_margin"
+                android:gravity="center"
                 android:text="@string/loading"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="@dimen/topic_text_size" />
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/tv_users"
