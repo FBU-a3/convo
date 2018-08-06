@@ -72,7 +72,6 @@
     <dimen name="topic_rv_margin_top"></dimen>
     <dimen name="topic_rv_margin_bottom"></dimen>
     <dimen name="topic_rv_height">326dp</dimen>
-
     <dimen name="login_button_bottom_margin">47dp</dimen>
     <dimen name="login_image_landscape_width">377dp</dimen>
     <dimen name="login_image_landscape_height">235dp</dimen>
