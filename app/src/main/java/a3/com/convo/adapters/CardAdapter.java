@@ -82,7 +82,7 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvTopic = v.findViewById(R.id.tv_topic);
         final TextView tvUsers = v.findViewById(R.id.tv_users);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
-        final CardView cvCard = v.findViewById(R.id.card_view);
+        final TextView tvTime = (TextView) v.findViewById(R.id.tvTime);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();

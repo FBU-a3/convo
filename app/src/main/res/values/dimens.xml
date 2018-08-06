@@ -22,7 +22,7 @@
     <dimen name="new_like_width">293dp</dimen>
 
     // fragment_conclusion
-    <dimen name="end_message_margin_top">20dp</dimen>
+    <dimen name="end_message_margin_top">30dp</dimen>
     <dimen name="end_message_text_size">18sp</dimen>
     <dimen name="topics_tv_margin_left">10dp</dimen>
     <dimen name="topics_tv_margin_top">70dp</dimen>
