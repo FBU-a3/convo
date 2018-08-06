@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // activity_login
-    <dimen name="button_height">90dp</dimen>
     <dimen name="login_button_corner_radius">12dp</dimen>
     <dimen name="text_logo_top_margin">97dp</dimen>
     <dimen name="text_logo_height">239dp</dimen>
@@ -42,8 +41,6 @@
     <dimen name="timed_margin_top">250dp</dimen>
     <dimen name="linear_layout_height">300dp</dimen>
     <dimen name="button_height">90dp</dimen>
-    <dimen name="login_button_corner_radius">12dp</dimen>
-    <dimen name="linear_layout_height">200dp</dimen>
 
     // fragment_profile_details
     <dimen name="pic_width">200sp</dimen>
@@ -76,4 +73,8 @@
     <dimen name="topic_rv_margin_bottom"></dimen>
     <dimen name="topic_rv_height">326dp</dimen>
 
+    <dimen name="login_button_bottom_margin">47dp</dimen>
+    <dimen name="login_image_landscape_width">377dp</dimen>
+    <dimen name="login_image_landscape_height">235dp</dimen>
+    <dimen name="description_margin_bottom">112dp</dimen>
 </resources>
