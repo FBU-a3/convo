@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,10 +8,11 @@
         android:id="@+id/topic_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Topic"
+        android:layout_marginBottom="@dimen/topic_top_bottom_margin"
+        android:layout_marginLeft="@dimen/topic_left_margin"
+        android:layout_marginTop="@dimen/topic_top_bottom_margin"
+        android:text="@string/topic"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent" />
 </RelativeLayout>
