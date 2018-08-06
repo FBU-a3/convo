@@ -1,6 +1,7 @@
 package a3.com.convo.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.parceler.Parcels;
 
 import a3.com.convo.Constants;
 import a3.com.convo.R;
@@ -31,10 +34,17 @@ public class ModeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (savedInstanceState != null) friend = Parcels.unwrap(savedInstanceState.getParcelable("friend"));
         Toast.makeText(getContext(), friend, Toast.LENGTH_SHORT).show();
         System.out.println(friend);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mode, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("friend", Parcels.wrap(friend));
     }
 
     // TODO: move inner onClicks out from other onClicks

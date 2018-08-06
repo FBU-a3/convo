@@ -220,12 +220,14 @@ public class GameFragment extends Fragment {
 
     private void onTimerTick(long l) {
         timeLeft = l;
-        tvTimer.setText(
-                String.format(getActivity().getResources().getString(R.string.timer_format),
-                        TimeUnit.MILLISECONDS.toMinutes(l),
-                        TimeUnit.MILLISECONDS.toSeconds(l)
-                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
-        );
+        if (getContext() != null) {
+            tvTimer.setText(
+                    String.format(getContext().getResources().getString(R.string.timer_format),
+                            TimeUnit.MILLISECONDS.toMinutes(l),
+                            TimeUnit.MILLISECONDS.toSeconds(l)
+                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+            );
+        }
     }
 
     private void onTimerFinish() {
