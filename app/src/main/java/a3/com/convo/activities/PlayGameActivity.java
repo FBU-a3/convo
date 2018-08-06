@@ -49,11 +49,13 @@ public class PlayGameActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG) != null) {
-            getSupportFragmentManager().putFragment(outState, GAME_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG));
+        GameFragment gf = (GameFragment) getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG);
+        ModeFragment mf = (ModeFragment) getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG);
+        if (gf != null) {
+            getSupportFragmentManager().putFragment(outState, GAME_FRAG_TAG, gf);
         }
-        if (getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG) != null) {
-            getSupportFragmentManager().putFragment(outState, MODE_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG));
+        if (mf != null) {
+            getSupportFragmentManager().putFragment(outState, MODE_FRAG_TAG, mf);
         }
     }
 
