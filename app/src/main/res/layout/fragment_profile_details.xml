@@ -10,12 +10,13 @@
 
     <Button
         android:id="@+id/add_likes_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/add_more_likes"
-        android:layout_alignParentRight="true" />
+        android:layout_marginBottom="@dimen/add_likes_btn_margin"
+        android:layout_marginRight="@dimen/add_likes_btn_margin"
+        android:text="@string/add_more_likes" />
 
     <ImageView
         android:id="@+id/iv_user_prof_pic"

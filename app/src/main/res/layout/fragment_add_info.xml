@@ -15,43 +15,44 @@
 
     <Button
         android:id="@+id/back_to_prof_btn"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/back"
         android:layout_alignParentRight="true"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:text="@string/back" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_likes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/et_new_like"
-        android:layout_alignParentLeft="true"
-        android:clickable="true" />
+        android:clickable="true"
+        android:paddingLeft="@dimen/rv_likes_padding"
+        android:paddingTop="@dimen/rv_likes_padding" />
 
     <EditText
         android:id="@+id/et_new_like"
         android:layout_width="@dimen/new_like_width"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/add_like_btn"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:ems="10"
         android:hint="@string/add_new_like"
-        android:inputType="textPersonName"
-        android:layout_alignParentLeft="true" />
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/add_like_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/like_btn_width"
+        android:layout_height="@dimen/like_btn_height"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="@string/add"
-        android:clickable="true" />
+        android:layout_marginEnd="@dimen/like_btn_margin"
+        android:layout_marginTop="@dimen/like_btn_margin"
+        android:clickable="true"
+        android:text="@string/add" />
 
 </RelativeLayout>
