@@ -39,6 +39,14 @@
                 android:textColor="@android:color/white"
                 android:text="@string/loading" />
 
+            <ImageView
+                android:id="@+id/ivProf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_topic"
+                android:layout_toEndOf="@+id/tv_topic"
+                card_view:srcCompat="@android:color/background_light" />
+
         </RelativeLayout>
 
     </LinearLayout>

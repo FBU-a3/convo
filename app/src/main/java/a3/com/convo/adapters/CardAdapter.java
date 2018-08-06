@@ -83,6 +83,7 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvUsers = v.findViewById(R.id.tv_users);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
         final CardView cvCard = v.findViewById(R.id.card_view);
+        final ImageView ivProf = v.findViewById(R.id.ivProf);
 
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
@@ -129,6 +130,10 @@ public class CardAdapter extends BaseAdapter {
                                         .load(object.getCoverUrl())
                                         .dontTransform()
                                         .into(ivCover);
+                                GlideApp.with(context)
+                                        .load(object.getProfUrl())
+                                        .circleCrop()
+                                        .into(ivProf);
                             } else {
                                 GlideApp.with(context)
                                         .load(object.getCoverUrl())

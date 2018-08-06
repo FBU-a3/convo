@@ -22,8 +22,16 @@
                 android:id="@+id/iv_cover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_image_margin_bottom"
                 card_view:srcCompat="@android:color/holo_orange_dark" />
+
+            <ImageView
+                android:id="@+id/ivProf"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/iv_cover"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="@dimen/card_prof_pic_margin"
+                card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <TextView
                 android:id="@+id/tv_topic"
