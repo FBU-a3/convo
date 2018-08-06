@@ -35,6 +35,9 @@
     <dimen name="mode_button_width">100dp</dimen>
     <dimen name="freestyle_margin_top">150dp</dimen>
     <dimen name="timed_margin_top">250dp</dimen>
+    <dimen name="linear_layout_height">300dp</dimen>
+    <dimen name="button_height">90dp</dimen>
+    <dimen name="login_button_corner_radius">12dp</dimen>
     <dimen name="linear_layout_height">200dp</dimen>
 
     // fragment_profile_details
@@ -66,4 +69,5 @@
     <dimen name="topic_rv_margin_top"></dimen>
     <dimen name="topic_rv_margin_bottom"></dimen>
     <dimen name="topic_rv_height">326dp</dimen>
+
 </resources>

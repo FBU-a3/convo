@@ -23,11 +23,11 @@
 
     <LinearLayout
         android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/linear_layout_height"
         android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@id/timed_mode"
-        android:layout_marginTop="@dimen/end_message_margin_top"
         android:orientation="vertical">
 
         <TextView
@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/tvPickNumTopics"

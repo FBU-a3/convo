@@ -50,6 +50,8 @@
     <string name="your_name">Your Name</string>
     <string name="num_games">Number of games played</string>
     <string name="from">From </string>
+    <string name="login">Two friends hanging out together.</string>
+    <string name="pick_num_topics">Pick how many topics you\'d like</string>
 
     // item_card
     <string name="loading">Loading...</string>
