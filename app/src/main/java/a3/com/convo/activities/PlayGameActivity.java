@@ -15,6 +15,7 @@ import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
 
+    private static final String MODE_FRAG_TAG = "modeFrag";
     private static final String GAME_FRAG_TAG = "gameFrag";
 
     @Override
@@ -28,8 +29,13 @@ public class PlayGameActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             GameFragment gf = (GameFragment) getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG);
             if (gf != null) {
-                ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.play_game_fragment, gf, GAME_FRAG_TAG).commit();
+                return;
+            }
+
+            ModeFragment mf = (ModeFragment) getSupportFragmentManager().findFragmentById(R.id.modeFragment);
+            if (mf != null) {
+                ft.replace(R.id.play_game_fragment, mf, MODE_FRAG_TAG).commit();
                 return;
             }
         }
@@ -42,7 +48,12 @@ public class PlayGameActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, GAME_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG));
+        if (getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG) != null) {
+            getSupportFragmentManager().putFragment(outState, GAME_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(GAME_FRAG_TAG));
+        }
+        if (getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG) != null) {
+            getSupportFragmentManager().putFragment(outState, MODE_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG));
+        }
     }
 
     public void goToFriends() {
@@ -56,7 +67,7 @@ public class PlayGameActivity extends AppCompatActivity {
         ModeFragment modeFrag = new ModeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, modeFrag);
+        fragmentTransaction.replace(R.id.play_game_fragment, modeFrag, MODE_FRAG_TAG);
         fragmentTransaction.commit();
         modeFrag.setFriend(selectedFriend);
     }
