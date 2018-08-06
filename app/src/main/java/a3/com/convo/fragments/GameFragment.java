@@ -60,6 +60,9 @@ public class GameFragment extends Fragment {
     // boolean telling if configuration was changed and timer needs to be reset
     private boolean configChange;
 
+    // number of topics if in timed mode
+    private int numTopics;
+
     private ParseUser player1;
     private ArrayList<String> player1Likes;
     private ParseUser player2;
@@ -122,16 +125,41 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                onTimerFinish();
+                Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
+                if (player1Games == null) {
+                    Log.e("GameFragment", "Query returned null number of games in player1games");
+                    return;
+                }
+                Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
+                player1.put(Constants.NUM_GAMES, player1GamesIncremented);
+                player1.saveInBackground();
+                Integer player2Games = (Integer)player2.getNumber(Constants.NUM_GAMES);
+                if (player2Games == null) {
+                    Log.e("GameFragment", "Query returned null number of games in player2games");
+                    return;
+                }
+                Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
+                player2.put(Constants.NUM_GAMES, player2GamesIncremented);
+                player2.saveInBackground();
+                if (mode.equals(Constants.FREESTYLE)) {
+                    endGame();
+                } else {
+                    cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
+                    restartTimer();
+                }
             }
         };
 
+        // TODO: check countdown of numTopics, off by one now
         // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
             public void cardSwipedLeft(long stableId) {
                 // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (mode.equals(Constants.TIMED)) {
+                    numTopics--;
+                    restartTimer();
+                }
                 if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
                     topicsDiscussed.add(allLikes.get((int)stableId));
                 }
@@ -140,7 +168,10 @@ public class GameFragment extends Fragment {
             @Override
             public void cardSwipedRight(long stableId) {
                 // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) restartTimer();
+                if (mode.equals(Constants.TIMED)) {
+                    numTopics--;
+                    restartTimer();
+                }
                 if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
                     topicsDiscussed.add(allLikes.get((int)stableId));
                 }
@@ -217,21 +248,21 @@ public class GameFragment extends Fragment {
             player2.saveInBackground();
         }
         if (mode.equals(Constants.FREESTYLE)) {
-            endGame(tvTimer);
+            endGame();
         } else {
             cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
             restartTimer();
         }
     }
 
-    private void endGame(TextView tv) {
+    private void endGame() {
         if (getContext() instanceof PlayGameActivity)
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
 
     private void restartTimer() {
         timer.cancel();
-
+        if (numTopics == 0) endGame();
         // on restart timer, we don't want to restart with timeLeft but rather with original time
         if (configChange) {
             timer = new CountDownTimer(time, Constants.TIMER_INTERVAL) {
@@ -254,6 +285,10 @@ public class GameFragment extends Fragment {
     }
     public void setMode(String selectedMode) {
         mode = selectedMode;
+    }
+    public void setNumTopics(int selectedNumber) {
+        numTopics = selectedNumber;
+        Log.e("Topics", String.valueOf(numTopics));
     }
 
     // sets the time per card (timed mode) or per game (freestyle mode)

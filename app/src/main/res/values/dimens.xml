@@ -35,7 +35,6 @@
     <dimen name="mode_button_width">100dp</dimen>
     <dimen name="freestyle_margin_top">150dp</dimen>
     <dimen name="timed_margin_top">250dp</dimen>
-    <dimen name="linear_layout_height">200dp</dimen>
 
     // fragment_profile_details
     <dimen name="pic_width">200sp</dimen>
@@ -63,7 +62,9 @@
     <dimen name="tv_like_margin_bottom">10dp</dimen>
     <dimen name="tv_like_text_size">20sp</dimen>
 
-    <dimen name="topic_rv_margin_top"></dimen>
-    <dimen name="topic_rv_margin_bottom"></dimen>
     <dimen name="topic_rv_height">326dp</dimen>
+
+    // item_topic
+    <dimen name="topic_top_bottom_margin">10dp</dimen>
+
 </resources>

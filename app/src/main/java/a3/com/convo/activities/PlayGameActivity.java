@@ -14,6 +14,7 @@ import a3.com.convo.fragments.GameFragment;
 import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
+
     private static final String GAME_FRAG_TAG = "gameFrag";
 
     @Override
@@ -38,17 +39,6 @@ public class PlayGameActivity extends AppCompatActivity {
         ft.commit();
     }
 
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-//        // if we've already navigated to the GameFragment, save that to restore later
-//        if (gameFrag != null)
-//            getSupportFragmentManager().putFragment(outState, "gameFrag", gameFrag);
-
-    }
-
     public void goToFriends() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -69,12 +59,12 @@ public class PlayGameActivity extends AppCompatActivity {
         GameFragment gameFrag = new GameFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag, GAME_FRAG_TAG);
-        fragmentTransaction.addToBackStack(GAME_FRAG_TAG);
+        fragmentTransaction.replace(R.id.play_game_fragment, gameFrag);
         fragmentTransaction.commit();
         gameFrag.setFriend(selectedFriend);
         gameFrag.setMode(mode);
         gameFrag.setTime(time);
+        if (numTopics != 0) gameFrag.setNumTopics(numTopics);
     }
 
     public void goToConclusion(ArrayList<String> topicsDiscussed) {

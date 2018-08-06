@@ -36,6 +36,7 @@ public class ModeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_mode, container, false);
     }
 
+    // TODO: move inner onClicks out from other onClicks
     public void onViewCreated(View view, Bundle savedInstanceState) {
         final LinearLayout layout = (LinearLayout) view.findViewById(R.id.layout);
         final TextView tvPickTime = (TextView) view.findViewById(R.id.tvPickTime);
