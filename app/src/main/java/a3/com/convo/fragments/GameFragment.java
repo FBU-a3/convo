@@ -142,7 +142,7 @@ public class GameFragment extends Fragment {
                 player2.put(Constants.NUM_GAMES, player2GamesIncremented);
                 player2.saveInBackground();
                 if (mode.equals(Constants.FREESTYLE)) {
-                    endGame(tvTimer);
+                    endGame();
                 } else {
                     cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
                     restartTimer();
@@ -220,12 +220,14 @@ public class GameFragment extends Fragment {
 
     private void onTimerTick(long l) {
         timeLeft = l;
-        tvTimer.setText(
-                String.format(getActivity().getResources().getString(R.string.timer_format),
-                        TimeUnit.MILLISECONDS.toMinutes(l),
-                        TimeUnit.MILLISECONDS.toSeconds(l)
-                                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
-        );
+        if (getContext() != null) {
+            tvTimer.setText(
+                    String.format(getContext().getResources().getString(R.string.timer_format),
+                            TimeUnit.MILLISECONDS.toMinutes(l),
+                            TimeUnit.MILLISECONDS.toSeconds(l)
+                                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
+            );
+        }
     }
 
     private void onTimerFinish() {
@@ -248,14 +250,14 @@ public class GameFragment extends Fragment {
             player2.saveInBackground();
         }
         if (mode.equals(Constants.FREESTYLE)) {
-            endGame(tvTimer);
+            endGame();
         } else {
             cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
             restartTimer();
         }
     }
 
-    private void endGame(TextView tv) {
+    private void endGame() {
         if (getContext() instanceof PlayGameActivity)
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
