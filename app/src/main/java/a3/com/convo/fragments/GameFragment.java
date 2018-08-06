@@ -142,7 +142,7 @@ public class GameFragment extends Fragment {
                 player2.put(Constants.NUM_GAMES, player2GamesIncremented);
                 player2.saveInBackground();
                 if (mode.equals(Constants.FREESTYLE)) {
-                    endGame(tvTimer);
+                    endGame();
                 } else {
                     cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
                     restartTimer();
@@ -248,14 +248,14 @@ public class GameFragment extends Fragment {
             player2.saveInBackground();
         }
         if (mode.equals(Constants.FREESTYLE)) {
-            endGame(tvTimer);
+            endGame();
         } else {
             cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
             restartTimer();
         }
     }
 
-    private void endGame(TextView tv) {
+    private void endGame() {
         if (getContext() instanceof PlayGameActivity)
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
