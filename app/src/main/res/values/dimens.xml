@@ -7,6 +7,10 @@
     <dimen name="description_text_size">20sp</dimen>
     <dimen name="description_width">300dp</dimen>
     <dimen name="login_button_text_size">10sp</dimen>
+    <dimen name="login_button_bottom_margin">47dp</dimen>
+    <dimen name="login_image_landscape_width">377dp</dimen>
+    <dimen name="login_image_landscape_height">235dp</dimen>
+    <dimen name="description_margin_bottom">112dp</dimen>
 
     // activity_home_screen
     <dimen name="edit_prof_margin_top">176dp</dimen>
@@ -69,11 +73,8 @@
     <dimen name="tv_like_margin_bottom">10dp</dimen>
     <dimen name="tv_like_text_size">20sp</dimen>
 
-    <dimen name="topic_rv_margin_top"></dimen>
-    <dimen name="topic_rv_margin_bottom"></dimen>
+    // item_topic
     <dimen name="topic_rv_height">326dp</dimen>
-    <dimen name="login_button_bottom_margin">47dp</dimen>
-    <dimen name="login_image_landscape_width">377dp</dimen>
-    <dimen name="login_image_landscape_height">235dp</dimen>
-    <dimen name="description_margin_bottom">112dp</dimen>
+    <dimen name="topic_top_bottom_margin">10dp</dimen>
+
 </resources>

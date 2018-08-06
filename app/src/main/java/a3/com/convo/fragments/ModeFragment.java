@@ -20,7 +20,6 @@ import a3.com.convo.activities.PlayGameActivity;
  * they would like to play in and can click a button to start the game.
  **/
 public class ModeFragment extends Fragment {
-    private Button startGame;
     private String friend;
     private String mode;
 
@@ -46,8 +45,9 @@ public class ModeFragment extends Fragment {
         final TextView tvPickNumTopics = (TextView) view.findViewById(R.id.tvPickNumTopics);
         final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
-        startGame = (Button) view.findViewById(R.id.start_game_btn);
-        startGame.setOnClickListener(new View.OnClickListener() {
+        // If user selects to play Freestyle
+        Button freestyleMode = (Button) view.findViewById(R.id.freestyle_mode);
+        freestyleMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tvPickNumTopics.setVisibility(View.INVISIBLE);
@@ -67,6 +67,7 @@ public class ModeFragment extends Fragment {
             }
         });
 
+        // If user selects to play Timed
         Button timedMode = (Button) view.findViewById(R.id.timed_mode);
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override

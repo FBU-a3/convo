@@ -15,7 +15,7 @@ import a3.com.convo.fragments.ModeFragment;
 
 public class PlayGameActivity extends AppCompatActivity {
 
-    private static final String GAME_FRAG_TAG = "gameFrag";
+    private FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
