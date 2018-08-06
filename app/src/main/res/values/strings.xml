@@ -20,8 +20,9 @@
 
     // fragment_conclusion
     <string name="end_message">The Convo\'s only over if you want it to be!</string>
-    <string name="play_again">Play Again?</string>
-    <string name="end_topics">The following topics were talked about:</string>
+    <string name="play_again">Play Again</string>
+    <string name="end_topics">The following topics were talked about, click through to view info from page:</string>
+    <string name="go_home">Return Home</string>
 
     // fragment_friends
     <string name="mode_btn_text">Ready? Select mode.</string>
@@ -60,5 +61,5 @@
     // item_like
 
     // item_topic
-    <string name="topic">Topic</string>
+    <string name="topic"></string>
 </resources>
