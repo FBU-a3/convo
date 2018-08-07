@@ -1,37 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.HomeScreenActivity">
 
     <Button
-        android:id="@+id/edit_profile_btn"
+        android:id="@+id/add_likes_btn"
         android:layout_width="@dimen/std_btn_width"
         android:layout_height="@dimen/std_btn_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/add_likes_bottom_margin_land"
+        android:layout_marginEnd="@dimen/add_likes_end_margin_land"
+        android:text="@string/add_more_likes"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/add_likes_end_margin_land" />
+
+    <ImageView
+        android:id="@+id/iv_user_prof_pic"
+        android:layout_width="@dimen/pic_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/buttons_vertical_padding"
-        android:enabled="true"
-        android:paddingHorizontal="@dimen/buttons_vertical_padding"
-        android:text="@string/edit_prof_btn" />
+        android:layout_marginStart="@dimen/user_prof_pic_start_margin_land"
+        android:layout_marginTop="@dimen/user_prof_pic_top_margin_land"
+        android:src="@drawable/com_facebook_profile_picture_blank_square"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/user_prof_pic_start_margin_land" />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/add_likes_btn"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/user_name_top_margin_land"
+        android:text="@string/your_name"
+        android:textSize="@dimen/name_text_size"
+        android:layout_alignRight="@+id/add_likes_btn" />
+
+    <TextView
+        android:id="@+id/tv_user_hometown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/add_likes_btn"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/user_hometown_top_margin_land"
+        android:text="@string/your_hometown"
+        android:layout_alignRight="@+id/add_likes_btn" />
+
+    <TextView
+        android:id="@+id/tv_games_played"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/add_likes_btn"
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tv_user_hometown"
+        android:layout_marginTop="@dimen/games_played_top_margin_land"
+        android:text="@string/num_games"
+        android:layout_alignRight="@+id/add_likes_btn" />
 
     <Button
         android:id="@+id/play_game_btn"
         android:layout_width="@dimen/std_btn_width"
         android:layout_height="@dimen/std_btn_height"
-        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/add_likes_btn"
+        android:layout_marginStart="@dimen/play_game_start_margin"
         android:paddingHorizontal="@dimen/buttons_vertical_padding"
-        android:text="@string/play_game_btn" />
+        android:text="@string/play_game_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/play_game_start_margin" />
 
-    <Button
-        android:id="@+id/logout_btn"
-        android:layout_width="@dimen/std_btn_width"
-        android:layout_height="@dimen/std_btn_height"
+    <TextView
+        android:id="@+id/logout_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/buttons_vertical_padding"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/logout_btn_paddin"
         android:paddingHorizontal="@dimen/buttons_vertical_padding"
-        android:text="@string/logout_btn" />
+        android:text="@string/logout_btn"
+        android:textColor="@color/convo_blue"
+        android:textSize="@dimen/logout_btn_text_size"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tv_three_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="@dimen/three_likes_land_end_margin"
+        android:layout_marginTop="@dimen/three_likes_land_top_margin"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/three_likes_land_end_margin" />
 </RelativeLayout>

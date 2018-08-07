@@ -1,6 +1,7 @@
 package a3.com.convo.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,11 +21,12 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import a3.com.convo.models.Page;
+import a3.com.convo.Constants;
 import a3.com.convo.R;
-import a3.com.convo.activities.ProfileActivity;
+import a3.com.convo.activities.HomeScreenActivity;
 import a3.com.convo.adapters.AdditionalLikeAdapter;
 import a3.com.convo.adapters.RecyclerViewItemClickListener;
+import a3.com.convo.models.Page;
 
 /**
  * This class is the fragment in Profile Activity where the user can add additional likes.
@@ -60,7 +62,9 @@ public class AddInfoFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProfileActivity)context).goBackToProfile();
+
+                Intent intent = new Intent(getActivity(), HomeScreenActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -90,7 +94,7 @@ public class AddInfoFragment extends Fragment {
                         public void done(ParseException e) {
                             if (e == null) {
                                 Log.e("LoginActivity", "Create page success");
-                                user.add("otherLikes", newPage.getObjectId());
+                                user.add(Constants.OTHER_LIKES, newPage.getObjectId());
                                 user.saveInBackground();
                                 additionalLikes.add(0, newPage.getObjectId());
                                 alAdapter.notifyDataSetChanged();
@@ -117,7 +121,7 @@ public class AddInfoFragment extends Fragment {
             public void onItemLongClick(View view, int position) {
                 String a = additionalLikes.get(position);
                 ParseUser user = ParseUser.getCurrentUser();
-                user.removeAll("otherLikes", Arrays.asList(additionalLikes.get(position)));
+                user.removeAll(Constants.OTHER_LIKES, Arrays.asList(additionalLikes.get(position)));
                 additionalLikes.remove(position);
                 alAdapter.notifyDataSetChanged();
                 user.saveInBackground();
@@ -127,7 +131,7 @@ public class AddInfoFragment extends Fragment {
             public void onItemDelete(View view, int position) {
                 String a = additionalLikes.get(position);
                 ParseUser user = ParseUser.getCurrentUser();
-                user.removeAll("otherLikes", Arrays.asList(additionalLikes.get(position)));
+                user.removeAll(Constants.OTHER_LIKES, Arrays.asList(additionalLikes.get(position)));
                 additionalLikes.remove(position);
                 alAdapter.notifyDataSetChanged();
                 user.saveInBackground();

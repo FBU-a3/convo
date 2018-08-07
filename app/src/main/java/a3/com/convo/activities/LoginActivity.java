@@ -211,30 +211,36 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("LoginActivity", "Page name was null.");
                                         return;
                                     }
-                                    JSONObject coverPicObject = page.getJSONObject(Constants.COVER);
-                                    if (coverPicObject == null) {
-                                        Log.e("LoginActivity", "coverPicObject was null.");
-                                        return;
+                                    String coverUrl = null;
+                                    if (page.has(Constants.COVER)){
+                                        JSONObject coverPicObject = page.getJSONObject(Constants.COVER);
+                                        if (coverPicObject == null) {
+                                            Log.e("LoginActivity", "coverPicObject was null.");
+                                            return;
+                                        }
+                                        coverUrl = coverPicObject.optString(Constants.SOURCE);
+                                        if (coverUrl == null) {
+                                            Log.e("LoginActivity", "Page coverUrl was null.");
+                                            // no need to return since field is nullable
+                                        }
                                     }
-                                    String coverUrl = coverPicObject.optString(Constants.SOURCE);
-                                    if (coverUrl == null) {
-                                        Log.e("LoginActivity", "Page coverUrl was null.");
-                                        // no need to return since field is nullable
-                                    }
-                                    JSONObject profPicObject = page.getJSONObject(Constants.PICTURE);
-                                    if (profPicObject == null) {
-                                        Log.e("LoginActivity", "profPicObject was null.");
-                                        return;
-                                    }
-                                    JSONObject profPicObjectData = profPicObject.getJSONObject(Constants.DATA_KEY);
-                                    if (profPicObjectData == null) {
-                                        Log.e("LoginActivity", "profPicObjectData was null.");
-                                        return;
-                                    }
-                                    String profUrl = profPicObjectData.optString(Constants.URL);
-                                    if (profUrl == null) {
-                                        Log.e("LoginActivity", "Page prof was null.");
-                                        // no need to return since field is nullable
+                                    String profUrl = null;
+                                    if (page.has(Constants.PICTURE)) {
+                                        JSONObject profPicObject = page.getJSONObject(Constants.PICTURE);
+                                        if (profPicObject == null) {
+                                            Log.e("LoginActivity", "profPicObject was null.");
+                                            return;
+                                        }
+                                        JSONObject profPicObjectData = profPicObject.getJSONObject(Constants.DATA_KEY);
+                                        if (profPicObjectData == null) {
+                                            Log.e("LoginActivity", "profPicObjectData was null.");
+                                            return;
+                                        }
+                                        profUrl = profPicObjectData.optString(Constants.URL);
+                                        if (profUrl == null) {
+                                            Log.e("LoginActivity", "Page prof was null.");
+                                            // no need to return since field is nullable
+                                        }
                                     }
                                     JSONObject engagementObject = page.getJSONObject(Constants.ENGAGEMENT);
                                     if (engagementObject == null) {
@@ -550,7 +556,17 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.e("LoginActivity", "name of place in tagged places array is null");
                                             return;
                                         }
-                                        final Page newPlacePage = Page.newInstance(id, name, null, null, null, null);
+                                        String coverUrl = null;
+                                        if (place_object.has(Constants.COVER)){
+                                            JSONObject cover = place_object.getJSONObject(Constants.COVER);
+                                            if (cover == null) {
+                                                Log.e("LoginActivity", "the place object inside of the object in tagged places array has no cover object");
+                                            }
+                                            else {
+                                                coverUrl = cover.optString(Constants.SOURCE);
+                                            }
+                                        }
+                                        final Page newPlacePage = Page.newInstance(id, name, null, coverUrl, null, getString(R.string.visited_place_string));
 
                                         newPlacePage.saveInBackground(new SaveCallback() {
                                             @Override
@@ -578,7 +594,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle permission_param = new Bundle();
-        permission_param.putString(Constants.FIELDS, Constants.TAGGED_PLACES);
+        permission_param.putString(Constants.FIELDS, Constants.GET_TAGGED_PLACES_FIELDS);
         data_request.setParameters(permission_param);
         data_request.executeAsync();
     }
