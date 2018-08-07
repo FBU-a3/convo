@@ -46,28 +46,17 @@
                 android:text="@string/loading"
                 android:textColor="@android:color/darker_gray"
                 app:autoSizeTextType="uniform" />
-                <!--android:padding="@dimen/game_padding"-->
 
             <TextView
                 android:id="@+id/tv_users"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:textColor="@android:color/darker_gray"
-                android:text="@string/loading" />
-
-            <TextView
-                android:id="@+id/tvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ivProf"
+                android:layout_alignLeft="@+id/ivProf"
                 android:layout_marginRight="@dimen/card_prof_pic_margin"
-                android:layout_alignLeft="@id/tv_topic"
-                android:textColor="@android:color/darker_gray"
+                android:layout_below="@id/ivProf"
                 android:text="@string/loading"
-                android:gravity="center"
-                app:autoSizeTextType="uniform" />
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center"/>
 
         </RelativeLayout>
 

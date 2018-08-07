@@ -33,8 +33,8 @@
     <string name="next_card">onto the next one</string>
     <string name="back">BACK</string>
     <string name="timer_format">%d:%d</string>
-    <string name="bothUsersLike">%1$s and %2$s like this.</string>
-    <string name="userWhoLikes">%1$s like this.</string>
+    <string name="bothUsersLike">%1$s and %2$s like this %3$s.</string>
+    <string name="userWhoLikes">%1$s likes this %2$s.</string>
     <string name="game_time_mins">Game time (in minutes)</string>
     <string name="topic_time_secs">Topic time (in seconds)</string>
 
