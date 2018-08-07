@@ -1,5 +1,6 @@
 package a3.com.convo.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -54,6 +55,11 @@ public class PlayGameActivity extends AppCompatActivity {
         if (getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG) != null) {
             getSupportFragmentManager().putFragment(outState, MODE_FRAG_TAG, getSupportFragmentManager().findFragmentByTag(MODE_FRAG_TAG));
         }
+    }
+
+    public void goHome() {
+        Intent i = new Intent(PlayGameActivity.this, HomeScreenActivity.class);
+        startActivity(i);
     }
 
     public void goToFriends() {

@@ -34,10 +34,6 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         topics = topicsDiscussed;
     }
 
-    public String getItem(int i) {
-        return topics.get(i);
-    }
-
     @NonNull
     @Override
     public TopicAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {

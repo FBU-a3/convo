@@ -32,12 +32,13 @@ public class ConclusionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
-
         RecyclerView topicsRv = view.findViewById(R.id.rv_topics);
         TopicAdapter topicAdapter = new TopicAdapter(topicsDiscussed);
         topicsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
         topicsRv.setAdapter(topicAdapter);
+
+        Button playAgainButton = (Button) view.findViewById(R.id.play_again_btn);
+        Button returnHomeButton = view.findViewById(R.id.home_btn);
 
         playAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,8 +47,16 @@ public class ConclusionFragment extends Fragment {
                     ((PlayGameActivity) getContext()).goToFriends();
             }
         });
-    }
 
+        returnHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getContext() instanceof PlayGameActivity)
+                    ((PlayGameActivity) getContext()).goHome();
+            }
+        });
+    }
+    
     public void setDiscussedTopics(ArrayList<String> topicsDiscussed) {
         this.topicsDiscussed = topicsDiscussed;
     }
