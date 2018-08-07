@@ -74,6 +74,8 @@
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="card_topic_margin_bottom">125dp</dimen>
     <dimen name="card_prof_pic_margin">15dp</dimen>
+    <dimen name="card_prof_pic_size">80dp</dimen>
+    <dimen name="card_topic_name_size">230dp</dimen>
 
     // item_friend
     <dimen name="friend_iv_width_length">50dp</dimen>
