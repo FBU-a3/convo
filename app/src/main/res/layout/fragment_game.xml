@@ -8,7 +8,8 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/game_timer_text_size"
         android:gravity="center"
-        android:text="@string/timer_text" />
+        android:text="@string/timer_text"
+        android:layout_marginBottom="@dimen/card_spacing"/>
 
     <com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

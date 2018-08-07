@@ -23,6 +23,8 @@ import a3.com.convo.activities.PlayGameActivity;
  * they would like to play in and can click a button to start the game.
  **/
 public class ModeFragment extends Fragment {
+    private static final String FRIEND_TAG = "friend";
+
     private String friend;
     private String mode;
 
@@ -33,7 +35,7 @@ public class ModeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (savedInstanceState != null) friend = Parcels.unwrap(savedInstanceState.getParcelable("friend"));
+        if (savedInstanceState != null) friend = Parcels.unwrap(savedInstanceState.getParcelable(FRIEND_TAG));
         Toast.makeText(getContext(), friend, Toast.LENGTH_SHORT).show();
         System.out.println(friend);
         // Inflate the layout for this fragment
@@ -43,7 +45,7 @@ public class ModeFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("friend", Parcels.wrap(friend));
+        outState.putParcelable(FRIEND_TAG, Parcels.wrap(friend));
     }
 
     // TODO: move inner onClicks out from other onClicks

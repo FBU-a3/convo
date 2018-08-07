@@ -38,7 +38,7 @@
 
     // fragment_game
     <dimen name="game_timer_text_size">50sp</dimen>
-    <dimen name="game_margin_bottom">30dp</dimen>
+    <dimen name="game_margin_bottom">70dp</dimen>
     <dimen name="game_padding">5dp</dimen>
     <dimen name="card_spacing">15dp</dimen>
 
@@ -73,6 +73,9 @@
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="card_topic_margin_bottom">125dp</dimen>
+    <dimen name="card_prof_pic_margin">15dp</dimen>
+    <dimen name="card_prof_pic_size">80dp</dimen>
+    <dimen name="card_topic_name_size">230dp</dimen>
 
     // item_friend
     <dimen name="friend_iv_width_length">50dp</dimen>

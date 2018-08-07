@@ -84,38 +84,41 @@ public class CardAdapter extends BaseAdapter {
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
         final CardView cvCard = v.findViewById(R.id.card_view);
 
+        // only for portrait mode, they're hidden in landscape
+        final ImageView ivProf = v.findViewById(R.id.ivProf);
+
         // Get player 1 first name
         player1 = ParseUser.getCurrentUser();
         player1name = player1.getString(FULL_NAME);
-        player1name = player1name.substring(0, player1name.indexOf(' '));
+        player1name = player1name.substring(0, player1name.indexOf(Constants.SPACE));
         // Get player 2 first name
         player2name = player2.getString(FULL_NAME);
-        player2name = player2name.substring(0, player2name.indexOf(' '));
+        player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
 
         // getItem searches array for page, we find the rest of the information with objectId
-        String objectId = getItem(i);
+        final String objectId = getItem(i);
 
-        // Find who the page is liked by
-        String usersWhoLiked;
-        if (player1Likes.contains(objectId) && player2Likes.contains(objectId)) {
-            // If liked by both players
-            usersWhoLiked = context.getResources().getString(R.string.bothUsersLike, player1name, player2name);
-        } else if (player1Likes.contains(objectId)) {
-            // If liked by player 1 only
-            usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player1name);
-        } else {
-            // If liked by player 2 only
-            usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player2name);
-        }
 
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
-        final String finalUsersWhoLiked = usersWhoLiked;
         query.getInBackground(objectId, new GetCallback<Page>() {
             @Override
             public void done(Page object, ParseException e) {
                 if (e == null) {
+                    // Find who the page is liked by
+                    String category = object.getCategory().toLowerCase();
+                    String usersWhoLiked;
+                    if (player1Likes.contains(objectId) && player2Likes.contains(objectId)) {
+                        // If liked by both players
+                        usersWhoLiked = context.getResources().getString(R.string.bothUsersLike, player1name, player2name, category);
+                    } else if (player1Likes.contains(objectId)) {
+                        // If liked by player 1 only
+                        usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player1name, category);
+                    } else {
+                        // If liked by player 2 only
+                        usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player2name, category);
+                    }
                     tvTopic.setText(object.getName());
-                    tvUsers.setText(finalUsersWhoLiked);
+                    tvUsers.setText(usersWhoLiked);
 
                     if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
                         // check for if activity is finishing in order to avoid crash
@@ -129,6 +132,10 @@ public class CardAdapter extends BaseAdapter {
                                         .load(object.getCoverUrl())
                                         .dontTransform()
                                         .into(ivCover);
+                                GlideApp.with(context)
+                                        .load(object.getProfUrl())
+                                        .circleCrop()
+                                        .into(ivProf);
                             } else {
                                 GlideApp.with(context)
                                         .load(object.getCoverUrl())
