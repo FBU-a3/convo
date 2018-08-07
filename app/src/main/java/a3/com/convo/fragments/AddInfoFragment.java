@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -79,26 +80,30 @@ public class AddInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String itemText = etNewLike.getText().toString();
-                //alAdapter.add(itemText);
-                final ParseUser user = ParseUser.getCurrentUser();
-                final Page newPage = Page.newInstance(null, itemText, null, null, null);
-                newPage.saveInBackground(new SaveCallback() {
+                if (!itemText.isEmpty()) {
+                    //alAdapter.add(itemText);
+                    final ParseUser user = ParseUser.getCurrentUser();
+                    final Page newPage = Page.newInstance(null, itemText, null, null, null, null);
+                    newPage.saveInBackground(new SaveCallback() {
 
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Log.e("LoginActivity", "Create page success");
-                            user.add("otherLikes", newPage.getObjectId());
-                            user.saveInBackground();
-                            additionalLikes.add(0, newPage.getObjectId());
-                            alAdapter.notifyDataSetChanged();
-                            etNewLike.setText("");
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.e("LoginActivity", "Create page success");
+                                user.add("otherLikes", newPage.getObjectId());
+                                user.saveInBackground();
+                                additionalLikes.add(0, newPage.getObjectId());
+                                alAdapter.notifyDataSetChanged();
+                                etNewLike.setText("");
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
-                        else {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                    });
+                }
+                else {
+                    Toast.makeText(getActivity(), "Text is empty", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -110,6 +115,16 @@ public class AddInfoFragment extends Fragment {
 
             @Override
             public void onItemLongClick(View view, int position) {
+                String a = additionalLikes.get(position);
+                ParseUser user = ParseUser.getCurrentUser();
+                user.removeAll("otherLikes", Arrays.asList(additionalLikes.get(position)));
+                additionalLikes.remove(position);
+                alAdapter.notifyDataSetChanged();
+                user.saveInBackground();
+            }
+
+            @Override
+            public void onItemDelete(View view, int position) {
                 String a = additionalLikes.get(position);
                 ParseUser user = ParseUser.getCurrentUser();
                 user.removeAll("otherLikes", Arrays.asList(additionalLikes.get(position)));

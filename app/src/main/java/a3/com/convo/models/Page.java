@@ -16,7 +16,7 @@ import a3.com.convo.Constants;
 @ParseClassName("Page")
 public class Page extends ParseObject{
 
-    public static Page newInstance(@Nullable String pageId, String name, @Nullable String profUrl, @Nullable String coverUrl, @Nullable String category) {
+    public static Page newInstance(@Nullable String pageId, String name, @Nullable String profUrl, @Nullable String coverUrl, @Nullable String category, @Nullable String likesString) {
         final Page page = new Page();
         if (pageId != null)
             page.setPageId(pageId);
@@ -27,6 +27,8 @@ public class Page extends ParseObject{
             page.setCoverUrl(coverUrl);
         if (category != null)
             page.setCategory(category);
+        if (likesString != null)
+            page.setLikesString(likesString);
         return page;
     }
 
@@ -68,6 +70,14 @@ public class Page extends ParseObject{
 
     public void setCategory(String category) {
         put(Constants.CATEGORY_KEY, category);
+    }
+
+    public void setLikesString(String likesString) {
+        put(Constants.LIKES_STRING, likesString);
+    }
+
+    public String getLikesString() {
+        return getString(Constants.LIKES_STRING);
     }
 
 }

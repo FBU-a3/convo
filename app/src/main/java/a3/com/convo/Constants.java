@@ -47,9 +47,10 @@ public class Constants {
     public static final String PAGE_ID = "pageId";
     public static final String PROF_URL = "profUrl";
     public static final String NUM_GAMES = "numGames";
+    public static final String LIKES_STRING = "likesString";
 
     // request params fields for fetching user's likes from Graph API
-    public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,picture.type(large)}";
+    public static final String GET_LIKES_FIELDS = "likes{id,category,name,location,likes,cover,engagement,picture.type(large)}";
     public static final String LIMIT = "limit";
     public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
@@ -69,5 +70,7 @@ public class Constants {
     public static final String TAGGED_PLACES = "tagged_places";
     public static final String LOCATION = "location";
     public static final String HOMETOWN = "hometown";
+    public static final String ENGAGEMENT = "engagement";
+    public static final String SOCIAL_SENTENCE = "social_sentence";
 
 }
