@@ -9,11 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
@@ -89,6 +91,7 @@ public class CardAdapter extends BaseAdapter {
         final TextView tvUsers = v.findViewById(R.id.tv_users);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
         final CardView cvCard = v.findViewById(R.id.card_view);
+        final RelativeLayout layout = v.findViewById(R.id.layout);
 
         // only for portrait mode, they're hidden in landscape
         final ImageView ivProf = v.findViewById(R.id.ivProf);
@@ -111,7 +114,12 @@ public class CardAdapter extends BaseAdapter {
             public void done(Page object, ParseException e) {
                 if (e == null) {
                     // Find who the page is liked by
-                    String category = object.getCategory().toLowerCase();
+                    String category;
+                    if (object.getCategory() != null) {
+                        category = object.getCategory().toLowerCase();
+                    } else {
+                        category = Constants.EMPTY_STRING;
+                    }
                     String usersWhoLiked;
                     if (player1Likes.contains(objectId) && player2Likes.contains(objectId)) {
                         // If liked by both players
@@ -126,7 +134,7 @@ public class CardAdapter extends BaseAdapter {
                     tvTopic.setText(object.getName());
                     tvUsers.setText(usersWhoLiked);
 
-                    if (object.getPageId() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
+                    if (object.getCategory() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
                         // check for if activity is finishing in order to avoid crash
                         if (context instanceof PlayGameActivity && ((PlayGameActivity) context).isFinishing()) {
                             return;
@@ -175,6 +183,11 @@ public class CardAdapter extends BaseAdapter {
                                         });
                             }
                         }
+                    } else {
+                        ivCover.setVisibility(View.INVISIBLE);
+                        ivProf.setVisibility(View.INVISIBLE);
+                        // TODO: figure out how to center this in layout if nothing else is there
+                        layout.setGravity(Gravity.CENTER);
                     }
                 } else {
                     Log.e("name error", "Oops!");

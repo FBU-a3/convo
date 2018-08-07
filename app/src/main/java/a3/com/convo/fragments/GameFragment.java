@@ -65,8 +65,12 @@ public class GameFragment extends Fragment {
 
     private ParseUser player1;
     private ArrayList<String> player1Likes;
+    private ArrayList<String> player1Topics;
+    private ArrayList<String> player1Places;
     private ParseUser player2;
     private ArrayList<String> player2Likes;
+    private ArrayList<String> player2Topics;
+    private ArrayList<String> player2Places;
     private ArrayList<String> allLikes;
     private CardAdapter adapter;
 
@@ -181,6 +185,8 @@ public class GameFragment extends Fragment {
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
         player1Likes = (ArrayList<String>) player1.get(Constants.PARSE_PAGE_LIKES_KEY);
+        player1Topics = (ArrayList<String>) player1.get(Constants.OTHER_LIKES);
+        player1Places = (ArrayList<String>) player1.get(Constants.PARSE_TAGGED_PLACES);
 
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -192,8 +198,14 @@ public class GameFragment extends Fragment {
                     if (object != null) {
                         player2 = object;
                         player2Likes = (ArrayList<String>) player2.get(Constants.PARSE_PAGE_LIKES_KEY);
+                        player2Topics = (ArrayList<String>) player2.get(Constants.OTHER_LIKES);
+                        player2Places = (ArrayList<String>) player2.get(Constants.PARSE_TAGGED_PLACES);
 
-                        // put together both player's likes and shuffle them
+                        // put together both player's likes, other likes, and places and shuffle them
+                        if (player1Topics != null) player1Likes.addAll(player1Topics);
+                        if (player1Places != null) player1Likes.addAll(player1Places);
+                        if (player2Topics != null) player2Likes.addAll(player2Topics);
+                        if (player2Places != null) player2Likes.addAll(player2Places);
                         allLikes = new ArrayList<>();
                         allLikes.addAll(player1Likes);
                         allLikes.addAll(player2Likes);
