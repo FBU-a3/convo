@@ -25,7 +25,9 @@
     <string name="go_home">Return Home</string>
 
     // fragment_friends
+    <string name="connect_msg">Connect with Friends!</string>
     <string name="mode_btn_text">Ready? Select mode.</string>
+    <string name="invite_btn_text">Invite friends</string>
 
     // fragment_game
     <string name="timer_text">Timer</string>
