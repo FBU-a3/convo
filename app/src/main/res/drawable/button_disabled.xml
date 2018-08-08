@@ -5,7 +5,7 @@
         android:endColor="@color/background"
         android:angle="270" />
     <corners android:radius="3dp" />
-    <stroke android:width="5px" android:color="@color/convo_blue" />
+    <stroke android:width="5px" android:color="@color/color_secondary" />
 
     <!--
     <gradient

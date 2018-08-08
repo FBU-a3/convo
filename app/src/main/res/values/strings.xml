@@ -25,7 +25,9 @@
     <string name="go_home">Return Home</string>
 
     // fragment_friends
+    <string name="connect_msg">Connect with Friends!</string>
     <string name="mode_btn_text">Ready? Select mode.</string>
+    <string name="invite_btn_text">Invite friends</string>
 
     // fragment_game
     <string name="timer_text">Timer</string>
@@ -50,7 +52,7 @@
     <string name="add_more_likes">Add More Likes</string>
     <string name="your_hometown">Your Hometown</string>
     <string name="your_name">Your Name</string>
-    <string name="num_games">Number of games played</string>
+    <string name="num_games"> Cards Talked About</string>
     <string name="from">From </string>
 
     // item_card
@@ -62,4 +64,5 @@
 
     // item_topic
     <string name="topic"></string>
+    <string name="visited_place_string">You has visited this place.</string>
 </resources>

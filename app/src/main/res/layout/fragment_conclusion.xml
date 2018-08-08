@@ -38,10 +38,11 @@
 
     <Button
         android:id="@+id/home_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/play_again_btn"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/return_home_btn_margin"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/go_home"
@@ -49,8 +50,8 @@
 
     <Button
         android:id="@+id/play_again_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:clickable="true"

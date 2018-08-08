@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import a3.com.convo.R;
 import a3.com.convo.activities.PlayGameActivity;
 import a3.com.convo.adapters.FriendAdapter;
+import a3.com.convo.adapters.RecyclerViewItemClickListener;
 
 /**
  * This class is the Fragment in PlayGameActivity where the user can choose the friends they
@@ -24,7 +25,9 @@ import a3.com.convo.adapters.FriendAdapter;
  * who are on the app are shown in a recycler list view. The user can select (highlight by click)
  * the friend they would like to play the game with and click start to choose a game mode.
  **/
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements RecyclerViewItemClickListener {
+    private Button startButton;
+
     public FriendsFragment() {
         // Required empty public constructor
     }
@@ -37,11 +40,12 @@ public class FriendsFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Button startButton = (Button) view.findViewById(R.id.start_btn);
+        startButton = (Button) view.findViewById(R.id.start_btn);
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> friends = (ArrayList<String>) user.get("friends");
+
         RecyclerView friendsRv = view.findViewById(R.id.rv_friends);
-        final FriendAdapter friendAdapter = new FriendAdapter(friends);
+        final FriendAdapter friendAdapter = new FriendAdapter(friends, this);
         friendsRv.setLayoutManager(new LinearLayoutManager(getActivity()));
         friendsRv.setAdapter(friendAdapter);
 
@@ -51,5 +55,20 @@ public class FriendsFragment extends Fragment {
                 ((PlayGameActivity)getActivity()).goToMode(friendAdapter.getSelectedFriend());
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startButton.setEnabled(true);
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onItemDelete(View view, int position) {
+
     }
 }
