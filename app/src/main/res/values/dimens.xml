@@ -73,8 +73,10 @@
     <dimen name="card_topic_margin_bottom">125dp</dimen>
     <dimen name="card_prof_pic_margin">15dp</dimen>
     <dimen name="card_prof_pic_size">80dp</dimen>
+    <dimen name="card_user_pic_size">70dp</dimen>
     <dimen name="card_topic_name_size">230dp</dimen>
     <dimen name="cover_height">250dp</dimen>
+    <dimen name="max_users_size">15sp</dimen>
 
     // item_friend
     <dimen name="friend_iv_width_length">60dp</dimen>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_gravity="center"
@@ -31,8 +32,8 @@
                 android:id="@+id/ivProf"
                 android:layout_width="@dimen/card_prof_pic_size"
                 android:layout_height="@dimen/card_prof_pic_size"
-                android:layout_below="@id/iv_cover"
                 android:layout_alignParentLeft="true"
+                android:layout_below="@id/iv_cover"
                 android:layout_margin="@dimen/card_prof_pic_margin"
                 card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
@@ -40,26 +41,57 @@
                 android:id="@+id/tv_topic"
                 android:layout_width="@dimen/card_topic_name_size"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/ivProf"
-                android:layout_alignTop="@+id/ivProf"
                 android:layout_alignBottom="@id/ivProf"
+                android:layout_alignTop="@+id/ivProf"
                 android:layout_marginRight="@dimen/card_prof_pic_margin"
+                android:layout_toRightOf="@id/ivProf"
                 android:gravity="center"
                 android:text="@string/loading"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                app:autoSizeTextType="uniform" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_marginTop="-10dp"
+                android:background="#ddffffff"
+                android:alpha="0.7"/>
 
             <TextView
                 android:id="@+id/tv_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/ivProf"
-                android:layout_marginRight="@dimen/card_prof_pic_margin"
-                android:layout_below="@id/ivProf"
+                android:layout_toRightOf="@id/profPic1"
+                android:layout_toLeftOf="@id/profPic2"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_alignBottom="@id/profPic1"
+                android:padding="@dimen/game_padding"
+                android:gravity="center"
                 android:text="@string/loading"
                 android:textColor="@android:color/darker_gray"
-                android:gravity="center"
-                android:layout_alignStart="@+id/ivProf"
-                android:layout_marginEnd="@dimen/card_prof_pic_margin" />
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="@dimen/max_users_size"/>
+
+            <ImageView
+                android:id="@+id/profPic1"
+                android:layout_width="@dimen/card_user_pic_size"
+                android:layout_height="@dimen/card_user_pic_size"
+                android:layout_alignLeft="@id/ivProf"
+                android:layout_below="@id/ivProf"
+                android:layout_marginTop="100dp"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+            <ImageView
+                android:id="@+id/profPic2"
+                android:layout_width="@dimen/card_user_pic_size"
+                android:layout_height="@dimen/card_user_pic_size"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/card_prof_pic_margin"
+                android:layout_marginRight="@dimen/card_prof_pic_margin"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
         </RelativeLayout>
 
