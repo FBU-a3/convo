@@ -23,6 +23,11 @@ import a3.com.convo.R;
 import a3.com.convo.models.Page;
 
 public class HomeScreenActivity extends AppCompatActivity {
+    TextView tvThreeLikes;
+    TextView tvNumGamesPlayed;
+    TextView tvUserName;
+    ImageView ivUserProfPic;
+    TextView tvUserHometown;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +36,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button playGame = (Button) findViewById(R.id.play_game_btn);
         TextView logout = (TextView) findViewById(R.id.logout_txt);
         Button addLikes = (Button) findViewById(R.id.add_likes_btn);
-        TextView tvUserName = (TextView) findViewById(R.id.tv_user_name);
-        final TextView tvUserHometown = (TextView) findViewById(R.id.tv_user_hometown);
-        ImageView ivUserProfPic = (ImageView) findViewById(R.id.iv_user_prof_pic);
-        TextView tvNumGamesPlayed = (TextView) findViewById(R.id.tv_games_played);
-        final TextView tvThreeLikes = (TextView) findViewById(R.id.tv_three_likes);
+        tvUserName = (TextView) findViewById(R.id.tv_user_name);
+        tvUserHometown = (TextView) findViewById(R.id.tv_user_hometown);
+        ivUserProfPic = (ImageView) findViewById(R.id.iv_user_prof_pic);
+        tvNumGamesPlayed = (TextView) findViewById(R.id.tv_games_played);
+        tvThreeLikes = (TextView) findViewById(R.id.tv_three_likes);
 
         playGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,14 +76,15 @@ public class HomeScreenActivity extends AppCompatActivity {
             Log.e("ProfileDetailsFragment", "Somehow user was logged out of parse?");
             return;
         }
-        String userName = user.getString(Constants.NAME);
-        if (userName == null) {
-            Log.e("ProfileDetailsFragment", "User doesn't have name for some reason.");
-            return;
-        }
 
-        tvUserName.setText(userName);
+        set_user_hometown(user);
+        set_prof_pic(user);
+        set_username(user);
+        set_num_games_played(user);
+        add_likes_sentence(user);
+    }
 
+    private void set_user_hometown(ParseUser user) {
         String userHometownObjectId = user.getString(Constants.HOMETOWN);
         if (userHometownObjectId == null) {
             Log.e("ProfileDetailsFragment", "User doesn't have hometown and that's fine");
@@ -104,16 +110,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
-        Number gamesPlayedNum = user.getNumber(Constants.NUM_GAMES);
-        if (gamesPlayedNum == null || !(gamesPlayedNum instanceof Integer)) {
-            Log.e("ProfileDetailsFragment", "Num games played is null or not an integer.");
-            return;
-        }
-        Integer gamesPlayed = (Integer)gamesPlayedNum;
-        int userGamesPlayed = gamesPlayed.intValue();
-        tvNumGamesPlayed.setText(userGamesPlayed + " " + getString(R.string.num_games));
-
+    private void set_prof_pic(ParseUser user) {
         String profPicUrl = user.getString(Constants.PROF_PIC_URL);
         if (profPicUrl != null) {
             GlideApp.with(this)
@@ -124,7 +123,29 @@ public class HomeScreenActivity extends AppCompatActivity {
         else {
             Log.e("ProfileDetailsFragment", "User doesn't have profile picture and that's fine");
         }
+    }
 
+    private void set_username(ParseUser user) {
+        String userName = user.getString(Constants.NAME);
+        if (userName == null) {
+            Log.e("ProfileDetailsFragment", "User doesn't have name for some reason.");
+            return;
+        }
+        tvUserName.setText(userName);
+    }
+
+    private void set_num_games_played(ParseUser user) {
+        Number gamesPlayedNum = user.getNumber(Constants.NUM_GAMES);
+        if (gamesPlayedNum == null || !(gamesPlayedNum instanceof Integer)) {
+            Log.e("ProfileDetailsFragment", "Num games played is null or not an integer.");
+            return;
+        }
+        Integer gamesPlayed = (Integer)gamesPlayedNum;
+        int userGamesPlayed = gamesPlayed.intValue();
+        tvNumGamesPlayed.setText(userGamesPlayed + " " + getString(R.string.num_games));
+    }
+
+    private void add_likes_sentence(ParseUser user) {
         ArrayList<String> userLikes = (ArrayList<String>) user.get(Constants.PARSE_PAGE_LIKES_KEY);
         if (userLikes == null || userLikes.isEmpty()) {
             Log.e("ProfileDetailsFragment", "User has no likes.");
