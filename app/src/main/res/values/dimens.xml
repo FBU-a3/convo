@@ -118,6 +118,7 @@
     <dimen name="user_prof_pic_start_margin_land">24dp</dimen>
     <dimen name="user_prof_pic_top_margin_land">23dp</dimen>
     <dimen name="user_name_top_margin_land">40dp</dimen>
+    <dimen name="invite_friends_btn_margin">127dp</dimen>
 
     // button dimensions
     <dimen name="std_btn_width">200dp</dimen>
