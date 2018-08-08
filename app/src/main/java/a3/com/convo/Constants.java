@@ -55,6 +55,7 @@ public class Constants {
     public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
     public static final String GET_USER_FIELDS = "id,name,email,picture.type(large)";
+    public static final String GET_TAGGED_PLACES_FIELDS = "tagged_places{place{cover,name}}";
 
     // field names in Graph API response data object
     public static final String DATA_KEY = "data";
