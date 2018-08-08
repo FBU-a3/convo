@@ -17,30 +17,34 @@
         <item name="android:textColor">@color/color_secondary</item>
     </style>
     <style name="HeaderFont">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textColor">@color/color_black</item>
     </style>
 
     <!-- Buttons -->
-    <style name="ConvoButton" parent="@android:style/Widget.Button">
+    <style name="StandardButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@drawable/button</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="SecondaryButton" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textColor">@color/convo_blue</item>
-        <item name="android:background">@drawable/button</item>
-        <!--
-        <item name="android:background">@android:color/background_light</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:shadowRadius">0.2</item>-->
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:clickable">true</item>
     </style>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:buttonStyle">@style/ConvoButton</item>
+        <item name="android:buttonStyle">@style/StandardButton</item>
     </style>
-
 </resources>
