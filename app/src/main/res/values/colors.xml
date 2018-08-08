@@ -9,4 +9,5 @@
     <color name="color_stone">#dbdbdb</color>
     <color name="loginTint">#47181875</color>
     <color name="background">#FAFAFA</color>
+    <color name="box_color">#DDDDDDDD</color>
 </resources>

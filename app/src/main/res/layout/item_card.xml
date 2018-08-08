@@ -54,9 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignTop="@id/profPic1"
-                android:layout_marginTop="-10dp"
-                android:background="#ddffffff"
-                android:alpha="0.7"/>
+                android:layout_marginTop="@dimen/box_margin"
+                android:background="@color/box_color"
+                android:alpha="@dimen/box_alpha"/>
 
             <TextView
                 android:id="@+id/tv_users"
@@ -79,7 +79,7 @@
                 android:layout_height="@dimen/card_user_pic_size"
                 android:layout_alignLeft="@id/ivProf"
                 android:layout_below="@id/ivProf"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="@dimen/card_liked_by_margin_bottom"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <ImageView
