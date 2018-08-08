@@ -2,9 +2,11 @@ package a3.com.convo.adapters;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +16,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -129,8 +135,29 @@ public class CardAdapter extends BaseAdapter {
                             int orientation = context.getResources().getConfiguration().orientation;
                             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                                 GlideApp.with(context)
+                                        .asBitmap()
                                         .load(object.getCoverUrl())
-                                        .dontTransform()
+                                        .listener(new RequestListener<Bitmap>() {
+                                            @Override
+                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                                Log.e("CardCover", "Cover image didn't load.");
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                                if (resource != null) {
+                                                    Palette palette = Palette.from(resource).generate();
+                                                    Palette.Swatch swatch = palette.getLightMutedSwatch();
+                                                    if (swatch != null) {
+                                                        cvCard.setBackgroundColor(swatch.getRgb());
+                                                        tvTopic.setTextColor(swatch.getTitleTextColor());
+                                                        tvUsers.setTextColor(swatch.getBodyTextColor());
+                                                    }
+                                                }
+                                                return false;
+                                            }
+                                        })
                                         .into(ivCover);
                                 GlideApp.with(context)
                                         .load(object.getProfUrl())
@@ -149,8 +176,7 @@ public class CardAdapter extends BaseAdapter {
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     Log.e("name error", "Oops!");
                     e.printStackTrace();
                 }
