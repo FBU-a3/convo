@@ -1,14 +1,15 @@
 package a3.com.convo.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
@@ -53,6 +54,26 @@ public class FriendsFragment extends Fragment implements RecyclerViewItemClickLi
             @Override
             public void onClick(View view) {
                 ((PlayGameActivity)getActivity()).goToMode(friendAdapter.getSelectedFriend());
+            }
+        });
+
+        Button inviteButton = (Button) view.findViewById(R.id.invite_btn);
+        inviteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent
+                        .putExtra(Intent.EXTRA_TEXT,
+                                "Check out this great app!\nhttps://github.com/FBU-a3/convo");
+                sendIntent.setType("text/plain");
+                sendIntent.setPackage("com.facebook.orca");
+                try {
+                    startActivity(sendIntent);
+                }
+                catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getContext(),"Please Install Facebook Messenger", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
