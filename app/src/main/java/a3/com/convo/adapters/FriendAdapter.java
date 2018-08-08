@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,10 +39,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     private ParseUser currentFriend;
     private String profPic;
     private String name;
+    private RecyclerViewItemClickListener friendSelectedCheck;
 
     // Brings friends in to adjust into RV
-    public FriendAdapter(ArrayList<String> friends) {
+    public FriendAdapter(ArrayList<String> friends, RecyclerViewItemClickListener friendSelectedCheck) {
         myFriends = friends;
+        this.friendSelectedCheck = friendSelectedCheck;
     }
 
     @NonNull
@@ -121,6 +124,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
                 // Get selected friend to play with
                 selectedFriend = myFriends.get(position);
                 System.out.println("/" + selectedFriend);
+                friendSelectedCheck.onItemClick(view, position);
             }
 
             // Highlight selected friend(s)
