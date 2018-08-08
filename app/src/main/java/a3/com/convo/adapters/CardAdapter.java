@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,10 +183,13 @@ public class CardAdapter extends BaseAdapter {
                             }
                         }
                     } else {
-                        ivCover.setVisibility(View.INVISIBLE);
-                        ivProf.setVisibility(View.INVISIBLE);
-                        // TODO: figure out how to center this in layout if nothing else is there
-                        layout.setGravity(Gravity.CENTER);
+                        // remove the other views and center the topic (either additional like or location)
+                        layout.removeView(ivCover); // this one can be added back in for locations with covers once we grab the url
+                        layout.removeView(ivProf);
+                        layout.removeView(tvUsers);
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
+                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                        tvTopic.setLayoutParams(params);
                     }
                 } else {
                     Log.e("name error", "Oops!");
