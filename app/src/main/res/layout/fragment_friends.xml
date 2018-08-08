@@ -40,4 +40,13 @@
         android:focusable="true"
         android:text="@string/mode_btn_text" />
 
+    <Button
+        android:id="@+id/share_button"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/invite_friends_btn_margin"
+        android:text="@string/invite_friends" />
+
 </RelativeLayout>
