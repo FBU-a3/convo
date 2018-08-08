@@ -93,6 +93,21 @@
     <dimen name="topic_top_bottom_margin">10dp</dimen>
 
     <dimen name="button_height">90dp</dimen>
+    <dimen name="delete_btn_width">46dp</dimen>
+    <dimen name="item_like_margin">10dp</dimen>
+    <dimen name="text_size_delete_btn">18sp</dimen>
+    <dimen name="edit_button_size">37dp</dimen>
+    <dimen name="edit_button_margin">5dp</dimen>
+    <dimen name="top_margin_edit_btn">8dp</dimen>
+    <dimen name="return_home_btn_margin">87dp</dimen>
+    <dimen name="add_likes_button_margin">32dp</dimen>
+    <dimen name="prof_pic_top_margin">20dp</dimen>
+    <dimen name="play_game_btn_bottom_margin">245dp</dimen>
+    <dimen name="logout_padding">10dp</dimen>
+    <dimen name="logout_text_size">20sp</dimen>
+    <dimen name="three_likes_bottom_margin">135dp</dimen>
+    <dimen name="add_likes_message_margin">10dp</dimen>
+    <dimen name="delete_like_margin">13dp</dimen>
 
 
 </resources>
