@@ -8,33 +8,22 @@
         android:id="@+id/tv_liked_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:layout_marginBottom="@dimen/item_like_margin"
+        android:paddingBottom="@dimen/item_like_margin"
+        android:paddingTop="@dimen/item_like_margin"
         android:textSize="@dimen/tv_like_text_size"
         app:srcCompat="@android:color/darker_gray" />
 
     <Button
         android:id="@+id/delete_like"
-        android:layout_width="46dp"
+        android:layout_width="@dimen/delete_btn_width"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/delete_like_margin"
         android:fontFamily="@font/nunito"
         android:text="X"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_delete_btn"
         android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/edit_btn"
-        android:layout_width="37dp"
-        android:layout_height="36dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_toStartOf="@+id/delete_like"
-        android:background="@android:drawable/ic_menu_edit" />
 
 </RelativeLayout>
