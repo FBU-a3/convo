@@ -1,15 +1,16 @@
 package a3.com.convo.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -53,8 +54,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final Context context = this;
-
         Button btGuest = findViewById(R.id.btGuest);
         btGuest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +61,17 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(LoginActivity.this, PlayGameActivity.class);
                 i.putExtra(Constants.GUEST, true);
                 startActivity(i);
+            }
+        });
+
+        ImageView info = (ImageView) findViewById(R.id.info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create(); //Read Update
+                alertDialog.setTitle(getString(R.string.info_title));
+                alertDialog.setMessage(getString(R.string.info_message));
+                alertDialog.show();
             }
         });
 
@@ -132,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    Toast.makeText(context, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
                     AccessToken at = loginResult.getAccessToken();
                     if (at == null) {
                         Log.e("LoginActivity", "AccessToken at was null.");
