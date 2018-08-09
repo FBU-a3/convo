@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -13,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -118,6 +121,19 @@ public class CardAdapter extends BaseAdapter {
             player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
         }
 
+        final ToggleButton toggleButton = (ToggleButton) v.findViewById(R.id.myToggleButton);
+        toggleButton.setChecked(false);
+        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(toggleButton.getContext(), R.drawable.facebook_dull_heart));
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(toggleButton.getContext(),R.drawable.facebook_bright_heart));
+                else
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(toggleButton.getContext(), R.drawable.facebook_dull_heart));
+            }
+        });
+
         // getItem searches array for page, we find the rest of the information with objectId
         final String objectId = getItem(i);
 
@@ -181,8 +197,11 @@ public class CardAdapter extends BaseAdapter {
                                     profPic2.setVisibility(View.INVISIBLE);
                                 }
                             } else { // the screen is in landscape, so load the cover photo in as the card background
+                                String coverUrl = object.getCoverUrl();
+                                if (coverUrl.contains(Constants.GOOGLE_API_URL))
+                                    coverUrl += ivCover.getContext().getString(R.string.google_api_key);
                                 GlideApp.with(context)
-                                        .load(object.getCoverUrl())
+                                        .load(coverUrl)
                                         .dontTransform()
                                         .into(new SimpleTarget<Drawable>() {
                                             @Override
@@ -226,9 +245,12 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadCoverBackground(Page object, final CardView cvCard, final TextView tvTopic, final TextView tvUsers, final ImageView ivCover) {
+        String coverUrl = object.getCoverUrl();
+        if (coverUrl.contains(Constants.GOOGLE_API_URL))
+            coverUrl += ivCover.getContext().getString(R.string.google_api_key);
         GlideApp.with(cvCard.getContext())
                 .asBitmap()
-                .load(object.getCoverUrl())
+                .load(coverUrl)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
