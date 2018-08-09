@@ -132,4 +132,7 @@
 
     // page margin
     <dimen name="std_page_margin">10dp</dimen>
+    <dimen name="favorite_btn_width">65dp</dimen>
+    <dimen name="favorite_btn_height">65dp</dimen>
+    <dimen name="favorite_btn_margin">150dp</dimen>
 </resources>

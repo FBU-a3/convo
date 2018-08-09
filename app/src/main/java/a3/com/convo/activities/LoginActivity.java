@@ -578,6 +578,14 @@ public class LoginActivity extends AppCompatActivity {
                                                 coverUrl = cover.optString(Constants.SOURCE);
                                             }
                                         }
+
+                                        if (coverUrl == null || coverUrl.isEmpty()) {
+                                            String latitude, longitude;
+                                            JSONObject locationObject = place_object.getJSONObject(Constants.LOCATION);
+                                            latitude = locationObject.optString(Constants.LATITUDE);
+                                            longitude = locationObject.optString(Constants.LONGITUDE);
+                                            coverUrl = Constants.GOOGLE_API_URL + latitude + "," + longitude + Constants.GOOGLE_API_KEY_PARAM;
+                                        }
                                         final Page newPlacePage = Page.newInstance(id, name, null, coverUrl, null, getString(R.string.visited_place_string));
 
                                         newPlacePage.saveInBackground(new SaveCallback() {

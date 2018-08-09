@@ -24,8 +24,8 @@
                 android:id="@+id/tv_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_above="@id/tv_users"
+                android:layout_centerHorizontal="true"
                 android:padding="@dimen/game_padding"
                 android:text="@string/loading"
                 android:textColor="@android:color/white"
@@ -37,27 +37,27 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:textColor="@android:color/white"
-                android:text="@string/loading" />
+                android:text="@string/loading"
+                android:textColor="@android:color/white" />
 
             <!--None of the following is shown on the card-->
 
             <ImageView
                 android:id="@+id/ivProf"
-                android:visibility="invisible"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tv_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/profPic1"
@@ -69,13 +69,22 @@
                 android:id="@+id/profPic2"
                 android:layout_width="@dimen/card_user_pic_size"
                 android:layout_height="@dimen/card_user_pic_size"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/iv_cover"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cover_height"
                 android:visibility="invisible" />
+
+            <ToggleButton
+                android:id="@+id/myToggleButton"
+                android:layout_width="@dimen/favorite_btn_width"
+                android:layout_height="@dimen/favorite_btn_height"
+                android:layout_below="@+id/iv_cover"
+                android:layout_centerHorizontal="true"
+                android:textOff=""
+                android:textOn="" />
 
         </RelativeLayout>
 
