@@ -56,23 +56,33 @@
                 android:layout_height="match_parent"
                 android:layout_alignTop="@id/profPic1"
                 android:layout_marginTop="@dimen/box_margin"
-                android:background="@color/box_color"
-                android:alpha="@dimen/box_alpha"/>
+                android:alpha="@dimen/box_alpha"
+                android:background="@color/box_color" />
+
+            <ToggleButton
+                android:id="@+id/myToggleButton"
+                android:layout_width="@dimen/favorite_btn_width"
+                android:layout_height="@dimen/favorite_btn_height"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/ivProf"
+                android:layout_marginEnd="@dimen/favorite_btn_margin"
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/tv_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/profPic1"
-                android:layout_toLeftOf="@id/profPic2"
-                android:layout_alignTop="@id/profPic1"
                 android:layout_alignBottom="@id/profPic1"
-                android:padding="@dimen/game_padding"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_toLeftOf="@id/profPic2"
+                android:layout_toRightOf="@id/profPic1"
                 android:gravity="center"
+                android:padding="@dimen/game_padding"
                 android:text="@string/loading"
                 android:textColor="@android:color/darker_gray"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="@dimen/max_users_size"/>
+                app:autoSizeMaxTextSize="@dimen/max_users_size"
+                app:autoSizeTextType="uniform" />
 
             <ImageView
                 android:id="@+id/profPic1"
@@ -87,9 +97,9 @@
                 android:id="@+id/profPic2"
                 android:layout_width="@dimen/card_user_pic_size"
                 android:layout_height="@dimen/card_user_pic_size"
-                android:layout_alignTop="@id/profPic1"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/profPic1"
                 android:layout_marginEnd="@dimen/card_prof_pic_margin"
                 android:layout_marginRight="@dimen/card_prof_pic_margin"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />

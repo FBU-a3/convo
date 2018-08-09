@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -13,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -117,6 +120,19 @@ public class CardAdapter extends BaseAdapter {
             player2name = player2.getString(FULL_NAME);
             player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
         }
+
+        final ToggleButton toggleButton = (ToggleButton) v.findViewById(R.id.myToggleButton);
+        toggleButton.setChecked(false);
+        toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(toggleButton.getContext(), R.drawable.facebook_dull_heart));
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(toggleButton.getContext(),R.drawable.facebook_bright_heart));
+                else
+                    toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(toggleButton.getContext(), R.drawable.facebook_dull_heart));
+            }
+        });
 
         // getItem searches array for page, we find the rest of the information with objectId
         final String objectId = getItem(i);

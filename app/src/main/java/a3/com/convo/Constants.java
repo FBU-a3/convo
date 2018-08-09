@@ -63,7 +63,11 @@ public class Constants {
     public static final int LIKES_LIMIT = 20;
     public static final String FIELDS = "fields";
     public static final String GET_USER_FIELDS = "id,name,email,picture.type(large)";
-    public static final String GET_TAGGED_PLACES_FIELDS = "tagged_places{place{cover,name}}";
+    public static final String GET_TAGGED_PLACES_FIELDS = "tagged_places{place{cover,name,location}}";
+
+    // google API
+    public static final String GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=";
+    public static final String GOOGLE_API_KEY_PARAM = "&key=";
 
     // field names in Graph API response data object
     public static final String DATA_KEY = "data";
@@ -81,6 +85,8 @@ public class Constants {
     public static final String HOMETOWN = "hometown";
     public static final String ENGAGEMENT = "engagement";
     public static final String SOCIAL_SENTENCE = "social_sentence";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
     public static final ArrayList <String>  thirty_six_questions = new ArrayList<String>() {{
         add("1. Given the choice of anyone in the world, whom would you want as a dinner guest?");
