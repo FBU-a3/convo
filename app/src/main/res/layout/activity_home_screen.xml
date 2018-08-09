@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeScreenActivity">
+    tools:context=".activities.HomeScreenActivity"
+    android:layout_margin="@dimen/std_margin" >
 
-    <Button
-        android:id="@+id/add_likes_btn"
-        android:layout_width="@dimen/std_btn_width"
-        android:layout_height="@dimen/std_btn_height"
-        android:layout_alignParentBottom="true"
+    <ImageView
+        android:id="@+id/home_convo_logo"
+        android:layout_width="233dp"
+        android:layout_height="46dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/add_likes_button_margin"
-        android:text="@string/add_more_likes" />
+        android:tint="@color/color_black"
+        app:srcCompat="@drawable/cropped_convo" />
 
     <ImageView
         android:id="@+id/iv_user_prof_pic"
         android:layout_width="@dimen/pic_width"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/home_convo_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/prof_pic_top_margin"
+        android:layout_marginTop="@dimen/std_margin"
         android:src="@drawable/com_facebook_profile_picture_blank_square" />
 
     <TextView
@@ -29,17 +31,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_user_prof_pic"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/name_top_margin"
+        android:layout_marginTop="@dimen/std_margin"
         android:text="@string/your_name"
-        android:textSize="@dimen/name_text_size" />
+        style="@style/HeaderFont" />
 
     <TextView
         android:id="@+id/tv_user_hometown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user_name"
+        android:layout_marginTop="@dimen/std_margin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/hometown_top_margin"
         android:text="@string/your_hometown" />
 
     <TextView
@@ -48,18 +50,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user_hometown"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/games_played_top_margin"
+        android:layout_marginTop="@dimen/std_margin"
         android:text="@string/num_games" />
 
     <Button
         android:id="@+id/play_game_btn"
         android:layout_width="@dimen/std_btn_width"
         android:layout_height="@dimen/std_btn_height"
+        android:layout_below="@+id/tv_games_played"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/std_margin"
+        android:text="@string/play_game_btn" />
+
+    <TextView
+        android:id="@+id/tv_three_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_add_likes"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tv_add_likes"
+        android:layout_above="@+id/add_likes_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/std_margin"
+        android:text="@string/tv_add_likes" />
+
+    <Button
+        android:id="@+id/add_likes_btn"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/play_game_btn_bottom_margin"
-        android:paddingHorizontal="@dimen/buttons_vertical_padding"
-        android:text="@string/play_game_btn" />
+        android:text="@string/add_more_likes"
+        android:layout_marginBottom="@dimen/std_margin" />
 
     <TextView
         android:id="@+id/logout_txt"
@@ -67,27 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:padding="@dimen/logout_padding"
-        android:paddingHorizontal="@dimen/buttons_vertical_padding"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/std_margin"
         android:text="@string/logout_btn"
-        android:textColor="@color/convo_blue"
-        android:textSize="@dimen/logout_text_size" />
-
-    <TextView
-        android:id="@+id/tv_three_likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/three_likes_bottom_margin" />
-
-    <TextView
-        android:id="@+id/add_likes_prompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_likes_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/add_likes_message_margin"
-        android:text="Add more custom likes below!" />
-
+        android:layout_marginBottom="@dimen/std_margin"
+        android:textColor="@color/convo_blue" />
 </RelativeLayout>

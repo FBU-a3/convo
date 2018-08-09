@@ -77,14 +77,14 @@ public class HomeScreenActivity extends AppCompatActivity {
             return;
         }
 
-        setUserHometown(user);
-        setProfPic(user);
-        setUserName(user);
-        setNumGamesPlayed(user);
-        addLikesSentence(user);
+        set_user_hometown(user);
+        set_prof_pic(user);
+        set_username(user);
+        set_num_games_played(user);
+        add_likes_sentence(user);
     }
 
-    private void setUserHometown(ParseUser user) {
+    private void set_user_hometown(ParseUser user) {
         String userHometownObjectId = user.getString(Constants.HOMETOWN);
         if (userHometownObjectId == null) {
             Log.e("ProfileDetailsFragment", "User doesn't have hometown and that's fine");
@@ -112,7 +112,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void setProfPic(ParseUser user) {
+    private void set_prof_pic(ParseUser user) {
         String profPicUrl = user.getString(Constants.PROF_PIC_URL);
         if (profPicUrl != null) {
             GlideApp.with(this)
@@ -125,7 +125,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void setUserName(ParseUser user) {
+    private void set_username(ParseUser user) {
         String userName = user.getString(Constants.NAME);
         if (userName == null) {
             Log.e("ProfileDetailsFragment", "User doesn't have name for some reason.");
@@ -134,7 +134,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         tvUserName.setText(userName);
     }
 
-    private void setNumGamesPlayed(ParseUser user) {
+    private void set_num_games_played(ParseUser user) {
         Number gamesPlayedNum = user.getNumber(Constants.NUM_GAMES);
         if (gamesPlayedNum == null || !(gamesPlayedNum instanceof Integer)) {
             Log.e("ProfileDetailsFragment", "Num games played is null or not an integer.");
@@ -145,14 +145,14 @@ public class HomeScreenActivity extends AppCompatActivity {
         tvNumGamesPlayed.setText(userGamesPlayed + " " + getString(R.string.num_games));
     }
 
-    private void addLikesSentence(ParseUser user) {
+    private void add_likes_sentence(ParseUser user) {
         ArrayList<String> userLikes = (ArrayList<String>) user.get(Constants.PARSE_PAGE_LIKES_KEY);
         if (userLikes == null || userLikes.isEmpty()) {
             Log.e("ProfileDetailsFragment", "User has no likes.");
             return;
         }
         else {
-            final String[] likesSentence = {"Some of the pages you like on facebook include...\n"};
+            final String[] likesSentence = {"Some of the pages you like on Facebook include...\n"};
             for (int i = 0; i < 3 && i < userLikes.size(); i++) {
                 String likeObjectId = userLikes.get(i);
                 if (likeObjectId == null || likeObjectId.isEmpty()) {
@@ -168,7 +168,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 Log.e("LikeAdapter", "User's hometown object has no name");
                                 return;
                             }
-                            likesSentence[0] += " * " + likeName + "\n";
+                            likesSentence[0] += " • " + likeName + "\n";
                             tvThreeLikes.setText(likesSentence[0]);
                         }
                         else if (object == null){

@@ -8,10 +8,9 @@
         android:id="@+id/tv_liked_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/item_like_margin"
-        android:paddingBottom="@dimen/item_like_margin"
-        android:paddingTop="@dimen/item_like_margin"
-        android:textSize="@dimen/tv_like_text_size"
+        android:layout_marginBottom="@dimen/std_margin"
+        android:paddingBottom="@dimen/std_padding"
+        android:paddingTop="@dimen/std_padding"
         app:srcCompat="@android:color/darker_gray" />
 
     <Button
@@ -21,9 +20,11 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/delete_like_margin"
-        android:fontFamily="@font/nunito"
-        android:text="X"
+        android:text="@string/X"
         android:textSize="@dimen/text_size_delete_btn"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/delete_like_margin"
+        style="@style/SecondaryButton" />
 
 </RelativeLayout>

@@ -71,8 +71,8 @@
                 android:gravity="center"
                 android:text="@string/loading"
                 android:textColor="@android:color/darker_gray"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="@dimen/max_users_size"/>
+                android:autoSizeTextType="uniform"
+                android:autoSizeMaxTextSize="@dimen/max_users_size"/>
 
             <ImageView
                 android:id="@+id/profPic1"

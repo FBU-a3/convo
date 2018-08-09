@@ -1,21 +1,18 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Fonts -->
     <style name="StandardFont">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/nunito_light</item>
         <item name="android:textColor">@color/color_black</item>
     </style>
+
     <style name="StandardBoldFont">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/nunito_light</item>
         <item name="android:textColor">@color/color_black</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="DetailFont">
-        <item name="android:textSize">8sp</item>
-        <item name="android:fontFamily">@font/nunito_extralight</item>
-        <item name="android:textColor">@color/color_secondary</item>
-    </style>
+
     <style name="HeaderFont">
         <item name="android:textSize">26sp</item>
         <item name="android:fontFamily">@font/nunito</item>
@@ -23,28 +20,42 @@
     </style>
 
     <!-- Buttons -->
-    <style name="StandardButton" parent="@android:style/Widget.Button">
+    <style name="LargeButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@drawable/button</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="StandardButton" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@drawable/button</item>
+        <item name="android:padding">5dp</item>
         <item name="android:clickable">true</item>
     </style>
 
     <style name="SecondaryButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:fontFamily">@font/nunito</item>
         <item name="android:textColor">@color/convo_blue</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">5dp</item>
         <item name="android:clickable">true</item>
     </style>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:buttonStyle">@style/StandardButton</item>
+        <item name="android:fontStyle" tools:targetApi="o">@style/StandardFont</item>
     </style>
 </resources>
