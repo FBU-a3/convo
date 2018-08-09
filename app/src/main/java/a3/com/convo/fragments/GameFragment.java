@@ -134,72 +134,42 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                if (!isGuest) {
-                    Integer player1Games = (Integer) player1.getNumber(Constants.NUM_GAMES);
-                    if (player1Games == null) {
-                        Log.e("GameFragment", "Query returned null number of games in player1games");
-                        return;
-                    }
-                    Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
-                    player1.put(Constants.NUM_GAMES, player1GamesIncremented);
-                    player1.saveInBackground();
-                    Integer player2Games = (Integer) player2.getNumber(Constants.NUM_GAMES);
-                    if (player2Games == null) {
-                        Log.e("GameFragment", "Query returned null number of games in player2games");
-                        return;
-                    }
-                    Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
-                    player2.put(Constants.NUM_GAMES, player2GamesIncremented);
-                    player2.saveInBackground();
-                }
-                if (mode.equals(Constants.FREESTYLE)) {
-                    endGame();
-                } else {
-                    cardStack.swipeTopCardLeft(Constants.CARD_SWIPE_DURATION);
-                    restartTimer();
-                }
+                onTimerFinish();
             }
         };
 
-        // TODO: check countdown of numTopics, off by one now
-        // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
             public void cardSwipedLeft(long stableId) {
-                // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) {
-                    numTopics--;
-                    restartTimer();
-                }
-                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
-                    topicsDiscussed.add(allLikes.get((int)stableId));
-                }
+                cardSwiped(stableId);
             }
 
             @Override
             public void cardSwipedRight(long stableId) {
-                // reset the timer of the next card if they're playing in timed mode
-                if (mode.equals(Constants.TIMED)) {
-                    numTopics--;
-                    restartTimer();
-                }
-                if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
-                    topicsDiscussed.add(allLikes.get((int)stableId));
-                }
+                cardSwiped(stableId);
             }
         });
 
         // if user is in guest mode, skip the rest of this and send them straight to guest mode
         if (isGuest) {
-            allLikes = new ArrayList<>();
-            allLikes.addAll(Constants.GUEST_TOPICS);
-            Collections.shuffle(allLikes);
-            adapter = new CardAdapter(allLikes);
-            cardStack.setAdapter(adapter);
-            timer.start();
+            sendToGuestMode();
             return;
+        } else {
+            setUpUsers();
+            timer.start();
         }
+    }
 
+    private void sendToGuestMode() {
+        allLikes = new ArrayList<>();
+        allLikes.addAll(Constants.GUEST_TOPICS);
+        Collections.shuffle(allLikes);
+        adapter = new CardAdapter(allLikes);
+        cardStack.setAdapter(adapter);
+        timer.start();
+    }
+
+    private void setUpUsers() {
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
         player1Likes = (ArrayList<String>) player1.get(Constants.PARSE_PAGE_LIKES_KEY);
@@ -208,7 +178,6 @@ public class GameFragment extends Fragment {
 
         // get the second player and their likes
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-
         if (friend != null && !friend.equals(Constants.EMPTY_STRING)) {
             query.getInBackground(friend, new GetCallback<ParseUser>() {
                 @Override
@@ -219,15 +188,7 @@ public class GameFragment extends Fragment {
                         player2Topics = (ArrayList<String>) player2.get(Constants.OTHER_LIKES);
                         player2Places = (ArrayList<String>) player2.get(Constants.PARSE_TAGGED_PLACES);
 
-                        // put together both player's likes, other likes, and places and shuffle them
-                        if (player1Topics != null) player1Likes.addAll(player1Topics);
-                        if (player1Places != null) player1Likes.addAll(player1Places);
-                        if (player2Topics != null) player2Likes.addAll(player2Topics);
-                        if (player2Places != null) player2Likes.addAll(player2Places);
-                        allLikes = new ArrayList<>();
-                        allLikes.addAll(player1Likes);
-                        allLikes.addAll(player2Likes);
-                        Collections.shuffle(allLikes);
+                        combineAndShuffleTopics();
 
                         adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
                         cardStack.setAdapter(adapter);
@@ -237,13 +198,23 @@ public class GameFragment extends Fragment {
                 }
             });
         }
-        timer.start();
+    }
+
+    // put together both player's likes, other likes, and places and shuffle them
+    private void combineAndShuffleTopics() {
+        if (player1Topics != null) player1Likes.addAll(player1Topics);
+        if (player1Places != null) player1Likes.addAll(player1Places);
+        if (player2Topics != null) player2Likes.addAll(player2Topics);
+        if (player2Places != null) player2Likes.addAll(player2Places);
+        allLikes = new ArrayList<>();
+        allLikes.addAll(player1Likes);
+        allLikes.addAll(player2Likes);
+        Collections.shuffle(allLikes);
     }
 
     // called in the fragment lifecycle, overridden to avoid crashes from timer continuing after
     @Override
     public void onStop() {
-        // stop the timer so that endGame is not called after the fragment goes away
         timer.cancel();
         super.onStop();
     }
@@ -257,6 +228,17 @@ public class GameFragment extends Fragment {
                             TimeUnit.MILLISECONDS.toSeconds(l)
                                     - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)))
             );
+        }
+    }
+
+    // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
+    private void cardSwiped(long stableId) {
+        if (mode.equals(Constants.TIMED)) {
+            numTopics--; // TODO: check countdown of numTopics, off by one now
+            restartTimer();
+        }
+        if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
+            topicsDiscussed.add(allLikes.get((int)stableId));
         }
     }
 
