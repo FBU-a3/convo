@@ -1,27 +1,25 @@
 package a3.com.convo.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.TextWatcher;
-import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
+import android.support.v7.app.AlertDialog;
 
 import org.parceler.Parcels;
 
 import a3.com.convo.Constants;
 import a3.com.convo.R;
-import a3.com.convo.activities.LoginActivity;
 import a3.com.convo.activities.PlayGameActivity;
 
 /**
