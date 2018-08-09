@@ -99,6 +99,7 @@ public class GameFragment extends Fragment {
             time = Parcels.unwrap(savedInstanceState.getParcelable(TIME));
             timeLeft = Parcels.unwrap(savedInstanceState.getParcelable(TIME_LEFT));
             configChange = Parcels.unwrap(savedInstanceState.getParcelable(CONFIG_CHANGE));
+            isGuest = Parcels.unwrap(savedInstanceState.getParcelable("guest"));
         }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
@@ -113,6 +114,7 @@ public class GameFragment extends Fragment {
         outState.putParcelable(TIME_LEFT, Parcels.wrap(timeLeft));
         configChange = true;
         outState.putParcelable(CONFIG_CHANGE, Parcels.wrap(configChange));
+        outState.putParcelable("guest", Parcels.wrap(isGuest));
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {

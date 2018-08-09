@@ -104,6 +104,9 @@ public class CardAdapter extends BaseAdapter {
         final ImageView profPic2 = v.findViewById(R.id.profPic2);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
 
+        // just a regular old box
+        final View box = v.findViewById(R.id.box);
+
         if (!isGuest) {
             // Get player 1 first name
             player1 = ParseUser.getCurrentUser();
@@ -130,6 +133,7 @@ public class CardAdapter extends BaseAdapter {
                         layout.removeView(tvUsers);
                         layout.removeView(profPic1);
                         layout.removeView(profPic2);
+                        layout.removeView(box);
 
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
                         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);

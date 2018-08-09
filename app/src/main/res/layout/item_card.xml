@@ -51,6 +51,7 @@
                 app:autoSizeTextType="uniform" />
 
             <View
+                android:id="@+id/box"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignTop="@id/profPic1"
