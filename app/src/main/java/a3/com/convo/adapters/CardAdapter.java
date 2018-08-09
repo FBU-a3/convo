@@ -52,6 +52,7 @@ public class CardAdapter extends BaseAdapter {
     private String player1name;
     private String player2name;
     private static final String FULL_NAME = "name";
+    private boolean isGuest;
 
     public CardAdapter(List<String> data, ArrayList<String> player1Likes,
                        ArrayList<String> player2Likes, ParseUser player2) {
@@ -59,6 +60,12 @@ public class CardAdapter extends BaseAdapter {
         this.player1Likes = player1Likes;
         this.player2Likes = player2Likes;
         this.player2 = player2;
+    }
+
+    // if user is in guest mode, nobody will be logged in
+    public CardAdapter(List<String> guestData) {
+        this.pages = guestData;
+        isGuest = true;
     }
 
     @Override
@@ -97,13 +104,18 @@ public class CardAdapter extends BaseAdapter {
         final ImageView profPic2 = v.findViewById(R.id.profPic2);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
 
-        // Get player 1 first name
-        player1 = ParseUser.getCurrentUser();
-        player1name = player1.getString(FULL_NAME);
-        player1name = player1name.substring(0, player1name.indexOf(Constants.SPACE));
-        // Get player 2 first name
-        player2name = player2.getString(FULL_NAME);
-        player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
+        // just a regular old box
+        final View box = v.findViewById(R.id.box);
+
+        if (!isGuest) {
+            // Get player 1 first name
+            player1 = ParseUser.getCurrentUser();
+            player1name = player1.getString(FULL_NAME);
+            player1name = player1name.substring(0, player1name.indexOf(Constants.SPACE));
+            // Get player 2 first name
+            player2name = player2.getString(FULL_NAME);
+            player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
+        }
 
         // getItem searches array for page, we find the rest of the information with objectId
         final String objectId = getItem(i);
@@ -114,6 +126,54 @@ public class CardAdapter extends BaseAdapter {
             @Override
             public void done(Page object, ParseException e) {
                 if (e == null) {
+
+                    // super messy for now just to see if it actually works
+                    if (isGuest) {
+                        // just load topic, cover photo, and profile photo
+                        layout.removeView(tvUsers);
+                        layout.removeView(profPic1);
+                        layout.removeView(profPic2);
+                        layout.removeView(box);
+
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
+                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+                        // TODO: make this show up in landscape mode
+                        tvTopic.setLayoutParams(params);
+                        tvTopic.setText(object.getName());
+
+                        GlideApp.with(context)
+                                .asBitmap()
+                                .load(object.getCoverUrl())
+                                .listener(new RequestListener<Bitmap>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                        Log.e("CardCover", "Cover image didn't load.");
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                        if (resource != null) {
+                                            Palette palette = Palette.from(resource).generate();
+                                            Palette.Swatch swatch = palette.getLightMutedSwatch();
+                                            if (swatch != null) {
+                                                cvCard.setBackgroundColor(swatch.getRgb());
+                                                tvTopic.setTextColor(swatch.getTitleTextColor());
+                                                tvUsers.setTextColor(swatch.getBodyTextColor());
+                                            }
+                                        }
+                                        return false;
+                                    }
+                                })
+                                .into(ivCover);
+
+                        GlideApp.with(context)
+                                .load(object.getProfUrl())
+                                .circleCrop()
+                                .into(ivProf);
+                        return;
+                    }
                     String category;
                     if (object.getCategory() != null) category = object.getCategory().toLowerCase();
                     else category = Constants.EMPTY_STRING;
