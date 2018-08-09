@@ -40,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user_name"
+        android:layout_marginTop="@dimen/std_margin"
         android:layout_centerHorizontal="true"
         android:text="@string/your_hometown" />
 
@@ -59,7 +60,8 @@
         android:layout_below="@+id/tv_games_played"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/std_margin"
-        android:text="@string/play_game_btn" />
+        android:text="@string/play_game_btn"
+        style="@style/LargeButton" />
 
     <TextView
         android:id="@+id/tv_three_likes"

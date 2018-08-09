@@ -2,10 +2,10 @@
 <resources>
     // activity_login
     <string name="app_name">Convo</string>
-    <string name="description">From new acquaintances to old friends, Convo dissipates the silence and brings out people\'s passions and memories.</string>
+    <string name="description">From new acquaintances to old friends, convo dissipates the silence and brings out people\'s passions and memories.</string>
 
     // activity_home_screen
-    <string name="tv_add_likes">Add more custom topics below!</string>
+    <string name="tv_add_likes">Add more custom likes below!</string>
 
     // activity_play_game
     <string name="play_game_btn">Play Game</string>
@@ -20,13 +20,13 @@
     // fragment_conclusion
     <string name="end_message">The Convo\'s only over if you want it to be!</string>
     <string name="play_again">Play Again</string>
-    <string name="end_topics">The following topics were talked about, click through to view more about them:</string>
+    <string name="end_topics">The following topics were talked about, click through to view info from page:</string>
     <string name="go_home">Return Home</string>
 
     // fragment_friends
     <string name="connect_msg">Connect with Friends!</string>
     <string name="mode_btn_text">Ready? Select mode.</string>
-    <string name="invite_btn_text">Invite Friends</string>
+    <string name="invite_btn_text">Invite friends</string>
 
     // fragment_game
     <string name="timer_text">Timer</string>
@@ -40,13 +40,13 @@
     <string name="mode_title">Select a Mode</string>
     <string name="freestyle_mode">Freestyle</string>
     <string name="timed_mode">Timed</string>
-    <string name="pick_card_time">Pick the amount of time for each topic:</string>
-    <string name="pick_game_time">Pick the amount of time for your game:</string>
+    <string name="pick_card_time">Pick the amount of time for each topic</string>
+    <string name="pick_game_time">Pick the amount of time for your game</string>
     <string name="play">Let\'s chat!</string>
-    <string name="pick_num_topics">Pick how many topics you\'d like:</string>
+    <string name="pick_num_topics">Pick how many topics you\'d like</string>
 
     // fragment_profile_details
-    <string name="add_more_likes">Add More Topics</string>
+    <string name="add_more_likes">Add More Likes</string>
     <string name="your_hometown">Your Hometown</string>
     <string name="your_name">Your Name</string>
     <string name="num_games"> Topics Discussed</string>
@@ -63,5 +63,5 @@
     // item_topic
     <string name="topic"></string>
     <string name="invite_friends">Invite friends!</string>
-    <string name="visited_place_string">You has visited this place.</string>
+    <string name="visited_place_string">You have visited this place.</string>
 </resources>
