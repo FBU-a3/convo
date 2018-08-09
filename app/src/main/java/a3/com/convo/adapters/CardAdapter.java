@@ -197,8 +197,11 @@ public class CardAdapter extends BaseAdapter {
                                     profPic2.setVisibility(View.INVISIBLE);
                                 }
                             } else { // the screen is in landscape, so load the cover photo in as the card background
+                                String coverUrl = object.getCoverUrl();
+                                if (coverUrl.contains(Constants.GOOGLE_API_URL))
+                                    coverUrl += ivCover.getContext().getString(R.string.google_api_key);
                                 GlideApp.with(context)
-                                        .load(object.getCoverUrl())
+                                        .load(coverUrl)
                                         .dontTransform()
                                         .into(new SimpleTarget<Drawable>() {
                                             @Override
@@ -242,9 +245,12 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadCoverBackground(Page object, final CardView cvCard, final TextView tvTopic, final TextView tvUsers, final ImageView ivCover) {
+        String coverUrl = object.getCoverUrl();
+        if (coverUrl.contains(Constants.GOOGLE_API_URL))
+            coverUrl += ivCover.getContext().getString(R.string.google_api_key);
         GlideApp.with(cvCard.getContext())
                 .asBitmap()
-                .load(object.getCoverUrl())
+                .load(coverUrl)
                 .listener(new RequestListener<Bitmap>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
