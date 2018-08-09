@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -52,6 +54,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         final Context context = this;
+
+        Button btGuest = findViewById(R.id.btGuest);
+        btGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, PlayGameActivity.class);
+                i.putExtra("guest", true);
+                startActivity(i);
+            }
+        });
 
         // populate the existing pages HashMap from the Parse server
         existingPages = new HashMap<>();

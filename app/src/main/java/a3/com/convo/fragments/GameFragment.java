@@ -48,8 +48,11 @@ public class GameFragment extends Fragment {
     // objectId of the other player
     private String friend;
 
-    // gameplay mode
+    // gameplay mode (freestyle vs timed)
     private String mode;
+
+    // indicates if user is in guest mode, which sets the 'mode' var above to freestyle
+    private boolean isGuest; // TODO: check this any time we do anything with player1 or player2
 
     // amount of time per game/card, depending on mode above
     private long time;
@@ -129,22 +132,24 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
-                if (player1Games == null) {
-                    Log.e("GameFragment", "Query returned null number of games in player1games");
-                    return;
+                if (!isGuest) {
+                    Integer player1Games = (Integer) player1.getNumber(Constants.NUM_GAMES);
+                    if (player1Games == null) {
+                        Log.e("GameFragment", "Query returned null number of games in player1games");
+                        return;
+                    }
+                    Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
+                    player1.put(Constants.NUM_GAMES, player1GamesIncremented);
+                    player1.saveInBackground();
+                    Integer player2Games = (Integer) player2.getNumber(Constants.NUM_GAMES);
+                    if (player2Games == null) {
+                        Log.e("GameFragment", "Query returned null number of games in player2games");
+                        return;
+                    }
+                    Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
+                    player2.put(Constants.NUM_GAMES, player2GamesIncremented);
+                    player2.saveInBackground();
                 }
-                Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
-                player1.put(Constants.NUM_GAMES, player1GamesIncremented);
-                player1.saveInBackground();
-                Integer player2Games = (Integer)player2.getNumber(Constants.NUM_GAMES);
-                if (player2Games == null) {
-                    Log.e("GameFragment", "Query returned null number of games in player2games");
-                    return;
-                }
-                Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
-                player2.put(Constants.NUM_GAMES, player2GamesIncremented);
-                player2.saveInBackground();
                 if (mode.equals(Constants.FREESTYLE)) {
                     endGame();
                 } else {
@@ -181,6 +186,17 @@ public class GameFragment extends Fragment {
                 }
             }
         });
+
+        // if user is in guest mode, skip the rest of this and send them straight to guest mode
+        if (isGuest) {
+            allLikes = new ArrayList<>();
+            allLikes.addAll(Constants.GUEST_TOPICS);
+            Collections.shuffle(allLikes);
+            adapter = new CardAdapter(allLikes);
+            cardStack.setAdapter(adapter);
+            timer.start();
+            return;
+        }
 
         player1 = ParseUser.getCurrentUser();
         // pageLikes is guaranteed to be an array, but it's returned as an object anyway
@@ -309,5 +325,9 @@ public class GameFragment extends Fragment {
     public void setTime(int selectedTime) {
         if (mode.equals(Constants.FREESTYLE)) time = 1000 * 60 * selectedTime; //convert entered number of minutes to ms
         else time = 1000 * selectedTime; // convert entered number of seconds to ms
+    }
+
+    public void setGuestMode() {
+        isGuest = true;
     }
 }

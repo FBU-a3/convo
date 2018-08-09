@@ -1,6 +1,7 @@
 package a3.com.convo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Constants {
 
@@ -25,6 +26,8 @@ public class Constants {
     // game modes
     public static final String FREESTYLE = "freestyle";
     public static final String TIMED = "timed";
+
+    public static final ArrayList<String> GUEST_TOPICS = new ArrayList<>(Arrays.asList("NfNTwueCZE", "GJG1HwMj7x"));
 
     // permissions we request from the user upon signup
     public static final String USER_LIKES = "user_likes";

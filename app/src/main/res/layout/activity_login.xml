@@ -52,4 +52,12 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/description_text_size" />
 
+    <Button
+        android:id="@+id/btGuest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_text_logo"
+        android:layout_centerHorizontal="true"
+        android:text="Play as guest" />
+
 </RelativeLayout>

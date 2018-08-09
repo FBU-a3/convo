@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import a3.com.convo.Constants;
 import a3.com.convo.R;
 import a3.com.convo.fragments.ConclusionFragment;
 import a3.com.convo.fragments.FriendsFragment;
@@ -18,6 +19,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private static final String MODE_FRAG_TAG = "modeFrag";
     private static final String GAME_FRAG_TAG = "gameFrag";
+    private boolean isGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,16 @@ public class PlayGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_game);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        if (getIntent().getBooleanExtra("guest", false)) {
+            isGuest = true;
+            GameFragment guestGame = new GameFragment();
+            ft.replace(R.id.play_game_fragment, guestGame, GAME_FRAG_TAG).commit();
+            guestGame.setGuestMode();
+            guestGame.setMode(Constants.FREESTYLE);
+            guestGame.setTime(5);
+            return;
+        }
 
         // for orientation changes, saves the instance of GameFragment that's active in the game
         if (savedInstanceState != null) {
