@@ -69,4 +69,12 @@
     <string name="visited_place_string">You has visited this place.</string>
     <string name="info_message">Convo works with the help of Facebook\'s API. It collects certain pieces of information from users\' public profiles, limited to the users\' name, profile picture, information on their tagged places, the pages they like, and friends who are also on the app.</string>
     <string name="info_title">How does Convo work?</string>
+    <string name="freestyle_mode_info_title">How Freestyle Mode Works</string>
+    <string name="freestyle_mode_info_message">Choose a total time for the game, and swipe the cards at your leisure until time runs out. You can always play again!</string>
+    <string name="timed_mode_info_title">How Timed Mode Works</string>
+    <string name="timed_mode_info_message">Choose the number of cards you\'d like to talk about and the amount of time per card. You can always swipe a card before the timer ends.</string>
+    <string name="basic_mode_info_title">How Basic Mode Works</string>
+    <string name="basic_mode_info_message">Use basic mode to discuss some general topics with anyone, regardless of whether they\'re your facebook friend or have the app.</string>
+    <string name="questions_mode_info_title">DISCLAIMER!!!</string>
+    <string name="questions_mode_info_message">This deck of cards is based off of the NYT article on 36 questions that two people can discuss to fall in love. THIS DECK IS GUARANTEED TO MAKE YOU TWO FALL IN LOVE SO USE WITH CAUTION.</string>
 </resources>
