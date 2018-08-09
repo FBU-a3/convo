@@ -26,7 +26,8 @@ public class ModeFragment extends Fragment {
     private static final String FRIEND_TAG = "friend";
 
     private String friend;
-    private String mode;
+    private boolean freestyleSelected;
+    private boolean timedSelected;
 
     public ModeFragment() {
         // Required empty public constructor
@@ -58,7 +59,7 @@ public class ModeFragment extends Fragment {
         final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
         // If user selects to play Freestyle
-        Button freestyleMode = (Button) view.findViewById(R.id.freestyle_mode);
+        final Button freestyleMode = (Button) view.findViewById(R.id.freestyle_mode);
         freestyleMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
