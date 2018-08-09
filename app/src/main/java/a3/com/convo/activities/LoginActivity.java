@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, PlayGameActivity.class);
-                i.putExtra("guest", true);
+                i.putExtra(Constants.GUEST, true);
                 startActivity(i);
             }
         });

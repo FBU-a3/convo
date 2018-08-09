@@ -58,6 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iv_text_logo"
         android:layout_centerHorizontal="true"
-        android:text="Play as guest" />
+        android:text="@string/play_guest" />
 
 </RelativeLayout>

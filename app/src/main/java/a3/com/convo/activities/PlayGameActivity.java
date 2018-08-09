@@ -28,7 +28,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if (getIntent().getBooleanExtra("guest", false)) {
+        if (getIntent().getBooleanExtra(Constants.GUEST, false)) {
             isGuest = true;
             GameFragment guestGame = new GameFragment();
             ft.replace(R.id.play_game_fragment, guestGame, GAME_FRAG_TAG).commit();
