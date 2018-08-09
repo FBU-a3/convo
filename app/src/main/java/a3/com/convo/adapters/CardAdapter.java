@@ -193,8 +193,18 @@ public class CardAdapter extends BaseAdapter {
                             }
                         }
                     } else { // if we're dealing with an added topic or location
-                        // remove the other views and center the topic (either additional like or location)
-                        adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic);
+                        // locations have both page IDs and cover urls, but not categories
+                        if (object.getPageId() != null && object.getCoverUrl() != null) {
+                            adjustLayout(layout, Arrays.asList(ivProf, box, profPic1, profPic2), tvTopic);
+                            loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
+
+                            // put the users textView below the topic
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvUsers.getLayoutParams();
+                            params.addRule(RelativeLayout.BELOW, R.id.tv_topic);
+                            tvUsers.setLayoutParams(params);
+                        } else { // this is an added topic
+                            adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic);
+                        }
                     }
                 } else {
                     Log.e("name error", "Oops!");
