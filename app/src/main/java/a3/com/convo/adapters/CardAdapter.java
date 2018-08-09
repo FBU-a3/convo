@@ -29,6 +29,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import a3.com.convo.Constants;
@@ -120,60 +121,28 @@ public class CardAdapter extends BaseAdapter {
         // getItem searches array for page, we find the rest of the information with objectId
         final String objectId = getItem(i);
 
-
         ParseQuery<Page> query = ParseQuery.getQuery(Page.class);
         query.getInBackground(objectId, new GetCallback<Page>() {
             @Override
             public void done(Page object, ParseException e) {
                 if (e == null) {
-
                     // super messy for now just to see if it actually works
                     if (isGuest) {
-                        // just load topic, cover photo, and profile photo
-                        layout.removeView(tvUsers);
-                        layout.removeView(profPic1);
-                        layout.removeView(profPic2);
-                        layout.removeView(box);
+                        // remove unneeded elements and center topic TextView
+                        adjustLayout(layout, Arrays.asList(tvUsers, profPic1, profPic2, box), tvTopic);
 
-                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
-                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-                        // TODO: make this show up in landscape mode
-                        tvTopic.setLayoutParams(params);
+                        // just load topic, cover photo, and profile photo
                         tvTopic.setText(object.getName());
 
-                        GlideApp.with(context)
-                                .asBitmap()
-                                .load(object.getCoverUrl())
-                                .listener(new RequestListener<Bitmap>() {
-                                    @Override
-                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                        Log.e("CardCover", "Cover image didn't load.");
-                                        return false;
-                                    }
+                        // load in the cover image and dynamically set the background with color palette
+                        loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
 
-                                    @Override
-                                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                        if (resource != null) {
-                                            Palette palette = Palette.from(resource).generate();
-                                            Palette.Swatch swatch = palette.getLightMutedSwatch();
-                                            if (swatch != null) {
-                                                cvCard.setBackgroundColor(swatch.getRgb());
-                                                tvTopic.setTextColor(swatch.getTitleTextColor());
-                                                tvUsers.setTextColor(swatch.getBodyTextColor());
-                                            }
-                                        }
-                                        return false;
-                                    }
-                                })
-                                .into(ivCover);
-
-                        GlideApp.with(context)
-                                .load(object.getProfUrl())
-                                .circleCrop()
-                                .into(ivProf);
+                        // load profile picture
+                        loadProfilePic(object.getProfUrl(), ivProf);
                         return;
                     }
+
+                    // user is not in guest mode if they make it here
                     String category;
                     if (object.getCategory() != null) category = object.getCategory().toLowerCase();
                     else category = Constants.EMPTY_STRING;
@@ -181,83 +150,37 @@ public class CardAdapter extends BaseAdapter {
                     // variable for determining whose profile picture to show
                     ArrayList<ParseUser> profPics = new ArrayList<>();
 
-                    // Find who the page is liked by
-                    String usersWhoLiked;
-                    if (player1Likes.contains(objectId) && player2Likes.contains(objectId)) {
-                        // If liked by both players
-                        usersWhoLiked = context.getResources().getString(R.string.bothUsersLike, player1name, player2name, category);
-                        profPics.add(player1);
-                        profPics.add(player2);
-                    } else if (player1Likes.contains(objectId)) {
-                        // If liked by player 1 only
-                        usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player1name, category);
-                        profPics.add(player1);
-                    } else {
-                        // If liked by player 2 only
-                        usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player2name, category);
-                        profPics.add(player2);
-                    }
+                    String usersWhoLiked = determineWhoLiked(context, objectId, profPics, category);
+
                     tvTopic.setText(object.getName());
                     tvUsers.setText(usersWhoLiked);
 
                     if (object.getCategory() != null && !((object.getPageId()).equals(Constants.EMPTY_STRING)) && object.getCoverUrl() != null) {
                         // check for if activity is finishing in order to avoid crash
-                        if (context instanceof PlayGameActivity && ((PlayGameActivity) context).isFinishing()) {
-                            return;
-                        }
+                        if (context instanceof PlayGameActivity && ((PlayGameActivity) context).isFinishing()) return;
+
                         if (context.getResources().getConfiguration() != null) {
                             int orientation = context.getResources().getConfiguration().orientation;
                             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                                GlideApp.with(context)
-                                        .asBitmap()
-                                        .load(object.getCoverUrl())
-                                        .listener(new RequestListener<Bitmap>() {
-                                            @Override
-                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                                                Log.e("CardCover", "Cover image didn't load.");
-                                                return false;
-                                            }
+                                // load in the cover image and dynamically set the background with color palette
+                                loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
 
-                                            @Override
-                                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                                if (resource != null) {
-                                                    Palette palette = Palette.from(resource).generate();
-                                                    Palette.Swatch swatch = palette.getLightMutedSwatch();
-                                                    if (swatch != null) {
-                                                        cvCard.setBackgroundColor(swatch.getRgb());
-                                                        tvTopic.setTextColor(swatch.getTitleTextColor());
-                                                        tvUsers.setTextColor(swatch.getBodyTextColor());
-                                                    }
-                                                }
-                                                return false;
-                                            }
-                                        })
-                                        .into(ivCover);
-
-                                GlideApp.with(context)
-                                        .load(object.getProfUrl())
-                                        .circleCrop()
-                                        .into(ivProf);
+                                // load the profile pic from the given url into the given ImageView
+                                loadProfilePic(object.getProfUrl(), ivProf);
 
                                 // load liking person's profile picture (or both if both liked the page)
                                 if (profPics.contains(player1)) {
-                                    GlideApp.with(context)
-                                            .load(player1.getString(Constants.PROF_PIC_URL))
-                                            .circleCrop()
-                                            .into(profPic1);
+                                    loadProfilePic(player1.getString(Constants.PROF_PIC_URL), profPic1);
                                 } else {
                                     profPic1.setVisibility(View.INVISIBLE);
                                 }
 
                                 if (profPics.contains(player2)) {
-                                    GlideApp.with(context)
-                                            .load(player2.getString(Constants.PROF_PIC_URL))
-                                            .circleCrop()
-                                            .into(profPic2);
+                                    loadProfilePic(player2.getString(Constants.PROF_PIC_URL), profPic2);
                                 } else {
                                     profPic2.setVisibility(View.INVISIBLE);
                                 }
-                            } else { // the screen is in landscape
+                            } else { // the screen is in landscape, so load the cover photo in as the card background
                                 GlideApp.with(context)
                                         .load(object.getCoverUrl())
                                         .dontTransform()
@@ -271,16 +194,7 @@ public class CardAdapter extends BaseAdapter {
                         }
                     } else { // if we're dealing with an added topic or location
                         // remove the other views and center the topic (either additional like or location)
-                        layout.removeView(ivCover); // this one can be added back in for locations with covers once we grab the url
-                        layout.removeView(ivProf);
-                        layout.removeView(tvUsers);
-                        layout.removeView(profPic1);
-                        layout.removeView(profPic2);
-                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
-                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-                        // TODO: make this show up in landscape mode
-                        tvTopic.setLayoutParams(params);
+                        adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic);
                     }
                 } else {
                     Log.e("name error", "Oops!");
@@ -289,5 +203,70 @@ public class CardAdapter extends BaseAdapter {
             }
         });
         return v;
+    }
+
+    private void adjustLayout(RelativeLayout layout, List<View> removeItems, TextView tv) {
+        for (View v: removeItems) layout.removeView(v);
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tv.getLayoutParams();
+        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        // TODO: make this show up in landscape mode
+        tv.setLayoutParams(params);
+    }
+
+    private void loadCoverBackground(Page object, final CardView cvCard, final TextView tvTopic, final TextView tvUsers, final ImageView ivCover) {
+        GlideApp.with(cvCard.getContext())
+                .asBitmap()
+                .load(object.getCoverUrl())
+                .listener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        Log.e("CardCover", "Cover image didn't load.");
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        if (resource != null) {
+                            Palette palette = Palette.from(resource).generate();
+                            Palette.Swatch swatch = palette.getLightMutedSwatch();
+                            if (swatch != null) {
+                                cvCard.setBackgroundColor(swatch.getRgb());
+                                tvTopic.setTextColor(swatch.getTitleTextColor());
+                                tvUsers.setTextColor(swatch.getBodyTextColor());
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .into(ivCover);
+    }
+
+    private void loadProfilePic(String from, ImageView iv) {
+        GlideApp.with(iv.getContext())
+                .load(from)
+                .circleCrop()
+                .into(iv);
+    }
+
+    // Find who liked the page
+    private String determineWhoLiked(Context context, String objectId, ArrayList<ParseUser> profPics, String category) {
+        String usersWhoLiked;
+        if (player1Likes.contains(objectId) && player2Likes.contains(objectId)) {
+            // If liked by both players
+            usersWhoLiked = context.getResources().getString(R.string.bothUsersLike, player1name, player2name, category);
+            profPics.add(player1);
+            profPics.add(player2);
+        } else if (player1Likes.contains(objectId)) {
+            // If liked by player 1 only
+            usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player1name, category);
+            profPics.add(player1);
+        } else {
+            // If liked by player 2 only
+            usersWhoLiked = context.getResources().getString(R.string.userWhoLikes, player2name, category);
+            profPics.add(player2);
+        }
+        return usersWhoLiked;
     }
 }
