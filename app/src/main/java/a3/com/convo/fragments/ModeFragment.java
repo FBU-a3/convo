@@ -6,11 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -205,6 +207,49 @@ public class ModeFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayGameActivity.class);
                 i.putExtra(Constants.GUEST, true);
                 startActivity(i);
+            }
+        });
+
+        // Info dialogues
+        ImageView freestyleInfo = (ImageView) view.findViewById(R.id.freestyle_info);
+        ImageView timedInfo = (ImageView) view.findViewById(R.id.timed_info);
+        ImageView basicInfo = (ImageView) view.findViewById(R.id.basic_info);
+        ImageView questionsInfo = (ImageView) view.findViewById(R.id.questions_info);
+
+        freestyleInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(getString(R.string.freestyle_mode_info_title));
+                alertDialog.setMessage(getString(R.string.freestyle_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        timedInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(getString(R.string.timed_mode_info_title));
+                alertDialog.setMessage(getString(R.string.timed_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        basicInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(getString(R.string.basic_mode_info_title));
+                alertDialog.setMessage(getString(R.string.basic_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        questionsInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme).create();
+                alertDialog.setTitle(getString(R.string.questions_mode_info_title));
+                alertDialog.setMessage(getString(R.string.questions_mode_info_message));
+                alertDialog.show();
             }
         });
     }
