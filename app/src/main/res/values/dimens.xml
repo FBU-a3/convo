@@ -135,4 +135,5 @@
     <dimen name="favorite_btn_width">65dp</dimen>
     <dimen name="favorite_btn_height">65dp</dimen>
     <dimen name="favorite_btn_margin">150dp</dimen>
+    <dimen name="info_btn_padding">10dp</dimen>
 </resources>
