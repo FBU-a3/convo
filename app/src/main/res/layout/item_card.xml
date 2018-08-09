@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardElevation="@dimen/card_elevation"
+    card_view:cardUseCompatPadding="true"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cover_height"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                card_view:srcCompat="@color/convo_blue" />
+
+            <ImageView
+                android:id="@+id/ivProf"
+                android:layout_width="@dimen/card_prof_pic_size"
+                android:layout_height="@dimen/card_prof_pic_size"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/iv_cover"
+                android:layout_margin="@dimen/card_prof_pic_margin"
+                card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+            <TextView
+                android:id="@+id/tv_topic"
+                android:layout_width="@dimen/card_topic_name_size"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/ivProf"
+                android:layout_alignTop="@+id/ivProf"
+                android:layout_marginRight="@dimen/card_prof_pic_margin"
+                android:layout_toRightOf="@id/ivProf"
+                android:gravity="center"
+                android:text="@string/loading"
+                android:textColor="@android:color/darker_gray"
+                android:autoSizeTextType="uniform" />
+
+            <View
+                android:id="@+id/box"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_marginTop="@dimen/box_margin"
+                android:alpha="@dimen/box_alpha"
+                android:background="@color/box_color" />
+
+            <ToggleButton
+                android:id="@+id/myToggleButton"
+                android:layout_width="@dimen/favorite_btn_width"
+                android:layout_height="@dimen/favorite_btn_height"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/ivProf"
+                android:layout_marginEnd="@dimen/favorite_btn_margin"
+                android:textOff=""
+                android:textOn=""
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/favorite_btn_margin" />
+
+            <TextView
+                android:id="@+id/tv_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/profPic1"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_toLeftOf="@id/profPic2"
+                android:layout_toRightOf="@id/profPic1"
+                android:gravity="center"
+                android:padding="@dimen/game_padding"
+                android:text="@string/loading"
+                android:textColor="@android:color/darker_gray"
+                android:autoSizeMaxTextSize="@dimen/max_users_size"
+                android:autoSizeTextType="uniform" />
+
+            <ImageView
+                android:id="@+id/profPic1"
+                android:layout_width="@dimen/card_user_pic_size"
+                android:layout_height="@dimen/card_user_pic_size"
+                android:layout_alignLeft="@id/ivProf"
+                android:layout_below="@id/ivProf"
+                android:layout_marginTop="@dimen/card_liked_by_margin_bottom"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+            <ImageView
+                android:id="@+id/profPic2"
+                android:layout_width="@dimen/card_user_pic_size"
+                android:layout_height="@dimen/card_user_pic_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/profPic1"
+                android:layout_marginEnd="@dimen/card_prof_pic_margin"
+                android:layout_marginRight="@dimen/card_prof_pic_margin"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

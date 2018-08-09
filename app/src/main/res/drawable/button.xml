@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_enabled="false"
+        android:drawable="@drawable/button_disabled"
+        android:color="@color/color_secondary" />
+    <item
+        android:state_enabled="true"
+        android:drawable="@drawable/button_enabled"
+        android:color="@color/convo_blue" />
+    <item
+        android:state_pressed="true"
+        android:state_enabled="true"
+        android:drawable="@drawable/button_pressed"
+        android:color="@color/convo_blue" />
+</selector>

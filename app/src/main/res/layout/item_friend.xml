@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/friend_iv"
+        android:layout_width="@dimen/friend_iv_width_length"
+        android:layout_height="@dimen/friend_iv_width_length"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/friend_iv_margins"
+        android:layout_marginTop="@dimen/friend_iv_margins"
+        android:layout_marginStart="@dimen/friend_iv_margin_start"
+        android:layout_marginLeft="@dimen/friend_iv_margin_start" />
+
+    <TextView
+        android:id="@+id/friend_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/friend_tv_margin_start"
+        android:layout_marginStart="@dimen/friend_tv_margin_start"
+        android:layout_toRightOf="@id/friend_iv"
+        android:textColor="@color/color_black"
+        android:layout_toEndOf="@id/friend_iv"
+        style="@style/StandardFont" />
+</RelativeLayout>
