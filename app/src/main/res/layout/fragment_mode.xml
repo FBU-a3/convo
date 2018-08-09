@@ -22,8 +22,7 @@
         android:layout_width="@dimen/std_btn_width"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/freestyle_margin_top"
-        android:text="@string/freestyle_mode"
-        style="@style/LargeButton" />
+        android:text="@string/freestyle_mode" />
 
     <Button
         android:id="@+id/timed_mode"
@@ -31,8 +30,7 @@
         android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/timed_margin_top"
-        android:text="@string/timed_mode"
-        style="@style/LargeButton" />
+        android:text="@string/timed_mode" />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -87,6 +85,8 @@
         android:layout_height="@dimen/std_btn_height"
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:enabled="false"
         android:text="@string/play"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>

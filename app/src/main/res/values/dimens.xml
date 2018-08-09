@@ -56,6 +56,7 @@
     <dimen name="max_users_size">15sp</dimen>
     <dimen name="box_margin">-10dp</dimen>
     <dimen name="box_alpha">0.7</dimen>
+    <dimen name="card_liked_by_margin_bottom">100dp</dimen>
 
     // item_friend
     <dimen name="friend_iv_width_length">60dp</dimen>

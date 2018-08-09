@@ -60,8 +60,7 @@
         android:layout_below="@+id/tv_games_played"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/std_margin"
-        android:text="@string/play_game_btn"
-        style="@style/LargeButton" />
+        android:text="@string/play_game_btn" />
 
     <TextView
         android:id="@+id/tv_three_likes"
