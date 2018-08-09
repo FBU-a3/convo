@@ -63,5 +63,5 @@
     // item_topic
     <string name="topic"></string>
     <string name="invite_friends">Invite friends!</string>
-    <string name="visited_place_string">You has visited this place.</string>
+    <string name="visited_place_string">You have visited this place.</string>
 </resources>
