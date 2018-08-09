@@ -88,6 +88,5 @@
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
         android:text="@string/play"
-        android:layout_alignParentBottom="true"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
