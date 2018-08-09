@@ -68,7 +68,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/add_likes_btn"
         android:layout_marginStart="@dimen/play_game_start_margin"
-        android:paddingHorizontal="@dimen/buttons_vertical_padding"
         android:text="@string/play_game_btn"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/play_game_start_margin" />
@@ -80,7 +79,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/logout_btn_paddin"
-        android:paddingHorizontal="@dimen/buttons_vertical_padding"
         android:text="@string/logout_btn"
         android:textColor="@color/convo_blue"
         android:textSize="@dimen/logout_btn_text_size"

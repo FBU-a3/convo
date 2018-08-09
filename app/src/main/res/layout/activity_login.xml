@@ -7,7 +7,6 @@
     tools:context=".activities.LoginActivity">
 
     <ImageView
-        android:id="@+id/login_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -40,13 +39,11 @@
         app:srcCompat="@drawable/convo_text_logo" />
 
     <TextView
-        android:id="@+id/tv_description"
         android:layout_width="@dimen/description_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_text_logo"
         android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/nunito"
         android:gravity="center"
         android:text="@string/description"
         android:textColor="@android:color/white"

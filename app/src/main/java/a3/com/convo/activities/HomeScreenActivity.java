@@ -152,7 +152,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             return;
         }
         else {
-            final String[] likesSentence = {"Some of the pages you like on facebook include...\n"};
+            final String[] likesSentence = {"Some of the pages you like on Facebook include...\n"};
             for (int i = 0; i < 3 && i < userLikes.size(); i++) {
                 String likeObjectId = userLikes.get(i);
                 if (likeObjectId == null || likeObjectId.isEmpty()) {
@@ -168,7 +168,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 Log.e("LikeAdapter", "User's hometown object has no name");
                                 return;
                             }
-                            likesSentence[0] += " * " + likeName + "\n";
+                            likesSentence[0] += " • " + likeName + "\n";
                             tvThreeLikes.setText(likesSentence[0]);
                         }
                         else if (object == null){

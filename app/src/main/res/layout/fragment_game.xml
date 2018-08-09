@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tvTimer"
-        android:id="@+id/swipeLayout"
         android:orientation="vertical">
 
         <com.daprlabs.aaron.swipedeck.SwipeDeck

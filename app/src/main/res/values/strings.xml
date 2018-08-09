@@ -2,21 +2,20 @@
 <resources>
     // activity_login
     <string name="app_name">Convo</string>
-    <string name="login_message">Logged in to facebook</string>
-    <string name="login">Two friends hanging out together.</string>
     <string name="description">From new acquaintances to old friends, convo dissipates the silence and brings out people\'s passions and memories.</string>
 
     // activity_home_screen
+    <string name="tv_add_likes">Add more custom likes below!</string>
 
     // activity_play_game
-    <string name="edit_prof_btn">Edit Profile</string>
     <string name="play_game_btn">Play Game</string>
     <string name="logout_btn">Log Out</string>
 
     // fragment_add_info
+    <string name="add_topics_title">What else should we add?</string>
     <string name="add">Add</string>
-    <string name="add_new_like">Add a new like&#8230;</string>
-    <string name="add_info_here">Add Info Here</string>
+    <string name="add_new_like">Start adding new topic&#8230;</string>
+    <string name="back">Return</string>
 
     // fragment_conclusion
     <string name="end_message">The Convo\'s only over if you want it to be!</string>
@@ -31,9 +30,6 @@
 
     // fragment_game
     <string name="timer_text">Timer</string>
-    <string name="game_over">Game over!</string>
-    <string name="next_card">onto the next one</string>
-    <string name="back">BACK</string>
     <string name="timer_format">%02d:%02d</string>
     <string name="bothUsersLike">%1$s and %2$s like this %3$s.</string>
     <string name="userWhoLikes">%1$s likes this %2$s.</string>
@@ -41,6 +37,7 @@
     <string name="topic_time_secs">Topic time (in seconds)</string>
 
     // fragment_mode
+    <string name="mode_title">Select a Mode</string>
     <string name="freestyle_mode">Freestyle</string>
     <string name="timed_mode">Timed</string>
     <string name="pick_card_time">Pick the amount of time for each topic</string>
@@ -52,7 +49,7 @@
     <string name="add_more_likes">Add More Likes</string>
     <string name="your_hometown">Your Hometown</string>
     <string name="your_name">Your Name</string>
-    <string name="num_games"> Cards Talked About</string>
+    <string name="num_games"> Topics Discussed</string>
     <string name="from">From </string>
 
     // item_card
@@ -61,6 +58,7 @@
     // item_friend
 
     // item_like
+    <string name="X">X</string>
 
     // item_topic
     <string name="topic"></string>
