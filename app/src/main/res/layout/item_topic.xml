@@ -9,10 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="@dimen/topic_top_bottom_margin"
-        android:layout_marginLeft="@dimen/topic_left_margin"
-        android:layout_marginTop="@dimen/topic_top_bottom_margin"
-        android:text="@string/topic"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginBottom="@dimen/std_margin"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_marginTop="@dimen/std_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/StandardBoldFont"
+        android:layout_marginStart="@dimen/std_margin" />
 </RelativeLayout>
