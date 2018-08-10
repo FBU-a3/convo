@@ -255,6 +255,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadCoverBackground(Page object, final CardView cvCard, final TextView tvTopic, final TextView tvUsers, final ImageView ivCover) {
+        if (cvCard.getContext() instanceof PlayGameActivity && ((PlayGameActivity) cvCard.getContext()).isFinishing()) return;
         String coverUrl = object.getCoverUrl();
         if (coverUrl.contains(Constants.GOOGLE_API_URL))
             coverUrl += ivCover.getContext().getString(R.string.google_api_key);
@@ -286,6 +287,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadAsBackground(Context context, String coverUrl, final CardView cv) {
+        if (context instanceof PlayGameActivity && ((PlayGameActivity) context).isFinishing()) return;
         GlideApp.with(context)
                 .load(coverUrl)
                 .dontTransform()
@@ -298,6 +300,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadProfilePic(String from, ImageView iv) {
+        if (iv.getContext() instanceof PlayGameActivity && ((PlayGameActivity) iv.getContext()).isFinishing()) return;
         GlideApp.with(iv.getContext())
                 .load(from)
                 .circleCrop()
