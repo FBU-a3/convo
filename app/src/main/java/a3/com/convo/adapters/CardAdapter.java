@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +109,7 @@ public class CardAdapter extends BaseAdapter {
         final ImageView profPic2 = v.findViewById(R.id.profPic2);
         final ImageView ivCover = v.findViewById(R.id.iv_cover);
 
-        // just a regular old box
+        // just a regular old box to contain the profile picture and users who liked the topic
         final View box = v.findViewById(R.id.box);
 
         if (!isGuest) {
@@ -194,10 +195,10 @@ public class CardAdapter extends BaseAdapter {
                             }
                         }
                     } else { // if we're dealing with an added topic or location
+                        Configuration config = context.getResources().getConfiguration();
                         // locations have both page IDs and cover urls, but not categories
                         if (object.getPageId() != null && object.getCoverUrl() != null) { // if it's a location
                             // only in portrait
-                            Configuration config = context.getResources().getConfiguration();
                             if (config != null && config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                                 loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
                                 RelativeLayout.LayoutParams topicParams = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
@@ -209,8 +210,19 @@ public class CardAdapter extends BaseAdapter {
                                 loadAsBackground(context, object.getCoverUrl(), cvCard);
                             }
                         } else { // if it is an added topic (no picture, just user, topic, and fave button)
-                            adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic, true);
-                            // TODO: THIS IS THE PROBLEM FOR LANDSCAPE BLANK CARDS
+                            tvTopic.setTextColor(context.getResources().getColor(R.color.color_black));
+                            if (config != null && config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                adjustLayout(layout, Arrays.asList(ivCover, (View) ivProf), tvTopic, true);
+                                setPlayerProfPics(profPics, profPic1, profPic2);
+
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) profPic1.getLayoutParams();
+                                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                                int margin = (int) context.getResources().getDimension(R.dimen.card_prof_pic_margin);
+                                params.setMargins(margin, 0, 0, margin);
+                            } else { // landscape added topic
+                                tvUsers.setTextColor(context.getResources().getColor(R.color.color_black));
+                            }
+
                         }
                     }
                 } else {
@@ -229,6 +241,7 @@ public class CardAdapter extends BaseAdapter {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tv.getLayoutParams();
             params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
             params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            tv.setGravity(Gravity.CENTER);
             tv.setLayoutParams(params);
         }
     }
