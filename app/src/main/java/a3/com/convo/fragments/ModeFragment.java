@@ -5,16 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextWatcher;
 import android.text.Editable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView;
 import android.support.v7.app.AlertDialog;
+import android.content.Intent;
 
 import org.parceler.Parcels;
 
