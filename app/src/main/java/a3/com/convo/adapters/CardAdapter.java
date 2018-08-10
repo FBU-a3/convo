@@ -153,6 +153,10 @@ public class CardAdapter extends BaseAdapter {
                 if (e == null) {
                     // super messy for now just to see if it actually works
                     if (isGuest) {
+                        Configuration config = context.getResources().getConfiguration();
+                        if (config != null && config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            // TODO setup landscape card and return
+                        }
                         // remove unneeded elements and center topic TextView
                         adjustLayout(layout, Arrays.asList(tvUsers, profPic1, profPic2, box), tvTopic, false);
 
