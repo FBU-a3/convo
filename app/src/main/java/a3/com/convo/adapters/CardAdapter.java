@@ -177,7 +177,7 @@ public class CardAdapter extends BaseAdapter {
 
                         if (context.getResources().getConfiguration() != null) {
                             int orientation = context.getResources().getConfiguration().orientation;
-                            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            if (orientation == Configuration.ORIENTATION_PORTRAIT) { // if it's a real page and in portrait
                                 // load in the cover image and dynamically set the background with color palette
                                 loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
 
@@ -196,7 +196,7 @@ public class CardAdapter extends BaseAdapter {
                                 } else {
                                     profPic2.setVisibility(View.INVISIBLE);
                                 }
-                            } else { // the screen is in landscape, so load the cover photo in as the card background
+                            } else { // if it's a real page and in landscape
                                 String coverUrl = object.getCoverUrl();
                                 if (coverUrl.contains(Constants.GOOGLE_API_URL))
                                     coverUrl += ivCover.getContext().getString(R.string.google_api_key);
@@ -213,17 +213,18 @@ public class CardAdapter extends BaseAdapter {
                         }
                     } else { // if we're dealing with an added topic or location
                         // locations have both page IDs and cover urls, but not categories
-                        if (object.getPageId() != null && object.getCoverUrl() != null) {
+                        if (object.getPageId() != null && object.getCoverUrl() != null) { // if it's a location
                             adjustLayout(layout, Arrays.asList(ivProf, box, profPic1, profPic2), tvTopic);
                             loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
 
                             // put the users textView below the topic
-                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvUsers.getLayoutParams();
-                            params.addRule(RelativeLayout.BELOW, R.id.tv_topic);
-                            tvUsers.setLayoutParams(params);
-                        } else { // this is an added topic
+                            //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvUsers.getLayoutParams();
+                            //params.addRule(RelativeLayout.BELOW, R.id.tv_topic);
+                            //tvUsers.setLayoutParams(params);
+                        } else { // if it is an added topic (no picture, just user, topic, and fave button)
                             adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic);
                         }
+                        //tvTopic.setText(object.getName());
                     }
                 } else {
                     Log.e("name error", "Oops!");
