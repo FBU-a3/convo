@@ -73,6 +73,19 @@
     <dimen name="delete_btn_width">46dp</dimen>
     <dimen name="text_size_delete_btn">18sp</dimen>
     <dimen name="delete_like_margin">13dp</dimen>
+    <dimen name="play_game_start_margin">92dp</dimen>
+    <dimen name="logout_btn_paddin">20dp</dimen>
+    <dimen name="logout_btn_text_size">20sp</dimen>
+    <dimen name="three_likes_land_end_margin">93dp</dimen>
+    <dimen name="three_likes_land_top_margin">169dp</dimen>
+    <dimen name="user_hometown_top_margin_land">91dp</dimen>
+    <dimen name="games_played_top_margin_land">130dp</dimen>
+    <dimen name="add_likes_bottom_margin_land">37dp</dimen>
+    <dimen name="add_likes_end_margin_land">158dp</dimen>
+    <dimen name="user_prof_pic_start_margin_land">40dp</dimen>
+    <dimen name="user_prof_pic_top_margin_land">40dp</dimen>
+    <dimen name="user_name_top_margin_land">40dp</dimen>
+    <dimen name="invite_friends_btn_margin">127dp</dimen>
 
     // button dimensions
     <dimen name="std_btn_width">200dp</dimen>
