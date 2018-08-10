@@ -120,8 +120,8 @@
     <dimen name="games_played_top_margin_land">130dp</dimen>
     <dimen name="add_likes_bottom_margin_land">37dp</dimen>
     <dimen name="add_likes_end_margin_land">158dp</dimen>
-    <dimen name="user_prof_pic_start_margin_land">24dp</dimen>
-    <dimen name="user_prof_pic_top_margin_land">23dp</dimen>
+    <dimen name="user_prof_pic_start_margin_land">40dp</dimen>
+    <dimen name="user_prof_pic_top_margin_land">40dp</dimen>
     <dimen name="user_name_top_margin_land">40dp</dimen>
     <dimen name="invite_friends_btn_margin">127dp</dimen>
 
