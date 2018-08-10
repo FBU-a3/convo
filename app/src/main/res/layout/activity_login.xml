@@ -7,7 +7,6 @@
     tools:context=".activities.LoginActivity">
 
     <ImageView
-        android:id="@+id/login_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -18,47 +17,48 @@
         app:srcCompat="@drawable/convo_login"
         android:layout_alignParentLeft="true" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/button_height"
-        android:textSize="@dimen/login_button_text_size" />
-
     <ImageView
         android:id="@+id/iv_text_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/text_logo_height"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/text_logo_top_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="97dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/convo_text_logo" />
+        app:srcCompat="@drawable/cropped_convo" />
 
     <TextView
-        android:id="@+id/tv_description"
         android:layout_width="@dimen/description_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_text_logo"
         android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/nunito"
         android:gravity="center"
         android:text="@string/description"
         android:textColor="@android:color/white"
         android:textSize="@dimen/description_text_size" />
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/button_height"
+        android:textSize="@dimen/login_button_text_size" />
+
     <Button
         android:id="@+id/btGuest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/iv_text_logo"
         android:layout_centerHorizontal="true"
-        android:text="@string/play_guest" />
+        android:layout_alignParentBottom="true"
+        android:text="@string/play_guest"
+        android:textColor="@color/background"
+        android:textSize="@dimen/description_text_size"
+        android:layout_marginBottom="@dimen/largest_margin"
+        style="@style/SecondaryButton" />
 
     <ImageView
         android:id="@+id/info"
@@ -67,6 +67,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/info_btn_padding"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>
