@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/modeFragment"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/std_margin"
     tools:context=".fragments.ModeFragment">
+
+    <TextView
+        android:id="@+id/mode_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/mode_title"
+        style="@style/HeaderFont" />
+
+    <TextView
+        android:id="@+id/mode_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/std_margin"
+        android:layout_below="@+id/mode_title"
+        android:text="@string/mode_description" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="113dp"
+        android:layout_height="95dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/mode_description"
+        android:layout_marginTop="@dimen/larger_margin"
+        android:src="@drawable/logo_flat_white"
+        android:tint="@color/convo_blue"/>
 
     <Button
         android:id="@+id/freestyle_mode"
-        android:layout_height="@dimen/std_btn_height"
         android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/freestyle_margin_top"
+        android:layout_above="@+id/timed_mode"
+        android:layout_marginBottom="@dimen/larger_margin"
         android:text="@string/freestyle_mode" />
 
     <Button
         android:id="@+id/timed_mode"
         android:layout_width="@dimen/std_btn_width"
         android:layout_height="@dimen/std_btn_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/timed_margin_top"
+        android:layout_centerInParent="true"
         android:text="@string/timed_mode" />
+
+    <Button
+        android:id="@+id/basic_mode"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/timed_mode"
+        android:layout_marginTop="@dimen/larger_margin"
+        android:text="@string/basic_mode" />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -28,14 +68,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/timed_mode"
+        android:layout_below="@id/basic_mode"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvPickTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/end_message_margin_top"
+            android:layout_marginTop="@dimen/std_margin"
             android:layout_gravity="center"
             android:gravity="center" />
 
@@ -53,7 +93,7 @@
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/hometown_top_margin"
+            android:layout_marginTop="@dimen/std_margin"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/pick_num_topics"/>
@@ -67,13 +107,16 @@
             android:gravity="center"
             android:ems="10"
             android:inputType="number" />
-
-        <Button
-            android:id="@+id/playButton"
-            android:layout_width="@dimen/std_btn_width"
-            android:layout_height="@dimen/std_btn_height"
-            android:layout_gravity="center"
-            android:text="@string/play"
-            android:visibility="visible" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:text="@string/play"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

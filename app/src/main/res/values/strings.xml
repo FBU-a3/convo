@@ -2,39 +2,35 @@
 <resources>
     // activity_login
     <string name="app_name">Convo</string>
-    <string name="login_message">Logged in to facebook</string>
-    <string name="login">Two friends hanging out together.</string>
     <string name="description">From new acquaintances to old friends, convo dissipates the silence and brings out people\'s passions and memories.</string>
     <string name="play_guest">Play as guest</string>
 
     // activity_home_screen
+    <string name="tv_add_likes">Add more custom topics below!</string>
 
     // activity_play_game
-    <string name="edit_prof_btn">Edit Profile</string>
     <string name="play_game_btn">Play Game</string>
     <string name="logout_btn">Log Out</string>
 
     // fragment_add_info
+    <string name="add_topics_title">What else should we add?</string>
     <string name="add">Add</string>
-    <string name="add_new_like">Add a new like&#8230;</string>
-    <string name="add_info_here">Add Info Here</string>
+    <string name="add_new_like">Start adding new topic&#8230;</string>
+    <string name="back">Return</string>
 
     // fragment_conclusion
     <string name="end_message">The Convo\'s only over if you want it to be!</string>
     <string name="play_again">Play Again</string>
-    <string name="end_topics">The following topics were talked about, click through to view info from page:</string>
+    <string name="end_topics">The following topics were talked about, click through to view more about them:</string>
     <string name="go_home">Return Home</string>
 
     // fragment_friends
     <string name="connect_msg">Connect with Friends!</string>
     <string name="mode_btn_text">Ready? Select mode.</string>
-    <string name="invite_btn_text">Invite friends</string>
+    <string name="invite_btn_text">Invite Friends</string>
 
     // fragment_game
     <string name="timer_text">Timer</string>
-    <string name="game_over">Game over!</string>
-    <string name="next_card">onto the next one</string>
-    <string name="back">BACK</string>
     <string name="timer_format">%02d:%02d</string>
     <string name="bothUsersLike">%1$s and %2$s like this %3$s</string>
     <string name="userWhoLikes">%1$s likes this %2$s</string>
@@ -42,18 +38,21 @@
     <string name="topic_time_secs">Topic time (in seconds)</string>
 
     // fragment_mode
+    <string name="mode_title">Select a Mode</string>
+    <string name="mode_description">You can have a Convo in multiple ways, learn more about each by clicking to their side.</string>
     <string name="freestyle_mode">Freestyle</string>
     <string name="timed_mode">Timed</string>
-    <string name="pick_card_time">Pick the amount of time for each topic</string>
-    <string name="pick_game_time">Pick the amount of time for your game</string>
+    <string name="basic_mode">Basic</string>
+    <string name="pick_card_time">Pick the amount of time for each topic:</string>
+    <string name="pick_game_time">Pick the amount of time for your game:</string>
     <string name="play">Let\'s chat!</string>
-    <string name="pick_num_topics">Pick how many topics you\'d like</string>
+    <string name="pick_num_topics">Pick how many topics you\'d like:</string>
 
     // fragment_profile_details
-    <string name="add_more_likes">Add More Likes</string>
+    <string name="add_more_likes">Add More Topics</string>
     <string name="your_hometown">Your Hometown</string>
     <string name="your_name">Your Name</string>
-    <string name="num_games"> Cards Talked About</string>
+    <string name="num_games"> Topics Discussed</string>
     <string name="from">From </string>
 
     // item_card
@@ -62,9 +61,9 @@
     // item_friend
 
     // item_like
+    <string name="X">X</string>
 
     // item_topic
-    <string name="topic"></string>
     <string name="invite_friends">Invite friends!</string>
     <string name="visited_place_string">You has visited this place.</string>
     <string name="info_message">Convo works with the help of Facebook\'s API. It collects certain pieces of information from users\' public profiles, limited to the users\' name, profile picture, information on their tagged places, the pages they like, and friends who are also on the app.</string>
