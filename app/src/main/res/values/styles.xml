@@ -20,17 +20,6 @@
     </style>
 
     <!-- Buttons -->
-    <style name="LargeButton" parent="@android:style/Widget.Button">
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/nunito</item>
-        <item name="android:background">@drawable/button</item>
-        <item name="android:textColor">@drawable/button</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:clickable">true</item>
-    </style>
-
     <style name="StandardButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textSize">16sp</item>
@@ -51,6 +40,11 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">5dp</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="ConvoEditText" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/convo_blue</item>
     </style>
 
     <!-- Base application theme. -->

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/modeFragment"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginTop="@dimen/std_margin"
         android:layout_below="@+id/mode_title"
         android:text="@string/mode_description" />
 
@@ -32,9 +32,12 @@
         android:layout_height="@dimen/convo_accent_height"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/mode_description"
-        android:layout_marginTop="@dimen/larger_margin"
+        android:layout_marginTop="@dimen/std_margin"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/larger_margin"
         android:src="@drawable/logo_flat_white"
-        android:tint="@color/convo_blue"/>
+        android:tint="@color/convo_blue"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/freestyle_mode"
@@ -42,7 +45,7 @@
         android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/timed_mode"
-        android:layout_marginBottom="@dimen/larger_margin"
+        android:layout_marginBottom="@dimen/std_margin"
         android:text="@string/freestyle_mode" />
 
     <Button
@@ -58,7 +61,7 @@
         android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/timed_mode"
-        android:layout_marginTop="@dimen/larger_margin"
+        android:layout_marginTop="@dimen/std_margin"
         android:text="@string/basic_mode" />
 
     <LinearLayout
@@ -66,23 +69,25 @@
         android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/basic_mode"
-        android:orientation="vertical">
+        android:layout_below="@+id/mode_description"
+        android:layout_marginTop="@dimen/largest_margin"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/tvPickTime"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/tv_time_width_land"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/std_margin"
-            android:layout_gravity="center"
-            android:gravity="center" />
+            android:layout_gravity="left"
+            android:gravity="left" />
 
         <EditText
             android:id="@+id/etPickTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:ems="10"
             android:inputType="number"
             android:gravity="left"
@@ -93,16 +98,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/std_margin"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_gravity="left"
+            android:gravity="left"
             android:text="@string/pick_num_topics"/>
 
         <EditText
             android:id="@+id/etPickNumTopics"
             android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_gravity="left"
+            android:gravity="left"
             android:ems="10"
             android:inputType="number"
             android:theme="@style/ConvoEditText" />

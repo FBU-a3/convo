@@ -28,10 +28,7 @@ import a3.com.convo.activities.PlayGameActivity;
  **/
 public class ModeFragment extends Fragment {
     private static final String FRIEND_TAG = "friend";
-
     private String friend;
-    private boolean freestyleSelected;
-    private boolean timedSelected;
     private int minutes;
     private int seconds;
     private int numTopics;
@@ -70,15 +67,16 @@ public class ModeFragment extends Fragment {
         freestyleMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                freestyleSelected = true;
-                timedSelected = false;
+                minutes = 0;
 
                 tvPickNumTopics.setVisibility(View.INVISIBLE);
                 etPickNumTopics.setVisibility(View.INVISIBLE);
                 playButton.setVisibility(View.VISIBLE);
+                playButton.setEnabled(false);
                 tvPickTime.setText(getString(R.string.pick_game_time));
                 timeInput.setHint(getString(R.string.game_time_mins));
 
+                // Check if user has input a time for the game
                 timeInput.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -87,7 +85,7 @@ public class ModeFragment extends Fragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (timeInput.getText().toString().trim().length() > 0 && freestyleSelected) {
+                        if (timeInput.getText().toString().trim().length() > 0) {
                             minutes = Integer.parseInt(timeInput.getText().toString());
                             if (minutes > 0) {
                                 playButton.setEnabled(true);
@@ -103,6 +101,7 @@ public class ModeFragment extends Fragment {
                     }
                 });
 
+                // Once time is chosen and greater than 0, play button is enabled and clicks through to Freestyle mode
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -120,15 +119,17 @@ public class ModeFragment extends Fragment {
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                freestyleSelected = false;
-                timedSelected = true;
+                seconds = 0;
+                numTopics = 0;
 
                 tvPickNumTopics.setVisibility(View.VISIBLE);
                 etPickNumTopics.setVisibility(View.VISIBLE);
+                playButton.setEnabled(false);
                 playButton.setVisibility(View.VISIBLE);
                 tvPickTime.setText(getString(R.string.pick_card_time));
                 timeInput.setHint(R.string.topic_time_secs);
 
+                // Check if user has input a time for each card
                 timeInput.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -137,9 +138,9 @@ public class ModeFragment extends Fragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (timeInput.getText().toString().trim().length() > 0 && timedSelected) {
+                        if (timeInput.getText().toString().trim().length() > 0) {
                             seconds = Integer.parseInt(timeInput.getText().toString());
-                            if (minutes > 0 && numTopics > 0) {
+                            if (seconds > 0 && numTopics > 0) {
                                 playButton.setEnabled(true);
                             }
                             else {
@@ -148,10 +149,13 @@ public class ModeFragment extends Fragment {
                         }
                     }
                     public void afterTextChanged(Editable s) {
-
+                        if (timeInput.getText().toString().trim().length() == 0) {
+                            playButton.setEnabled(false);
+                        }
                     }
                 });
 
+                // Check if user has input a number of topics to play
                 etPickNumTopics.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -160,22 +164,27 @@ public class ModeFragment extends Fragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (etPickNumTopics.getText().toString().trim().length() > 0 && timedSelected) {
+                        if (etPickNumTopics.getText().toString().trim().length() > 0) {
                             numTopics = Integer.parseInt(etPickNumTopics.getText().toString());
-                            if (minutes > 0 && numTopics > 0 && timedSelected) {
+                            if (seconds > 0 && numTopics > 0) {
                                 playButton.setEnabled(true);
                             }
                             else {
                                 playButton.setEnabled(false);
                             }
                         }
-
+                        else {
+                            numTopics = 0;
+                        }
                     }
                     public void afterTextChanged(Editable s) {
-
+                        if (etPickNumTopics.getText().toString().trim().length() == 0) {
+                            playButton.setEnabled(false);
+                        }
                     }
                 });
 
+                // Once time and num of topics chosen, play button is enabled and clicks through to Timed mode
                 playButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -188,7 +197,7 @@ public class ModeFragment extends Fragment {
             }
         });
 
-        // If user selects to play Basic
+        // If user selects to play Basic, it will take them directly through
         Button basicMode = (Button) view.findViewById(R.id.basic_mode);
         basicMode.setOnClickListener(new View.OnClickListener() {
             @Override

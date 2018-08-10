@@ -64,7 +64,6 @@
     <string name="X">X</string>
 
     // item_topic
-    <string name="invite_friends">Invite friends!</string>
     <string name="visited_place_string">You has visited this place.</string>
     <string name="info_message">Convo works with the help of Facebook\'s API. It collects certain pieces of information from users\' public profiles, limited to the users\' name, profile picture, information on their tagged places, the pages they like, and friends who are also on the app.</string>
     <string name="info_title">How does Convo work?</string>

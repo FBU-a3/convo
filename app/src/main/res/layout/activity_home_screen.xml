@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/home_convo_logo"
-        android:layout_width="233dp"
-        android:layout_height="46dp"
+        android:layout_width="@dimen/home_logo_width"
+        android:layout_height="@dimen/home_logo_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:tint="@color/color_black"

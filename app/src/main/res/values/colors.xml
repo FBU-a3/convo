@@ -2,7 +2,7 @@
 <resources>
     <color name="convo_blue">#181875</color>
     <color name="color_black">#000000</color>
-    <color name="color_secondary">#616161</color>
+    <color name="color_secondary">#999999</color>
     <color name="loginTint">#47181875</color>
     <color name="background">#FAFAFA</color>
     <color name="box_color">#DDDDDDDD</color>
