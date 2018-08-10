@@ -145,7 +145,7 @@ public class CardAdapter extends BaseAdapter {
                     // super messy for now just to see if it actually works
                     if (isGuest) {
                         // remove unneeded elements and center topic TextView
-                        adjustLayout(layout, Arrays.asList(tvUsers, profPic1, profPic2, box), tvTopic);
+                        adjustLayout(layout, Arrays.asList(tvUsers, profPic1, profPic2, box), tvTopic, false);
 
                         // just load topic, cover photo, and profile photo
                         tvTopic.setText(object.getName());
@@ -185,46 +185,33 @@ public class CardAdapter extends BaseAdapter {
                                 loadProfilePic(object.getProfUrl(), ivProf);
 
                                 // load liking person's profile picture (or both if both liked the page)
-                                if (profPics.contains(player1)) {
-                                    loadProfilePic(player1.getString(Constants.PROF_PIC_URL), profPic1);
-                                } else {
-                                    profPic1.setVisibility(View.INVISIBLE);
-                                }
-
-                                if (profPics.contains(player2)) {
-                                    loadProfilePic(player2.getString(Constants.PROF_PIC_URL), profPic2);
-                                } else {
-                                    profPic2.setVisibility(View.INVISIBLE);
-                                }
+                                setPlayerProfPics(profPics, profPic1, profPic2);
                             } else { // if it's a real page and in landscape
                                 String coverUrl = object.getCoverUrl();
                                 if (coverUrl.contains(Constants.GOOGLE_API_URL))
                                     coverUrl += ivCover.getContext().getString(R.string.google_api_key);
-                                GlideApp.with(context)
-                                        .load(coverUrl)
-                                        .dontTransform()
-                                        .into(new SimpleTarget<Drawable>() {
-                                            @Override
-                                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                                cvCard.setBackground(resource);
-                                            }
-                                        });
+                                loadAsBackground(context, coverUrl, cvCard);
                             }
                         }
                     } else { // if we're dealing with an added topic or location
                         // locations have both page IDs and cover urls, but not categories
                         if (object.getPageId() != null && object.getCoverUrl() != null) { // if it's a location
-                            adjustLayout(layout, Arrays.asList(ivProf, box, profPic1, profPic2), tvTopic);
-                            loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
+                            // only in portrait
+                            Configuration config = context.getResources().getConfiguration();
+                            if (config != null && config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                loadCoverBackground(object, cvCard, tvTopic, tvUsers, ivCover);
+                                RelativeLayout.LayoutParams topicParams = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
+                                topicParams.addRule(RelativeLayout.BELOW, R.id.iv_cover);
+                                tvTopic.setLayoutParams(topicParams);
 
-                            // put the users textView below the topic
-                            //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvUsers.getLayoutParams();
-                            //params.addRule(RelativeLayout.BELOW, R.id.tv_topic);
-                            //tvUsers.setLayoutParams(params);
+                                setPlayerProfPics(profPics, profPic1, profPic2);
+                            } else {
+                                loadAsBackground(context, object.getCoverUrl(), cvCard);
+                            }
                         } else { // if it is an added topic (no picture, just user, topic, and fave button)
-                            adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic);
+                            adjustLayout(layout, Arrays.asList(ivCover, ivProf, tvUsers, profPic1, profPic2), tvTopic, true);
+                            // TODO: THIS IS THE PROBLEM FOR LANDSCAPE BLANK CARDS
                         }
-                        //tvTopic.setText(object.getName());
                     }
                 } else {
                     Log.e("name error", "Oops!");
@@ -235,14 +222,15 @@ public class CardAdapter extends BaseAdapter {
         return v;
     }
 
-    private void adjustLayout(RelativeLayout layout, List<View> removeItems, TextView tv) {
-        for (View v: removeItems) layout.removeView(v);
+    private void adjustLayout(RelativeLayout layout, List<View> removeItems, TextView tv, boolean centerTopic) {
+        for (View v: removeItems) if (v != null) layout.removeView(v);
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tv.getLayoutParams();
-        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-        // TODO: make this show up in landscape mode
-        tv.setLayoutParams(params);
+        if (centerTopic) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tv.getLayoutParams();
+            params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            tv.setLayoutParams(params);
+        }
     }
 
     private void loadCoverBackground(Page object, final CardView cvCard, final TextView tvTopic, final TextView tvUsers, final ImageView ivCover) {
@@ -276,11 +264,37 @@ public class CardAdapter extends BaseAdapter {
                 .into(ivCover);
     }
 
+    private void loadAsBackground(Context context, String coverUrl, final CardView cv) {
+        GlideApp.with(context)
+                .load(coverUrl)
+                .dontTransform()
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        cv.setBackground(resource);
+                    }
+                });
+    }
+
     private void loadProfilePic(String from, ImageView iv) {
         GlideApp.with(iv.getContext())
                 .load(from)
                 .circleCrop()
                 .into(iv);
+    }
+
+    private void setPlayerProfPics(ArrayList<ParseUser> profPics, ImageView profPic1, ImageView profPic2) {
+        if (profPics.contains(player1)) {
+            loadProfilePic(player1.getString(Constants.PROF_PIC_URL), profPic1);
+        } else {
+            profPic1.setVisibility(View.INVISIBLE);
+        }
+
+        if (profPics.contains(player2)) {
+            loadProfilePic(player2.getString(Constants.PROF_PIC_URL), profPic2);
+        } else {
+            profPic2.setVisibility(View.INVISIBLE);
+        }
     }
 
     // Find who liked the page

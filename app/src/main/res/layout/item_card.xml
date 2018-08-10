@@ -35,7 +35,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/iv_cover"
                 android:layout_margin="@dimen/card_prof_pic_margin"
-                card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+                card_view:srcCompat="@android:drawable/ic_menu_mylocation" />
 
             <TextView
                 android:id="@+id/tv_topic"
@@ -63,9 +63,9 @@
                 android:id="@+id/myToggleButton"
                 android:layout_width="@dimen/favorite_btn_width"
                 android:layout_height="@dimen/favorite_btn_height"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/ivProf"
-                android:layout_marginEnd="@dimen/favorite_btn_margin"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="124dp"
                 android:textOff=""
                 android:textOn="" />
 
