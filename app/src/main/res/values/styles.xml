@@ -52,4 +52,9 @@
         <item name="android:buttonStyle">@style/StandardButton</item>
         <item name="android:fontStyle" tools:targetApi="o">@style/StandardFont</item>
     </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/yellow</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
 </resources>

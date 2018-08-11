@@ -7,4 +7,6 @@
     <color name="background">#FAFAFA</color>
     <color name="box_color">#DDDDDDDD</color>
     <color name="like">#dd930000</color>
+    <color name="yellow">#ffea00</color>
+    <color name="red">#d50000</color>
 </resources>
