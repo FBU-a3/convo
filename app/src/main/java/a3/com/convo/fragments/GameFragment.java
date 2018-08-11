@@ -42,6 +42,7 @@ public class GameFragment extends Fragment {
     private static final String TIME = "time";
     private static final String TIME_LEFT = "timeLeft";
     private static final String CONFIG_CHANGE = "configChange";
+    private int passedRemaindingCards = 0;
 
     private SwipeDeck cardStack;
 
@@ -141,12 +142,20 @@ public class GameFragment extends Fragment {
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
             public void cardSwipedLeft(long stableId) {
-                cardSwiped(stableId);
+                try {
+                    cardSwiped(stableId);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void cardSwipedRight(long stableId) {
-                cardSwiped(stableId);
+                try {
+                    cardSwiped(stableId);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -209,6 +218,7 @@ public class GameFragment extends Fragment {
         allLikes = new ArrayList<>();
         allLikes.addAll(player1Likes);
         allLikes.addAll(player2Likes);
+        Log.e("GameFragment", "allLikes size:" + (allLikes.size()));
         Collections.shuffle(allLikes);
     }
 
@@ -232,13 +242,25 @@ public class GameFragment extends Fragment {
     }
 
     // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
-    private void cardSwiped(long stableId) {
+    private void cardSwiped(long stableId) throws InterruptedException {
         if (mode.equals(Constants.TIMED)) {
             numTopics--; // TODO: check countdown of numTopics, off by one now
             restartTimer();
         }
         if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
             topicsDiscussed.add(allLikes.get((int)stableId));
+        }
+
+        // end game upon swiping last card, account for cards that are loaded and remainding (AdapterIndex is ahead)
+        if(passedRemaindingCards < 3) {
+            Log.e("GameFragment", "Not on last card, on " + cardStack.getAdapterIndex());
+            if (cardStack.getAdapterIndex() == allLikes.size())
+                passedRemaindingCards++;
+                Log.e("GameFragment", "Passed remainding card: " + passedRemaindingCards);
+        }
+        else {
+            Log.e("GameFragment", "On last card: " + cardStack.getAdapterIndex());
+            endGame();
         }
     }
 
@@ -270,6 +292,7 @@ public class GameFragment extends Fragment {
     }
 
     private void endGame() {
+        if (timer != null) timer.cancel();
         if (getContext() instanceof PlayGameActivity)
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }

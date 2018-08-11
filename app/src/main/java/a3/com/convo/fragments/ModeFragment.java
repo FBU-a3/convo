@@ -1,5 +1,7 @@
 package a3.com.convo.fragments;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -65,11 +67,15 @@ public class ModeFragment extends Fragment {
         final TextView tvPickNumTopics = (TextView) view.findViewById(R.id.tvPickNumTopics);
         final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
-        // If user selects to play Freestyle
         final Button freestyleMode = (Button) view.findViewById(R.id.freestyle_mode);
+        final Button timedMode = (Button) view.findViewById(R.id.timed_mode);
+
+        // If user selects to play Freestyle
         freestyleMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                freestyleMode.setTypeface(null, Typeface.BOLD);
+                timedMode.setTypeface(null, Typeface.NORMAL);
                 minutes = 0;
 
                 tvPickNumTopics.setVisibility(View.INVISIBLE);
@@ -118,10 +124,11 @@ public class ModeFragment extends Fragment {
         });
 
         // If user selects to play Timed
-        Button timedMode = (Button) view.findViewById(R.id.timed_mode);
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                timedMode.setTypeface(null, Typeface.BOLD);
+                freestyleMode.setTypeface(null, Typeface.NORMAL);
                 seconds = 0;
                 numTopics = 0;
 
