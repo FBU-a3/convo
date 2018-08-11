@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +41,8 @@ public class GameFragment extends Fragment {
     private static final String TIME = "time";
     private static final String TIME_LEFT = "timeLeft";
     private static final String CONFIG_CHANGE = "configChange";
+    private static final String ADAPTER = "adapter";
+    private static final String POSITION = "position";
 
     private SwipeDeck cardStack;
 
@@ -52,7 +53,7 @@ public class GameFragment extends Fragment {
     private String mode;
 
     // indicates if user is in guest mode, which sets the 'mode' var above to freestyle
-    private boolean isGuest; // TODO: check this any time we do anything with player1 or player2
+    private boolean isGuest;
 
     // amount of time per game/card, depending on mode above
     private long time;
@@ -76,6 +77,7 @@ public class GameFragment extends Fragment {
     private ArrayList<String> player2Places;
     private ArrayList<String> allLikes;
     private CardAdapter adapter;
+    private int adapterPosition;
 
     // declared as instance for use in other methods
     private CountDownTimer timer;
@@ -100,6 +102,10 @@ public class GameFragment extends Fragment {
             timeLeft = Parcels.unwrap(savedInstanceState.getParcelable(TIME_LEFT));
             configChange = Parcels.unwrap(savedInstanceState.getParcelable(CONFIG_CHANGE));
             isGuest = Parcels.unwrap(savedInstanceState.getParcelable(Constants.GUEST));
+            adapter = Parcels.unwrap(savedInstanceState.getParcelable(ADAPTER));
+            adapterPosition = Parcels.unwrap(savedInstanceState.getParcelable(POSITION));
+            // apply correction for adapter to start back where we left off and not skip cards
+            adapterPosition -= 3;
         }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false);
@@ -115,6 +121,10 @@ public class GameFragment extends Fragment {
         configChange = true;
         outState.putParcelable(CONFIG_CHANGE, Parcels.wrap(configChange));
         outState.putParcelable(Constants.GUEST, Parcels.wrap(isGuest));
+        if (adapter != null) {
+            outState.putParcelable(ADAPTER, Parcels.wrap(adapter));
+            outState.putParcelable(POSITION, Parcels.wrap(cardStack.getAdapterIndex()));
+        }
     }
 
     public void onViewCreated(final View view, Bundle savedInstanceState) {
@@ -164,8 +174,13 @@ public class GameFragment extends Fragment {
         allLikes = new ArrayList<>();
         allLikes.addAll(Constants.GUEST_TOPICS);
         Collections.shuffle(allLikes);
-        adapter = new CardAdapter(allLikes);
-        cardStack.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new CardAdapter(allLikes);
+            cardStack.setAdapter(adapter);
+        } else {
+            cardStack.setAdapter(adapter);
+            cardStack.setAdapterIndex(adapterPosition);
+        }
         timer.start();
     }
 
@@ -190,8 +205,13 @@ public class GameFragment extends Fragment {
 
                         combineAndShuffleTopics();
 
-                        adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
-                        cardStack.setAdapter(adapter);
+                        if (adapter == null) {
+                            adapter = new CardAdapter(allLikes, player1Likes, player2Likes, player2);
+                            cardStack.setAdapter(adapter);
+                        } else {
+                            cardStack.setAdapter(adapter);
+                            cardStack.setAdapterIndex(adapterPosition);
+                        }
                     } else {
                         e.printStackTrace();
                     }
@@ -246,7 +266,6 @@ public class GameFragment extends Fragment {
         if (player1 != null && player2 != null) {
             Integer player1Games = (Integer)player1.getNumber(Constants.NUM_GAMES);
             if (player1Games == null) {
-                Log.e("GameFragment", "Query returned null number of games in player1games");
                 return;
             }
             Integer player1GamesIncremented = new Integer(player1Games.intValue() + 1);
@@ -254,7 +273,6 @@ public class GameFragment extends Fragment {
             player1.saveInBackground();
             Integer player2Games = (Integer)player2.getNumber(Constants.NUM_GAMES);
             if (player2Games == null) {
-                Log.e("GameFragment", "Query returned null number of games in player2games");
                 return;
             }
             Integer player2GamesIncremented = new Integer(player2Games.intValue() + 1);
@@ -302,7 +320,6 @@ public class GameFragment extends Fragment {
     }
     public void setNumTopics(int selectedNumber) {
         numTopics = selectedNumber;
-        Log.e("Topics", String.valueOf(numTopics));
     }
 
     // sets the time per card (timed mode) or per game (freestyle mode)
