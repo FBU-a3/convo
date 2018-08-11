@@ -1,19 +1,25 @@
 package a3.com.convo.fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.Editable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
+import android.support.v7.app.AlertDialog;
+import android.content.Intent;
 
 import org.parceler.Parcels;
 
@@ -60,11 +66,15 @@ public class ModeFragment extends Fragment {
         final TextView tvPickNumTopics = (TextView) view.findViewById(R.id.tvPickNumTopics);
         final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
-        // If user selects to play Freestyle
         final Button freestyleMode = (Button) view.findViewById(R.id.freestyle_mode);
+        final Button timedMode = (Button) view.findViewById(R.id.timed_mode);
+
+        // If user selects to play Freestyle
         freestyleMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                freestyleMode.setTypeface(null, Typeface.BOLD);
+                timedMode.setTypeface(null, Typeface.NORMAL);
                 minutes = 0;
 
                 tvPickNumTopics.setVisibility(View.INVISIBLE);
@@ -113,10 +123,11 @@ public class ModeFragment extends Fragment {
         });
 
         // If user selects to play Timed
-        Button timedMode = (Button) view.findViewById(R.id.timed_mode);
         timedMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                timedMode.setTypeface(null, Typeface.BOLD);
+                freestyleMode.setTypeface(null, Typeface.NORMAL);
                 seconds = 0;
                 numTopics = 0;
 
@@ -203,6 +214,49 @@ public class ModeFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayGameActivity.class);
                 i.putExtra(Constants.GUEST, true);
                 startActivity(i);
+            }
+        });
+
+        // Info dialogues
+        ImageView freestyleInfo = (ImageView) view.findViewById(R.id.freestyle_info);
+        ImageView timedInfo = (ImageView) view.findViewById(R.id.timed_info);
+        ImageView basicInfo = (ImageView) view.findViewById(R.id.basic_info);
+        ImageView questionsInfo = (ImageView) view.findViewById(R.id.questions_info);
+
+        freestyleInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(getString(R.string.freestyle_mode_info_title));
+                alertDialog.setMessage(getString(R.string.freestyle_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        timedInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(getString(R.string.timed_mode_info_title));
+                alertDialog.setMessage(getString(R.string.timed_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        basicInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle(getString(R.string.basic_mode_info_title));
+                alertDialog.setMessage(getString(R.string.basic_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        questionsInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme).create();
+                alertDialog.setTitle(getString(R.string.questions_mode_info_title));
+                alertDialog.setMessage(getString(R.string.questions_mode_info_message));
+                alertDialog.show();
             }
         });
     }

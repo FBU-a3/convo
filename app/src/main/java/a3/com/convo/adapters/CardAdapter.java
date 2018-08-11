@@ -140,7 +140,7 @@ public class CardAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    DrawableCompat.setTint(heart, ContextCompat.getColor(context, R.color.convo_blue));
+                    DrawableCompat.setTint(heart, ContextCompat.getColor(context, R.color.like));
                     toggleButton.setBackgroundDrawable(heart);
                 }
                 else {
