@@ -149,8 +149,9 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     getUserInfo(at);
-                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                    startActivity(i);
+//                    while (ParseUser.getCurrentUser() == null) {
+//
+//                    }
             }
 
             @Override
@@ -490,6 +491,8 @@ public class LoginActivity extends AppCompatActivity {
                     getPlace(access_token, Constants.HOMETOWN, Constants.PARSE_HOMETOWN);
                     getPlace(access_token, Constants.LOCATION, Constants.PARSE_LOCATION);
                     getTaggedPlaces(access_token);
+                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Username taken or some other issue!", Toast.LENGTH_LONG).show();
                 }
@@ -509,6 +512,8 @@ public class LoginActivity extends AppCompatActivity {
                     getPlace(access_token, Constants.HOMETOWN, Constants.PARSE_HOMETOWN);
                     getPlace(access_token, Constants.LOCATION, Constants.PARSE_LOCATION);
                     getTaggedPlaces(access_token);
+                    Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                    startActivity(i);
                 } else {
                     Toast.makeText(LoginActivity.this, "Failed login (Parse)", Toast.LENGTH_LONG).show();
                 }
