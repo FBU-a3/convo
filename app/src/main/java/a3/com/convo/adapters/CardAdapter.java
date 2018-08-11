@@ -163,7 +163,13 @@ public class CardAdapter extends BaseAdapter {
                     if (isGuest) {
                         Configuration config = context.getResources().getConfiguration();
                         if (config != null && config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            // TODO: setup landscape card and return
+                            loadAsBackground(context, object.getCoverUrl(), cvCard);
+                            layout.removeView(tvUsers);
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
+                            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                            tvTopic.setLayoutParams(params);
+                            tvTopic.setText(object.getName());
+                            return;
                         }
                         // remove unneeded elements and center topic TextView
                         adjustLayout(layout, Arrays.asList(tvUsers, profPic1, profPic2, box), tvTopic, false);

@@ -256,7 +256,7 @@ public class GameFragment extends Fragment {
     // when a card is swiped, add it to topics discussed and reset the card timer if in game mode
     private void cardSwiped(long stableId) {
         if (mode.equals(Constants.TIMED)) {
-            numTopics--; // TODO: check countdown of numTopics, off by one now
+            numTopics--;
             restartTimer();
         }
         if (stableId <= Integer.MAX_VALUE && stableId <= allLikes.size()) {
