@@ -20,6 +20,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 import a3.com.convo.Constants;
@@ -229,6 +230,7 @@ public class GameFragment extends Fragment {
         allLikes = new ArrayList<>();
         allLikes.addAll(player1Likes);
         allLikes.addAll(player2Likes);
+        allLikes = new ArrayList<>(new HashSet<>(allLikes)); // remove duplicates in one line
         Collections.shuffle(allLikes);
     }
 
