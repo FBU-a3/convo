@@ -34,6 +34,7 @@
         android:layout_below="@id/tv_topics"
         android:layout_above="@id/play_again_btn"
         android:layout_marginTop="@dimen/std_margin"
+        android:layout_marginBottom="@dimen/std_margin"
         android:scrollbars="vertical"
         android:visibility="visible" />
 
