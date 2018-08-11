@@ -33,6 +33,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,17 +50,22 @@ import a3.com.convo.models.Page;
  * mode picked.
  */
 
+@Parcel
 public class CardAdapter extends BaseAdapter {
 
-    private List<String> pages;
-    private ArrayList<String> player1Likes;
-    private ArrayList<String> player2Likes;
-    private ParseUser player1;
-    private ParseUser player2;
-    private String player1name;
-    private String player2name;
-    private static final String FULL_NAME = "name";
-    private boolean isGuest;
+    // only public because Parceler requires them to be
+    public List<String> pages;
+    public ArrayList<String> player1Likes;
+    public ArrayList<String> player2Likes;
+    public ParseUser player1;
+    public ParseUser player2;
+    public String player1name;
+    public String player2name;
+    public static final String FULL_NAME = "name";
+    public boolean isGuest;
+
+    // empty constructor for Parceler
+    public CardAdapter() { }
 
     public CardAdapter(List<String> data, ArrayList<String> player1Likes,
                        ArrayList<String> player2Likes, ParseUser player2) {
@@ -152,7 +159,18 @@ public class CardAdapter extends BaseAdapter {
             public void done(Page object, ParseException e) {
                 if (e == null) {
                     // super messy for now just to see if it actually works
+                    Log.d("Rendering", "Position " + i + ":" + object.getName());
                     if (isGuest) {
+                        Configuration config = context.getResources().getConfiguration();
+                        if (config != null && config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            loadAsBackground(context, object.getCoverUrl(), cvCard);
+                            layout.removeView(tvUsers);
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
+                            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                            tvTopic.setLayoutParams(params);
+                            tvTopic.setText(object.getName());
+                            return;
+                        }
                         // remove unneeded elements and center topic TextView
                         adjustLayout(layout, Arrays.asList(tvUsers, profPic1, profPic2, box), tvTopic, false);
 
@@ -255,8 +273,9 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadCoverBackground(Page object, final CardView cvCard, final TextView tvTopic, final TextView tvUsers, final ImageView ivCover) {
+        if (cvCard.getContext() instanceof PlayGameActivity && ((PlayGameActivity) cvCard.getContext()).isFinishing()) return;
         String coverUrl = object.getCoverUrl();
-        if (coverUrl.contains(Constants.GOOGLE_API_URL))
+        if (coverUrl != null && coverUrl.contains(Constants.GOOGLE_API_URL))
             coverUrl += ivCover.getContext().getString(R.string.google_api_key);
         GlideApp.with(cvCard.getContext())
                 .asBitmap()
@@ -286,6 +305,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadAsBackground(Context context, String coverUrl, final CardView cv) {
+        if (context instanceof PlayGameActivity && ((PlayGameActivity) context).isFinishing()) return;
         GlideApp.with(context)
                 .load(coverUrl)
                 .dontTransform()
@@ -298,6 +318,7 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void loadProfilePic(String from, ImageView iv) {
+        if (iv.getContext() instanceof PlayGameActivity && ((PlayGameActivity) iv.getContext()).isFinishing()) return;
         GlideApp.with(iv.getContext())
                 .load(from)
                 .circleCrop()

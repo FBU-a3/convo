@@ -90,7 +90,7 @@
             android:layout_gravity="left"
             android:ems="10"
             android:inputType="number"
-            android:gravity="left"
+            android:gravity="center"
             android:theme="@style/ConvoEditText" />
 
         <TextView
@@ -107,7 +107,7 @@
             android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:gravity="left"
+            android:gravity="center"
             android:ems="10"
             android:inputType="number"
             android:theme="@style/ConvoEditText" />
