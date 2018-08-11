@@ -142,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    Toast.makeText(LoginActivity.this, "Logged in to Facebook!", Toast.LENGTH_LONG).show();
                     AccessToken at = loginResult.getAccessToken();
                     if (at == null) {
                         Log.e("LoginActivity", "AccessToken at was null.");
@@ -485,7 +484,6 @@ public class LoginActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(LoginActivity.this, "Signed up (Parse)!", Toast.LENGTH_LONG).show();
                     getLikedPageInfo(access_token);
                     getFriendsOnApp(access_token);
                     getPlace(access_token, Constants.HOMETOWN, Constants.PARSE_HOMETOWN);
@@ -504,7 +502,6 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(id, Constants.PASSWORD, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-                    Toast.makeText(LoginActivity.this, "Logged in!", Toast.LENGTH_LONG).show();
                     user.put(Constants.NAME, name);
                     user.put(Constants.PROF_PIC_URL, profPicUrl);
                     getLikedPageInfo(access_token);

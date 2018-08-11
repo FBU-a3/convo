@@ -123,4 +123,42 @@
         android:enabled="false"
         android:text="@string/play"
         android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:id="@+id/freestyle_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_above="@id/timed_info"
+        android:layout_marginBottom="@dimen/larger_margin"
+        android:layout_toRightOf="@+id/freestyle_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/freestyle_mode"
+        android:layout_marginStart="@dimen/std_margin" />
+
+    <ImageView
+        android:id="@+id/timed_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/timed_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/timed_mode"
+        android:layout_marginStart="@dimen/std_margin" />
+
+    <ImageView
+        android:id="@+id/basic_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_below="@id/timed_info"
+        android:layout_marginTop="@dimen/larger_margin"
+        android:layout_toRightOf="@+id/basic_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/basic_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 </RelativeLayout>

@@ -22,7 +22,8 @@
     // activity_play_game
 
     // fragment_add_info
-    <dimen name="new_like_width">293dp</dimen>
+    <dimen name="new_like_width">290dp</dimen>
+    <dimen name="new_like_width_land">570dp</dimen>
 
     // fragment_conclusion
 
@@ -40,6 +41,8 @@
     <dimen name="convo_accent_width">113dp</dimen>
     <dimen name="convo_accent_height">95dp</dimen>
     <dimen name="tv_time_width_land">230dp</dimen>
+    <dimen name="info_dimens">18dp</dimen>
+    <dimen name="info_margins">60dp</dimen>
 
     // fragment_profile_details
     <dimen name="pic_width">200sp</dimen>
