@@ -241,6 +241,7 @@ public class ModeFragment extends Fragment {
         ImageView freestyleInfo = (ImageView) view.findViewById(R.id.freestyle_info);
         ImageView timedInfo = (ImageView) view.findViewById(R.id.timed_info);
         ImageView basicInfo = (ImageView) view.findViewById(R.id.basic_info);
+        ImageView questionsInfo = (ImageView) view.findViewById(R.id.questions_info);
 
         freestyleInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,6 +267,15 @@ public class ModeFragment extends Fragment {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
                 alertDialog.setTitle(getString(R.string.basic_mode_info_title));
                 alertDialog.setMessage(getString(R.string.basic_mode_info_message));
+                alertDialog.show();
+            }
+        });
+        questionsInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme).create();
+                alertDialog.setTitle(getString(R.string.questions_mode_info_title));
+                alertDialog.setMessage(getString(R.string.questions_mode_info_message));
                 alertDialog.show();
             }
         });

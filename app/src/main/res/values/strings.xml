@@ -4,6 +4,8 @@
     <string name="app_name">Convo</string>
     <string name="description">From new acquaintances to old friends, convo dissipates the silence and brings out people\'s passions and memories.</string>
     <string name="play_guest">Play as guest</string>
+    <string name="info_title">How does Convo work?</string>
+    <string name="info_message">Convo works with the help of Facebook\'s API. It collects certain pieces of information from users\' public profiles, limited to the users\' name, profile picture, information on their tagged places, the pages they like, and friends who are also on the app.</string>
 
     // activity_home_screen
     <string name="tv_add_likes">Add more custom topics below!</string>
@@ -49,6 +51,14 @@
     <string name="pick_game_time">Pick the amount of time for your game:</string>
     <string name="play">Let\'s chat!</string>
     <string name="pick_num_topics">Pick how many topics you\'d like:</string>
+    <string name="freestyle_mode_info_title">How Freestyle Mode Works</string>
+    <string name="freestyle_mode_info_message">Choose a total time for the game, and swipe the cards at your leisure until time runs out. You can always play again!</string>
+    <string name="timed_mode_info_title">How Timed Mode Works</string>
+    <string name="timed_mode_info_message">Choose the number of cards you\'d like to talk about and the amount of time per card. You can always swipe a card to skip it.</string>
+    <string name="basic_mode_info_title">How Basic Mode Works</string>
+    <string name="basic_mode_info_message">Use basic mode to discuss some general topics with anyone, regardless of whether they\'re your Facebook friend or have the app.</string>
+    <string name="questions_mode_info_title">DISCLAIMER!</string>
+    <string name="questions_mode_info_message">This deck of cards is based off of the NYT article on 36 questions that two people can discuss to fall in love. THIS DECK LEADS TO LOVE, SO USE WITH CAUTION.</string>
 
     // fragment_profile_details
     <string name="add_more_likes">Add More Topics</string>
@@ -67,12 +77,4 @@
 
     // item_topic
     <string name="visited_place_string">You has visited this place.</string>
-    <string name="info_message">Convo works with the help of Facebook\'s API. It collects certain pieces of information from users\' public profiles, limited to the users\' name, profile picture, information on their tagged places, the pages they like, and friends who are also on the app.</string>
-    <string name="info_title">How does Convo work?</string>
-    <string name="freestyle_mode_info_title">How Freestyle Mode Works</string>
-    <string name="freestyle_mode_info_message">Choose a total time for the game, and swipe the cards at your leisure until time runs out. You can always play again!</string>
-    <string name="timed_mode_info_title">How Timed Mode Works</string>
-    <string name="timed_mode_info_message">Choose the number of cards you\'d like to talk about and the amount of time per card. You can always swipe a card to skip it.</string>
-    <string name="basic_mode_info_title">How Basic Mode Works</string>
-    <string name="basic_mode_info_message">Use basic mode to discuss some general topics with anyone, regardless of whether they\'re your Facebook friend or have the app.</string>
 </resources>
