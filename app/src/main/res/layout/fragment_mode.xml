@@ -33,7 +33,7 @@
         android:layout_height="@dimen/convo_accent_height"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/mode_description"
-        android:layout_marginTop="@dimen/larger_margin"
+        android:layout_marginTop="@dimen/std_margin"
         android:src="@drawable/logo_flat_white"
         android:tint="@color/convo_blue"/>
 
@@ -42,16 +42,44 @@
         android:layout_width="@dimen/std_btn_width"
         android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/timed_mode"
-        android:layout_marginBottom="@dimen/larger_margin"
+        android:layout_below="@+id/convo_accent"
+        android:layout_marginTop="@dimen/std_margin"
         android:text="@string/freestyle_mode" />
+
+    <ImageView
+        android:id="@+id/freestyle_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_below="@+id/convo_accent"
+        android:layout_marginTop="@dimen/first_margin"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_toRightOf="@+id/freestyle_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/freestyle_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 
     <Button
         android:id="@+id/timed_mode"
         android:layout_width="@dimen/std_btn_width"
         android:layout_height="@dimen/std_btn_height"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/mode_margins"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/freestyle_mode"
         android:text="@string/timed_mode" />
+
+    <ImageView
+        android:id="@+id/timed_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_below="@+id/freestyle_info"
+        android:layout_marginTop="@dimen/info_margins"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_toRightOf="@+id/timed_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/timed_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 
     <Button
         android:id="@+id/basic_mode"
@@ -59,8 +87,21 @@
         android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/timed_mode"
-        android:layout_marginTop="@dimen/larger_margin"
+        android:layout_marginTop="@dimen/mode_margins"
         android:text="@string/basic_mode" />
+
+    <ImageView
+        android:id="@+id/basic_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_below="@id/timed_info"
+        android:layout_marginTop="@dimen/info_margins"
+        android:layout_toRightOf="@+id/basic_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/basic_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 
     <Button
         android:id="@+id/love_mode"
@@ -68,8 +109,21 @@
         android:layout_height="@dimen/std_btn_height"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/basic_mode"
-        android:layout_marginTop="@dimen/larger_margin"
+        android:layout_marginTop="@dimen/mode_margins"
         android:text="@string/love_mode" />
+
+    <ImageView
+        android:id="@+id/questions_info"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_below="@id/basic_info"
+        android:layout_marginTop="@dimen/info_margins"
+        android:layout_toRightOf="@+id/love_mode"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/love_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -77,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/basic_mode"
+        android:layout_below="@id/love_mode"
         android:orientation="vertical">
 
         <TextView
@@ -129,42 +183,4 @@
         android:text="@string/play"
         android:layout_alignParentBottom="true"
         style="@style/EmphasizedButton" />
-
-    <ImageView
-        android:id="@+id/freestyle_info"
-        android:layout_width="@dimen/info_dimens"
-        android:layout_height="@dimen/info_dimens"
-        android:layout_marginLeft="@dimen/std_margin"
-        android:layout_above="@id/timed_info"
-        android:layout_marginBottom="@dimen/info_margins"
-        android:layout_toRightOf="@+id/freestyle_mode"
-        android:src="@android:drawable/ic_dialog_info"
-        android:tint="@color/convo_blue"
-        android:layout_toEndOf="@+id/freestyle_mode"
-        android:layout_marginStart="@dimen/std_margin" />
-
-    <ImageView
-        android:id="@+id/timed_info"
-        android:layout_width="@dimen/info_dimens"
-        android:layout_height="@dimen/info_dimens"
-        android:layout_marginLeft="@dimen/std_margin"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/timed_mode"
-        android:src="@android:drawable/ic_dialog_info"
-        android:tint="@color/convo_blue"
-        android:layout_toEndOf="@+id/timed_mode"
-        android:layout_marginStart="@dimen/std_margin" />
-
-    <ImageView
-        android:id="@+id/basic_info"
-        android:layout_width="@dimen/info_dimens"
-        android:layout_height="@dimen/info_dimens"
-        android:layout_marginLeft="@dimen/std_margin"
-        android:layout_below="@id/timed_info"
-        android:layout_marginTop="@dimen/info_margins"
-        android:layout_toRightOf="@+id/basic_mode"
-        android:src="@android:drawable/ic_dialog_info"
-        android:tint="@color/convo_blue"
-        android:layout_toEndOf="@+id/basic_mode"
-        android:layout_marginStart="@dimen/std_margin" />
 </RelativeLayout>
