@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_height="match_parent" android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/black">
 
     <TextView
         android:id="@+id/tvTimer"
@@ -9,7 +10,8 @@
         android:textSize="@dimen/game_timer_text_size"
         android:gravity="center"
         android:text="@string/timer_text"
-        android:layout_marginBottom="@dimen/card_spacing"/>
+        android:layout_marginBottom="@dimen/card_spacing"
+        android:textColor="@android:color/white"/>
 
     <com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

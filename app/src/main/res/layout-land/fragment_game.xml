@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/black">
 
 
         <TextView
@@ -9,7 +10,8 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/game_timer_text_size"
             android:gravity="center"
-            android:text="@string/timer_text" />
+            android:text="@string/timer_text"
+            android:textColor="@android:color/white"/>
 
         <com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
