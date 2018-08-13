@@ -36,7 +36,7 @@ public class PlayGameActivity extends AppCompatActivity {
             ft.replace(R.id.play_game_fragment, guestGame, GAME_FRAG_TAG).commit();
             guestGame.setGuestMode();
             guestGame.setMode(Constants.FREESTYLE);
-            guestGame.setTime(5); // TODO: change this or move to constants
+            guestGame.setTime(Constants.GUEST_MODE_TIME);
             return;
         }
 
@@ -46,8 +46,7 @@ public class PlayGameActivity extends AppCompatActivity {
             GameFragment loveGame = new GameFragment();
             ft.replace(R.id.play_game_fragment, loveGame, GAME_FRAG_TAG).commit();
             loveGame.setLoveMode();
-            loveGame.setMode(Constants.FREESTYLE); // TODO: make a mode without a timer
-            loveGame.setTime(60); // TODO: change this or move to constants
+            loveGame.setMode(Constants.FREESTYLE);
             return;
         }
 

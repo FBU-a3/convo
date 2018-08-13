@@ -11,8 +11,11 @@ public class Constants {
     // timer interval (ticks once per second)
     public static final int TIMER_INTERVAL = 1000;
 
-    // love mode timer time
+    // love mode timer time (4 mins at end to stare into each others' eyes)
     public static final int LOVE_MODE_TIME = 240000;
+
+    // guest mode time in minutes
+    public static final int GUEST_MODE_TIME = 5;
 
     // null/default value for uninitialized longs
     public static final long LONG_NULL = 0L;

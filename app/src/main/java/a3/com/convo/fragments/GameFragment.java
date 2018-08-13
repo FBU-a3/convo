@@ -347,7 +347,8 @@ public class GameFragment extends Fragment {
 
     private void endLoveMode() {
         if (timer != null) timer.cancel();
-        // TODO: figure out how to end this
+        if (getContext() != null && getContext() instanceof PlayGameActivity)
+            ((PlayGameActivity) getContext()).goHome();
     }
 
     private void restartTimer() {
