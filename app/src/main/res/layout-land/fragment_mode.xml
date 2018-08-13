@@ -64,6 +64,15 @@
         android:layout_marginTop="@dimen/std_margin"
         android:text="@string/basic_mode" />
 
+    <Button
+        android:id="@+id/love_mode"
+        android:layout_width="@dimen/std_btn_width"
+        android:layout_height="@dimen/std_btn_height"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/basic_mode"
+        android:layout_marginTop="@dimen/std_margin"
+        android:text="@string/love_mode" />
+
     <LinearLayout
         android:id="@+id/layout"
         android:visibility="invisible"

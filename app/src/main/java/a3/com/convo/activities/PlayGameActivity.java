@@ -20,6 +20,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private static final String MODE_FRAG_TAG = "modeFrag";
     private static final String GAME_FRAG_TAG = "gameFrag";
     private boolean isGuest;
+    private boolean isLover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +29,25 @@ public class PlayGameActivity extends AppCompatActivity {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if (getIntent().getBooleanExtra(Constants.GUEST, false)) {
+        // set up Guest Mode if necessary
+        if (getIntent() != null && getIntent().getBooleanExtra(Constants.GUEST, false)) {
             isGuest = true;
             GameFragment guestGame = new GameFragment();
             ft.replace(R.id.play_game_fragment, guestGame, GAME_FRAG_TAG).commit();
             guestGame.setGuestMode();
             guestGame.setMode(Constants.FREESTYLE);
-            guestGame.setTime(5);
+            guestGame.setTime(5); // TODO: change this or move to constants
+            return;
+        }
+
+        // set up Love (36 Questions) Mode if necessary
+        if (getIntent() != null && getIntent().getBooleanExtra(Constants.LOVE, false)) {
+            isLover = true;
+            GameFragment loveGame = new GameFragment();
+            ft.replace(R.id.play_game_fragment, loveGame, GAME_FRAG_TAG).commit();
+            loveGame.setLoveMode();
+            loveGame.setMode(Constants.FREESTYLE); // TODO: make a mode without a timer
+            loveGame.setTime(60); // TODO: change this or move to constants
             return;
         }
 

@@ -27,6 +27,7 @@ public class Constants {
     public static final String FREESTYLE = "freestyle";
     public static final String TIMED = "timed";
     public static final String GUEST = "guest";
+    public static final String LOVE = "love";
 
     public static final ArrayList<String> GUEST_TOPICS = new ArrayList<>(
             Arrays.asList("NfNTwueCZE", "GJG1HwMj7x", "wa2JPO1iUS",

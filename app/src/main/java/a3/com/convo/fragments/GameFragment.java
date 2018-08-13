@@ -58,6 +58,9 @@ public class GameFragment extends Fragment {
     // indicates if user is in guest mode, which sets the 'mode' var above to freestyle
     private boolean isGuest;
 
+    // indicates if user in in Love (36 Questions) Mode, which gets rid of the timer
+    private boolean isLover;
+
     // amount of time per game/card, depending on mode above
     private long time;
 
@@ -356,5 +359,9 @@ public class GameFragment extends Fragment {
 
     public void setGuestMode() {
         isGuest = true;
+    }
+
+    public void setLoveMode() {
+        isLover = true;
     }
 }
