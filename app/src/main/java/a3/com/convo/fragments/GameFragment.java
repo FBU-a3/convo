@@ -137,22 +137,24 @@ public class GameFragment extends Fragment {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
 
-        // check for if timeLeft is null (default value), and if so, set clock to "time"
-        long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
+        if (!isLover) {
+            // check for if timeLeft is null (default value), and if so, set clock to "time"
+            long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
 
-        // Overall game timer elements
-        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-        timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
-            @Override
-            public void onTick(long l) {
-                onTimerTick(l);
-            }
+            // Overall game timer elements
+            tvTimer = (TextView) view.findViewById(R.id.tvTimer);
+            timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
+                @Override
+                public void onTick(long l) {
+                    onTimerTick(l);
+                }
 
-            @Override
-            public void onFinish() {
-                onTimerFinish();
-            }
-        };
+                @Override
+                public void onFinish() {
+                    onTimerFinish();
+                }
+            };
+        }
 
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
@@ -178,6 +180,10 @@ public class GameFragment extends Fragment {
         if (isGuest) {
             sendToGuestMode();
             return;
+        } else if (isLover) {
+            // Set up 36 questions mode
+            sendToLoveMode();
+            return;
         } else {
             setUpUsers();
             timer.start();
@@ -196,6 +202,18 @@ public class GameFragment extends Fragment {
             cardStack.setAdapterIndex(adapterPosition);
         }
         timer.start();
+    }
+
+    private void sendToLoveMode() {
+        allLikes = new ArrayList<>();
+        allLikes.addAll(Constants.thirty_six_questions);
+        if (adapter == null) {
+            adapter = new CardAdapter(allLikes);
+            cardStack.setAdapter(adapter);
+        } else {
+            cardStack.setAdapter(adapter);
+            cardStack.setAdapterIndex(adapterPosition);
+        }
     }
 
     private void setUpUsers() {
@@ -286,7 +304,12 @@ public class GameFragment extends Fragment {
         }
         else {
             Log.e("GameFragment", "On last card: " + cardStack.getAdapterIndex());
-            endGame();
+            if (isLover) {
+                // set timer for 4 mins
+                setEndTimer();
+            } else {
+                endGame();
+            }
         }
     }
 
@@ -321,6 +344,11 @@ public class GameFragment extends Fragment {
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
 
+    private void endLoveMode() {
+        if (timer != null) timer.cancel();
+        // TODO: figure out how to end this
+    }
+
     private void restartTimer() {
         timer.cancel();
         if (numTopics == 0) endGame();
@@ -339,6 +367,20 @@ public class GameFragment extends Fragment {
             };
         }
         timer.start();
+    }
+
+    private void setEndTimer() {
+        timer = new CountDownTimer(Constants.LOVE_MODE_TIME, Constants.TIMER_INTERVAL) {
+            @Override
+            public void onTick(long l) {
+                onTimerTick(l);
+            }
+
+            @Override
+            public void onFinish() {
+                endLoveMode(); // figure out how to end this mode elegantly
+            }
+        };
     }
 
     public void setFriend(String selectedFriend) {
