@@ -270,7 +270,7 @@ public class GameFragment extends Fragment {
     // called in the fragment lifecycle, overridden to avoid crashes from timer continuing after
     @Override
     public void onStop() {
-        timer.cancel();
+        if (timer != null) timer.cancel();
         super.onStop();
     }
 
@@ -351,6 +351,7 @@ public class GameFragment extends Fragment {
     }
 
     private void restartTimer() {
+        if (timer == null) return;
         timer.cancel();
         if (numTopics == 0) endGame();
         // on restart timer, we don't want to restart with timeLeft but rather with original time
