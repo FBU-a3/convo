@@ -28,6 +28,7 @@
     <string name="connect_msg">Connect with Friends!</string>
     <string name="mode_btn_text">Ready? Select mode.</string>
     <string name="invite_btn_text">Invite Friends</string>
+    <string name="friends_description">Choose one of your friends and learn more about each other.</string>
 
     // fragment_game
     <string name="timer_text">Timer</string>
@@ -70,9 +71,7 @@
     <string name="freestyle_mode_info_title">How Freestyle Mode Works</string>
     <string name="freestyle_mode_info_message">Choose a total time for the game, and swipe the cards at your leisure until time runs out. You can always play again!</string>
     <string name="timed_mode_info_title">How Timed Mode Works</string>
-    <string name="timed_mode_info_message">Choose the number of cards you\'d like to talk about and the amount of time per card. You can always swipe a card before the timer ends.</string>
+    <string name="timed_mode_info_message">Choose the number of cards you\'d like to talk about and the amount of time per card. You can always swipe a card to skip it.</string>
     <string name="basic_mode_info_title">How Basic Mode Works</string>
-    <string name="basic_mode_info_message">Use basic mode to discuss some general topics with anyone, regardless of whether they\'re your facebook friend or have the app.</string>
-    <string name="questions_mode_info_title">DISCLAIMER!!!</string>
-    <string name="questions_mode_info_message">This deck of cards is based off of the NYT article on 36 questions that two people can discuss to fall in love. THIS DECK IS GUARANTEED TO MAKE YOU TWO FALL IN LOVE SO USE WITH CAUTION.</string>
+    <string name="basic_mode_info_message">Use basic mode to discuss some general topics with anyone, regardless of whether they\'re your Facebook friend or have the app.</string>
 </resources>

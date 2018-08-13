@@ -1,6 +1,8 @@
 package a3.com.convo.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,8 +48,6 @@ public class ModeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (savedInstanceState != null) friend = Parcels.unwrap(savedInstanceState.getParcelable(FRIEND_TAG));
-        Toast.makeText(getContext(), friend, Toast.LENGTH_SHORT).show();
-        System.out.println(friend);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mode, container, false);
     }
@@ -63,6 +63,8 @@ public class ModeFragment extends Fragment {
         final TextView tvPickTime = (TextView) view.findViewById(R.id.tvPickTime);
         final EditText timeInput = (EditText) view.findViewById(R.id.etPickTime);
         final Button playButton = (Button) view.findViewById(R.id.playButton);
+        playButton.getBackground().setAlpha(150);
+        //playButton.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
         final TextView tvPickNumTopics = (TextView) view.findViewById(R.id.tvPickNumTopics);
         final EditText etPickNumTopics = (EditText) view.findViewById(R.id.etPickNumTopics);
 
@@ -81,6 +83,7 @@ public class ModeFragment extends Fragment {
                 etPickNumTopics.setVisibility(View.INVISIBLE);
                 playButton.setVisibility(View.VISIBLE);
                 playButton.setEnabled(false);
+                playButton.getBackground().setAlpha(150);
                 tvPickTime.setText(getString(R.string.pick_game_time));
                 timeInput.setHint(getString(R.string.game_time_mins));
 
@@ -97,10 +100,12 @@ public class ModeFragment extends Fragment {
                             minutes = Integer.parseInt(timeInput.getText().toString());
                             if (minutes > 0) {
                                 playButton.setEnabled(true);
+                                playButton.getBackground().setAlpha(255);
                             }
                         }
                         else {
                             playButton.setEnabled(false);
+                            playButton.getBackground().setAlpha(150);
                         }
                     }
 
@@ -135,6 +140,7 @@ public class ModeFragment extends Fragment {
                 etPickNumTopics.setVisibility(View.VISIBLE);
                 playButton.setEnabled(false);
                 playButton.setVisibility(View.VISIBLE);
+                playButton.getBackground().setAlpha(150);
                 tvPickTime.setText(getString(R.string.pick_card_time));
                 timeInput.setHint(R.string.topic_time_secs);
 
@@ -151,15 +157,18 @@ public class ModeFragment extends Fragment {
                             seconds = Integer.parseInt(timeInput.getText().toString());
                             if (seconds > 0 && numTopics > 0) {
                                 playButton.setEnabled(true);
+                                playButton.getBackground().setAlpha(255);
                             }
                             else {
                                 playButton.setEnabled(false);
+                                playButton.getBackground().setAlpha(150);
                             }
                         }
                     }
                     public void afterTextChanged(Editable s) {
                         if (timeInput.getText().toString().trim().length() == 0) {
                             playButton.setEnabled(false);
+                            playButton.getBackground().setAlpha(150);
                         }
                     }
                 });
@@ -177,9 +186,11 @@ public class ModeFragment extends Fragment {
                             numTopics = Integer.parseInt(etPickNumTopics.getText().toString());
                             if (seconds > 0 && numTopics > 0) {
                                 playButton.setEnabled(true);
+                                playButton.getBackground().setAlpha(255);
                             }
                             else {
                                 playButton.setEnabled(false);
+                                playButton.getBackground().setAlpha(150);
                             }
                         }
                         else {
@@ -189,6 +200,7 @@ public class ModeFragment extends Fragment {
                     public void afterTextChanged(Editable s) {
                         if (etPickNumTopics.getText().toString().trim().length() == 0) {
                             playButton.setEnabled(false);
+                            playButton.getBackground().setAlpha(150);
                         }
                     }
                 });
@@ -221,7 +233,6 @@ public class ModeFragment extends Fragment {
         ImageView freestyleInfo = (ImageView) view.findViewById(R.id.freestyle_info);
         ImageView timedInfo = (ImageView) view.findViewById(R.id.timed_info);
         ImageView basicInfo = (ImageView) view.findViewById(R.id.basic_info);
-        ImageView questionsInfo = (ImageView) view.findViewById(R.id.questions_info);
 
         freestyleInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,15 +258,6 @@ public class ModeFragment extends Fragment {
                 AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
                 alertDialog.setTitle(getString(R.string.basic_mode_info_title));
                 alertDialog.setMessage(getString(R.string.basic_mode_info_message));
-                alertDialog.show();
-            }
-        });
-        questionsInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme).create();
-                alertDialog.setTitle(getString(R.string.questions_mode_info_title));
-                alertDialog.setMessage(getString(R.string.questions_mode_info_message));
                 alertDialog.show();
             }
         });

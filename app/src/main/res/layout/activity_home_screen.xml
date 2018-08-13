@@ -60,7 +60,8 @@
         android:layout_below="@+id/tv_games_played"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/std_margin"
-        android:text="@string/play_game_btn" />
+        android:text="@string/play_game_btn"
+        style="@style/EmphasizedButton"/>
 
     <TextView
         android:id="@+id/tv_three_likes"
@@ -97,5 +98,6 @@
         android:layout_marginRight="@dimen/std_margin"
         android:text="@string/logout_btn"
         android:layout_marginBottom="@dimen/std_margin"
-        android:textColor="@color/convo_blue" />
+        android:textColor="@color/convo_blue"
+        android:layout_marginEnd="@dimen/std_margin" />
 </RelativeLayout>

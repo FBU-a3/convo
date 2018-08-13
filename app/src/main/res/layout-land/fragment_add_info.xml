@@ -19,7 +19,7 @@
 
     <EditText
         android:id="@+id/et_new_like"
-        android:layout_width="@dimen/new_like_width"
+        android:layout_width="@dimen/new_like_width_land"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_likes_tv"
         android:ems="10"
@@ -31,8 +31,8 @@
         android:id="@+id/add_like_btn"
         android:layout_width="@dimen/like_btn_width"
         android:layout_height="@dimen/like_btn_height"
-        android:layout_below="@id/add_likes_tv"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/add_likes_tv"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/add"

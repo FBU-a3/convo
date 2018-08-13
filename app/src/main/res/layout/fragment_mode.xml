@@ -118,46 +118,44 @@
         android:visibility="invisible"
         android:enabled="false"
         android:text="@string/play"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        style="@style/EmphasizedButton" />
 
     <ImageView
         android:id="@+id/freestyle_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="54dp"
-        android:layout_marginTop="158dp"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_above="@id/timed_info"
+        android:layout_marginBottom="@dimen/info_margins"
+        android:layout_toRightOf="@+id/freestyle_mode"
         android:src="@android:drawable/ic_dialog_info"
-        android:tint="@android:color/darker_gray" />
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/freestyle_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 
     <ImageView
         android:id="@+id/timed_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/freestyle_info"
-        android:layout_marginTop="260dp"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/timed_mode"
         android:src="@android:drawable/ic_dialog_info"
-        android:tint="@android:color/darker_gray" />
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/timed_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 
     <ImageView
         android:id="@+id/basic_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/freestyle_info"
-        android:layout_marginBottom="271dp"
+        android:layout_width="@dimen/info_dimens"
+        android:layout_height="@dimen/info_dimens"
+        android:layout_marginLeft="@dimen/std_margin"
+        android:layout_below="@id/timed_info"
+        android:layout_marginTop="@dimen/info_margins"
+        android:layout_toRightOf="@+id/basic_mode"
         android:src="@android:drawable/ic_dialog_info"
-        android:tint="@android:color/darker_gray" />
-
-    <ImageView
-        android:id="@+id/questions_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/freestyle_info"
-        android:layout_marginBottom="176dp"
-        android:src="@android:drawable/ic_dialog_info"
-        android:tint="@android:color/darker_gray" />
+        android:tint="@color/convo_blue"
+        android:layout_toEndOf="@+id/basic_mode"
+        android:layout_marginStart="@dimen/std_margin" />
 </RelativeLayout>

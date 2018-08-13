@@ -19,12 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/delete_like_margin"
         android:text="@string/X"
         android:textSize="@dimen/text_size_delete_btn"
         android:textStyle="bold"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/delete_like_margin"
         style="@style/SecondaryButton" />
-
 </RelativeLayout>

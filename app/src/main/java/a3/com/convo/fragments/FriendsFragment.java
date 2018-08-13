@@ -42,6 +42,7 @@ public class FriendsFragment extends Fragment implements RecyclerViewItemClickLi
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         startButton = (Button) view.findViewById(R.id.start_btn);
+        startButton.getBackground().setAlpha(150);
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> friends = (ArrayList<String>) user.get("friends");
 
@@ -81,6 +82,7 @@ public class FriendsFragment extends Fragment implements RecyclerViewItemClickLi
     @Override
     public void onItemClick(View view, int position) {
         startButton.setEnabled(true);
+        startButton.getBackground().setAlpha(255);
     }
 
     @Override

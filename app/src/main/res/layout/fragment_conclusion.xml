@@ -47,7 +47,8 @@
         android:clickable="true"
         android:focusable="true"
         android:text="@string/play_again"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        style="@style/EmphasizedButton" />
 
     <Button
         android:id="@+id/home_btn"

@@ -83,7 +83,8 @@
         android:layout_marginRight="@dimen/larger_margin"
         android:layout_marginEnd="@dimen/larger_margin"
         android:layout_alignParentBottom="true"
-        android:text="@string/play_game_btn" />
+        android:text="@string/play_game_btn"
+        style="@style/EmphasizedButton" />
 
     <Button
         android:id="@+id/add_likes_btn"
