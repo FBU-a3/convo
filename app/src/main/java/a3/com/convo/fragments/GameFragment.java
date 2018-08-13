@@ -136,13 +136,13 @@ public class GameFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
+        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
 
         if (!isLover) {
             // check for if timeLeft is null (default value), and if so, set clock to "time"
             long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
 
             // Overall game timer elements
-            tvTimer = (TextView) view.findViewById(R.id.tvTimer);
             timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
                 @Override
                 public void onTick(long l) {
@@ -205,10 +205,11 @@ public class GameFragment extends Fragment {
     }
 
     private void sendToLoveMode() {
+        if (tvTimer != null) tvTimer.setText(Constants.EMPTY_STRING);
         allLikes = new ArrayList<>();
         allLikes.addAll(Constants.thirty_six_questions);
         if (adapter == null) {
-            adapter = new CardAdapter(allLikes);
+            adapter = new CardAdapter(allLikes, true);
             cardStack.setAdapter(adapter);
         } else {
             cardStack.setAdapter(adapter);
@@ -381,6 +382,7 @@ public class GameFragment extends Fragment {
                 endLoveMode(); // figure out how to end this mode elegantly
             }
         };
+        timer.start();
     }
 
     public void setFriend(String selectedFriend) {

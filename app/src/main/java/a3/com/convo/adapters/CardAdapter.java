@@ -63,6 +63,7 @@ public class CardAdapter extends BaseAdapter {
     public String player2name;
     public static final String FULL_NAME = "name";
     public boolean isGuest;
+    public boolean isLover;
 
     // empty constructor for Parceler
     public CardAdapter() { }
@@ -79,6 +80,11 @@ public class CardAdapter extends BaseAdapter {
     public CardAdapter(List<String> guestData) {
         this.pages = guestData;
         isGuest = true;
+    }
+
+    public CardAdapter(List<String> questions, boolean isLover) {
+        this.pages = questions;
+        this.isLover = isLover;
     }
 
     @Override
@@ -119,6 +125,21 @@ public class CardAdapter extends BaseAdapter {
 
         // just a regular old box to contain the profile picture and users who liked the topic
         final View box = v.findViewById(R.id.box);
+        final ToggleButton toggleButton = (ToggleButton) v.findViewById(R.id.myToggleButton);
+
+        if (isLover) {
+            // just set up card with centered topic and then return the view
+            adjustLayout(layout, Arrays.asList(ivCover, tvUsers, ivProf, profPic1, profPic2, toggleButton), tvTopic,  true);
+            tvTopic.setTextColor(context.getResources().getColor(R.color.color_black));
+            String question = getItem(i);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvTopic.getLayoutParams();
+            params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+            tvTopic.setLayoutParams(params);
+            tvTopic.setText(question);
+            return v;
+        }
 
         if (!isGuest) {
             // Get player 1 first name
@@ -130,7 +151,6 @@ public class CardAdapter extends BaseAdapter {
             player2name = player2name.substring(0, player2name.indexOf(Constants.SPACE));
         }
 
-        final ToggleButton toggleButton = (ToggleButton) v.findViewById(R.id.myToggleButton);
         final Drawable heart = ContextCompat.getDrawable(toggleButton.getContext(), R.drawable.facebook_bright_heart);
         DrawableCompat.setTint(heart, ContextCompat.getColor(context, R.color.color_secondary));
 
