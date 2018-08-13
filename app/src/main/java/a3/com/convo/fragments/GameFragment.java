@@ -58,6 +58,9 @@ public class GameFragment extends Fragment {
     // indicates if user is in guest mode, which sets the 'mode' var above to freestyle
     private boolean isGuest;
 
+    // indicates if user in in Love (36 Questions) Mode, which gets rid of the timer
+    private boolean isLover;
+
     // amount of time per game/card, depending on mode above
     private long time;
 
@@ -133,23 +136,25 @@ public class GameFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         cardStack = (SwipeDeck) view.findViewById(R.id.cardStack);
         topicsDiscussed = new ArrayList<>();
-
-        // check for if timeLeft is null (default value), and if so, set clock to "time"
-        long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
-
-        // Overall game timer elements
         tvTimer = (TextView) view.findViewById(R.id.tvTimer);
-        timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
-            @Override
-            public void onTick(long l) {
-                onTimerTick(l);
-            }
 
-            @Override
-            public void onFinish() {
-                onTimerFinish();
-            }
-        };
+        if (!isLover) {
+            // check for if timeLeft is null (default value), and if so, set clock to "time"
+            long startTime = (timeLeft != Constants.LONG_NULL) ? timeLeft : time;
+
+            // Overall game timer elements
+            timer = new CountDownTimer(startTime, Constants.TIMER_INTERVAL) {
+                @Override
+                public void onTick(long l) {
+                    onTimerTick(l);
+                }
+
+                @Override
+                public void onFinish() {
+                    onTimerFinish();
+                }
+            };
+        }
 
         cardStack.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
@@ -175,6 +180,10 @@ public class GameFragment extends Fragment {
         if (isGuest) {
             sendToGuestMode();
             return;
+        } else if (isLover) {
+            // Set up 36 questions mode
+            sendToLoveMode();
+            return;
         } else {
             setUpUsers();
             timer.start();
@@ -193,6 +202,19 @@ public class GameFragment extends Fragment {
             cardStack.setAdapterIndex(adapterPosition);
         }
         timer.start();
+    }
+
+    private void sendToLoveMode() {
+        if (tvTimer != null) tvTimer.setText(Constants.EMPTY_STRING);
+        allLikes = new ArrayList<>();
+        allLikes.addAll(Constants.thirty_six_questions);
+        if (adapter == null) {
+            adapter = new CardAdapter(allLikes, true);
+            cardStack.setAdapter(adapter);
+        } else {
+            cardStack.setAdapter(adapter);
+            cardStack.setAdapterIndex(adapterPosition);
+        }
     }
 
     private void setUpUsers() {
@@ -248,7 +270,7 @@ public class GameFragment extends Fragment {
     // called in the fragment lifecycle, overridden to avoid crashes from timer continuing after
     @Override
     public void onStop() {
-        timer.cancel();
+        if (timer != null) timer.cancel();
         super.onStop();
     }
 
@@ -283,7 +305,12 @@ public class GameFragment extends Fragment {
         }
         else {
             Log.e("GameFragment", "On last card: " + cardStack.getAdapterIndex());
-            endGame();
+            if (isLover) {
+                // set timer for 4 mins
+                setEndTimer();
+            } else {
+                endGame();
+            }
         }
     }
 
@@ -318,7 +345,14 @@ public class GameFragment extends Fragment {
             ((PlayGameActivity) getContext()).goToConclusion(topicsDiscussed);
     }
 
+    private void endLoveMode() {
+        if (timer != null) timer.cancel();
+        if (getContext() != null && getContext() instanceof PlayGameActivity)
+            ((PlayGameActivity) getContext()).goHome();
+    }
+
     private void restartTimer() {
+        if (timer == null) return;
         timer.cancel();
         if (numTopics == 0) endGame();
         // on restart timer, we don't want to restart with timeLeft but rather with original time
@@ -335,6 +369,21 @@ public class GameFragment extends Fragment {
                 }
             };
         }
+        timer.start();
+    }
+
+    private void setEndTimer() {
+        timer = new CountDownTimer(Constants.LOVE_MODE_TIME, Constants.TIMER_INTERVAL) {
+            @Override
+            public void onTick(long l) {
+                onTimerTick(l);
+            }
+
+            @Override
+            public void onFinish() {
+                endLoveMode(); // figure out how to end this mode elegantly
+            }
+        };
         timer.start();
     }
 
@@ -356,5 +405,9 @@ public class GameFragment extends Fragment {
 
     public void setGuestMode() {
         isGuest = true;
+    }
+
+    public void setLoveMode() {
+        isLover = true;
     }
 }

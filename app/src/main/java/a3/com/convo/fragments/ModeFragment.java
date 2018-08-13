@@ -7,9 +7,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.TextWatcher;
-import android.text.Editable;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageView;
-import android.support.v7.app.AlertDialog;
-import android.content.Intent;
 
 import org.parceler.Parcels;
 
@@ -225,6 +222,17 @@ public class ModeFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), PlayGameActivity.class);
                 i.putExtra(Constants.GUEST, true);
+                startActivity(i);
+            }
+        });
+
+        // If user selects to play Love (36 Questions Mode), it will take them directly through
+        Button loveMode = (Button) view.findViewById(R.id.love_mode);
+        loveMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), PlayGameActivity.class);
+                i.putExtra(Constants.LOVE, true);
                 startActivity(i);
             }
         });

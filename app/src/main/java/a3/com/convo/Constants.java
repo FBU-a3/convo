@@ -11,6 +11,12 @@ public class Constants {
     // timer interval (ticks once per second)
     public static final int TIMER_INTERVAL = 1000;
 
+    // love mode timer time (4 mins at end to stare into each others' eyes)
+    public static final int LOVE_MODE_TIME = 240000;
+
+    // guest mode time in minutes
+    public static final int GUEST_MODE_TIME = 5;
+
     // null/default value for uninitialized longs
     public static final long LONG_NULL = 0L;
 
@@ -27,6 +33,7 @@ public class Constants {
     public static final String FREESTYLE = "freestyle";
     public static final String TIMED = "timed";
     public static final String GUEST = "guest";
+    public static final String LOVE = "love";
 
     public static final ArrayList<String> GUEST_TOPICS = new ArrayList<>(
             Arrays.asList("NfNTwueCZE", "GJG1HwMj7x", "wa2JPO1iUS",

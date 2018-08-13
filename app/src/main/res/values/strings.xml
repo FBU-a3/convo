@@ -44,6 +44,7 @@
     <string name="freestyle_mode">Freestyle</string>
     <string name="timed_mode">Timed</string>
     <string name="basic_mode">Basic</string>
+    <string name="love_mode">Love</string>
     <string name="pick_card_time">Pick the amount of time for each topic:</string>
     <string name="pick_game_time">Pick the amount of time for your game:</string>
     <string name="play">Let\'s chat!</string>
