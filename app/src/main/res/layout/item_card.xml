@@ -63,13 +63,11 @@
                 android:id="@+id/myToggleButton"
                 android:layout_width="@dimen/favorite_btn_width"
                 android:layout_height="@dimen/favorite_btn_height"
-                android:layout_alignParentBottom="true"
+                android:layout_above="@+id/box"
+                android:layout_marginBottom="16dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="124dp"
                 android:textOff=""
-                android:textOn=""
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/favorite_btn_margin" />
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/tv_users"
@@ -94,7 +92,7 @@
                 android:layout_height="@dimen/card_user_pic_size"
                 android:layout_alignLeft="@id/ivProf"
                 android:layout_below="@id/ivProf"
-                android:layout_marginTop="@dimen/card_liked_by_margin_bottom"
+                android:layout_marginTop="50dp"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
                 android:layout_alignStart="@id/ivProf" />
 
